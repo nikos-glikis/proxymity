@@ -1,0 +1,3 @@
+TO install:
+
+mvn install:install-file  -DgroupId=MyUtilis -DartifactId=MyUtils -Dversion=1.0 -Dpackaging=jar -Dfile=lib/MyUtils/MyUtils/1.0/MyUtils-1.0.jar

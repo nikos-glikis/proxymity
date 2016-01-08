@@ -12,11 +12,16 @@
         <repository>
             <id>in-project</id>
             <name>In Project Repo</name>
-            <url>file://${project.basedir}\lib</url>
+            <url>file://${project.basedir}/lib</url>
         </repository>
     </repositories>
 
     <dependencies>
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-java</artifactId>
+            <version>2.48.2</version>
+        </dependency>
 
         <dependency>
             <groupId>MyUtils</groupId>
