@@ -87,16 +87,16 @@ public class HmaCollector extends ProxyCollector
                             System.out.println(line);
                             String nextLine = sc.nextLine().trim();
                             System.out.println(nextLine);
-                            System.out.println("-");
+                            //System.out.println("-");
                             String port = Utilities.cut(ip + " ", " ", line);
                             String type = nextLine.substring(0, nextLine.indexOf(" ")).trim();
-                            System.out.println("Ip: " + ip);
+                            /*System.out.println("Ip: " + ip);
                             System.out.println("Port: " + port);
-                            System.out.println("Type: " + type);
+                            */System.out.println("Type: " + type);
 
-                            System.out.println("-------------");
+                            //System.out.println("-------------");
                         } else {
-                            System.out.println("Not");
+                            //System.out.println("Not");
                         }
                     }
                     catch (Exception e)
@@ -105,11 +105,7 @@ public class HmaCollector extends ProxyCollector
                     }
                 }
                 System.exit(0);
-
             }
-
-
-
         }
         catch (Exception e)
         {
