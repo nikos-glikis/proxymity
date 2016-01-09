@@ -5,6 +5,7 @@ import com.tools.proxymity.ProxyCollector;
 import com.tools.proxymity.ProxyInfo;
 import com.toortools.Utilities;
 import com.toortools.os.OsHelper;
+import org.apache.commons.exec.OS;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebElement;
@@ -75,7 +76,16 @@ public class InCloakCollector extends ProxyCollector
         try
         {
             Runtime rt = Runtime.getRuntime();
-            String command = "convert \"" +  inputFilename + "\" \"" +outputFilename+"\"";
+            String command;
+            if (OsHelper.isWindows())
+            {
+                command = "C:\\Program Files\\ImageMagick-6.9.3-Q16\\convert.exe \"" +  inputFilename + "\" \"" +outputFilename+"\"";
+            }
+            else
+            {
+                command = "convert \"" +  inputFilename + "\" \"" +outputFilename+"\"";
+
+            }
             System.out.println(command);
             Process pr = rt.exec(command);
             BufferedReader input = new BufferedReader(new InputStreamReader(pr.getInputStream()));
