@@ -65,30 +65,46 @@ public class HmaCollector extends ProxyCollector
                 );
             }
             PhantomJSDriver driver = new PhantomJSDriver (caps);
-            for (int i = 0; i<50; i++)
+            for (int i = 1; i<50; i++)
             {
-                driver.get("http://proxylist.hidemyass.com/"+i+"#listable");
+                driver.get("http://proxylist.hidemyass.com/"+i);
                 WebElement body = driver.findElement(By.className("flat-page"));
                 String page = body.getText();
                 Scanner sc = new Scanner(page);
+                System.out.println(page);
+
                 while (sc.hasNext())
                 {
-                    String line = sc.nextLine();
-                    Pattern p = Pattern.compile("\\d*\\.\\d*\\.\\d*.\\d*");
-                    Matcher m = p.matcher(line);
-                    if (m.find())
-                    {
-                        String ip = m.group();
-                        System.out.println(line);
-                        System.out.println(sc.nextLine());
-                        System.out.println("-");
-                        String port = Utilities.cut(ip+ " ", " ", m.group());
-                        System.out.println("Ip: "+ip);
-                        System.out.println("Port: "+port);
+                    try {
 
-                        System.out.println("-------------");
+
+                        String line = sc.nextLine().trim();
+                        Pattern p = Pattern.compile("\\d*\\.\\d*\\.\\d*.\\d*");
+                        Matcher m = p.matcher(line);
+                        if (m.find()) {
+
+                            String ip = m.group();
+                            System.out.println(line);
+                            String nextLine = sc.nextLine().trim();
+                            System.out.println(nextLine);
+                            System.out.println("-");
+                            String port = Utilities.cut(ip + " ", " ", line);
+                            String type = nextLine.substring(0, nextLine.indexOf(" ")).trim();
+                            System.out.println("Ip: " + ip);
+                            System.out.println("Port: " + port);
+                            System.out.println("Type: " + type);
+
+                            System.out.println("-------------");
+                        } else {
+                            System.out.println("Not");
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        e.printStackTrace();
                     }
                 }
+                System.exit(0);
 
             }
 
