@@ -2,6 +2,7 @@ package com.tools.proxymity;
 
 
 import com.tools.proxymity.collectors.HmaCollector;
+import com.tools.proxymity.collectors.InCloakCollector;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -73,7 +74,8 @@ public class Proxymity
     {
         try
         {
-            new HmaCollector(dbConnection).start();
+            //new HmaCollector(dbConnection).start();
+            new InCloakCollector(dbConnection).start();
         }
         catch (Exception e)
         {

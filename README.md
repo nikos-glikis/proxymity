@@ -2,6 +2,7 @@ Installation
 =============
 
 Dependencies:
+
     1) PhantomJs
     2) gocr
     3) ImageMagick (command line command is convert)

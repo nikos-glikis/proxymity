@@ -28,44 +28,6 @@ public class HmaCollector extends ProxyCollector
         initializePhantom();
     }
 
-    private void initializePhantom()
-    {
-        java.util.logging.Logger.getLogger("com.gargoylesoftware").setLevel(Level.OFF);
-        System.setProperty("org.apache.commons.logging.Log", "org.apache.commons.logging.impl.NoOpLog");
-
-        //Utilities.readUrl("http://proxylist.hidemyass.com/2#listable");
-        Capabilities caps = new DesiredCapabilities();
-        String[] phantomArgs = new  String[] {
-                "--webdriver-loglevel=NONE"
-        };
-
-        if (OsHelper.isWindows())
-        {
-            ((DesiredCapabilities) caps).setJavascriptEnabled(true);
-            ((DesiredCapabilities) caps).setJavascriptEnabled(true);
-            ((DesiredCapabilities) caps).setCapability("takesScreenshot", true);
-            ((DesiredCapabilities) caps).setCapability(
-                    PhantomJSDriverService.PHANTOMJS_EXECUTABLE_PATH_PROPERTY,
-                    "bin\\phantomjs.exe"
-            );
-            ((DesiredCapabilities) caps).setCapability(
-                    PhantomJSDriverService.PHANTOMJS_CLI_ARGS, phantomArgs
-            );
-        }
-        else
-        {
-            ((DesiredCapabilities) caps).setJavascriptEnabled(true);
-            ((DesiredCapabilities) caps).setCapability("takesScreenshot", true);
-                /*((DesiredCapabilities) caps).setCapability(
-                        PhantomJSDriverService.PHANTOMJS_EXECUTABLE_PATH_PROPERTY,
-                        "your custom path\\phantomjs.exe"
-                );*/
-            ((DesiredCapabilities) caps).setCapability(
-                    PhantomJSDriverService.PHANTOMJS_CLI_ARGS, phantomArgs
-            );
-        }
-        driver = new PhantomJSDriver (caps);
-    }
 
     public Vector<ProxyInfo> collectProxies()
     {

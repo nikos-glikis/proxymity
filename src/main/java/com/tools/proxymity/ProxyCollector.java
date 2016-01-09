@@ -1,13 +1,20 @@
 package com.tools.proxymity;
 
+import com.toortools.os.OsHelper;
+import org.openqa.selenium.Capabilities;
+import org.openqa.selenium.phantomjs.PhantomJSDriver;
+import org.openqa.selenium.phantomjs.PhantomJSDriverService;
+import org.openqa.selenium.remote.DesiredCapabilities;
+
 import java.sql.Connection;
 import java.sql.Statement;
 import java.util.Vector;
+import java.util.logging.Level;
 
 abstract public class ProxyCollector extends  Thread
 {
-    Connection dbConnection;
-
+    protected Connection dbConnection;
+    protected PhantomJSDriver driver;
     public ProxyCollector(Connection dbConnection)
     {
         this.dbConnection = dbConnection;
@@ -89,5 +96,44 @@ abstract public class ProxyCollector extends  Thread
             value = value.replace("''","'");
         }
         return value.replace("'","''");
+    }
+
+    public void initializePhantom()
+    {
+        java.util.logging.Logger.getLogger("com.gargoylesoftware").setLevel(Level.OFF);
+        System.setProperty("org.apache.commons.logging.Log", "org.apache.commons.logging.impl.NoOpLog");
+
+        //Utilities.readUrl("http://proxylist.hidemyass.com/2#listable");
+        Capabilities caps = new DesiredCapabilities();
+        String[] phantomArgs = new  String[] {
+                "--webdriver-loglevel=NONE"
+        };
+
+        if (OsHelper.isWindows())
+        {
+            ((DesiredCapabilities) caps).setJavascriptEnabled(true);
+            ((DesiredCapabilities) caps).setJavascriptEnabled(true);
+            ((DesiredCapabilities) caps).setCapability("takesScreenshot", true);
+            ((DesiredCapabilities) caps).setCapability(
+                    PhantomJSDriverService.PHANTOMJS_EXECUTABLE_PATH_PROPERTY,
+                    "bin\\phantomjs.exe"
+            );
+            ((DesiredCapabilities) caps).setCapability(
+                    PhantomJSDriverService.PHANTOMJS_CLI_ARGS, phantomArgs
+            );
+        }
+        else
+        {
+            ((DesiredCapabilities) caps).setJavascriptEnabled(true);
+            ((DesiredCapabilities) caps).setCapability("takesScreenshot", true);
+                /*((DesiredCapabilities) caps).setCapability(
+                        PhantomJSDriverService.PHANTOMJS_EXECUTABLE_PATH_PROPERTY,
+                        "your custom path\\phantomjs.exe"
+                );*/
+            ((DesiredCapabilities) caps).setCapability(
+                    PhantomJSDriverService.PHANTOMJS_CLI_ARGS, phantomArgs
+            );
+        }
+        driver = new PhantomJSDriver(caps);
     }
 }
