@@ -63,7 +63,7 @@ abstract public class ProxyCollector extends  Thread
 
                         ") VALUES  (" +
                         "0, " +
-                        "'"+sanitizeDatabaseInput(proxyInfo.getUrl())+"', " +
+                        "'"+sanitizeDatabaseInput(proxyInfo.getHost())+"', " +
                         "'"+sanitizeDatabaseInput(proxyInfo.getPort())+"', " +
                         "'"+sanitizeDatabaseInput(proxyInfo.getType())+"', " +
                         "NOW(), " +
@@ -126,10 +126,6 @@ abstract public class ProxyCollector extends  Thread
         {
             ((DesiredCapabilities) caps).setJavascriptEnabled(true);
             ((DesiredCapabilities) caps).setCapability("takesScreenshot", true);
-                /*((DesiredCapabilities) caps).setCapability(
-                        PhantomJSDriverService.PHANTOMJS_EXECUTABLE_PATH_PROPERTY,
-                        "your custom path\\phantomjs.exe"
-                );*/
             ((DesiredCapabilities) caps).setCapability(
                     PhantomJSDriverService.PHANTOMJS_CLI_ARGS, phantomArgs
             );

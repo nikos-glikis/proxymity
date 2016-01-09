@@ -7,18 +7,18 @@ public class ProxyInfo
     final static public String PROXY_TYPES_HTTP = "http";
     final static public String PROXY_TYPES_HTTPS = "https";
 
-    private String url;
+    private String host;
     private String port;
     private String type;
 
-    public String getUrl()
+    public String getHost()
     {
-        return url;
+        return host;
     }
 
-    public void setUrl(String url)
+    public void setHost(String host)
     {
-        this.url = url;
+        this.host = host;
     }
 
     public String getPort()
@@ -52,6 +52,6 @@ public class ProxyInfo
 
     public String toString()
     {
-        return url + ":"+port+"/"+type;
+        return host + ":"+port+"/"+type;
     }
 }

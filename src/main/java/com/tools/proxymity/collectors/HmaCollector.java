@@ -3,18 +3,13 @@ package com.tools.proxymity.collectors;
 import com.tools.proxymity.ProxyCollector;
 import com.tools.proxymity.ProxyInfo;
 import com.toortools.Utilities;
-import com.toortools.os.OsHelper;
 import org.openqa.selenium.By;
-import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.phantomjs.PhantomJSDriver;
-import org.openqa.selenium.phantomjs.PhantomJSDriverService;
-import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.sql.Connection;
 import java.util.Scanner;
 import java.util.Vector;
-import java.util.logging.Level;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -65,7 +60,7 @@ public class HmaCollector extends ProxyCollector
                             //System.out.println("Type: " + type);
 
                             ProxyInfo proxyInfo = new ProxyInfo();
-                            proxyInfo.setUrl(ip);
+                            proxyInfo.setHost(ip);
                             proxyInfo.setPort(port);
 
                             if (type.equals("socks4/5"))
