@@ -77,7 +77,8 @@ public class Proxymity
         {
             //new HmaCollector(dbConnection).start();
             //new InCloakCollector(dbConnection).start();
-            new ProxyListOrgCollector(dbConnection).start();
+            //new ProxyListOrgCollector(dbConnection).start();
+
         }
         catch (Exception e)
         {
@@ -85,5 +86,10 @@ public class Proxymity
             System.out.println("Something went wrong, probably with the database. Check that database exists and that credentials are valid.");
             System.exit(0);
         }
+    }
+
+    public void startCheckers()
+    {
+        new ProxyCheckerManager(dbConnection).start();;
     }
 }

@@ -32,9 +32,6 @@ public class ProxyListOrgCollector extends ProxyCollector
             {
                 String page = Utilities.readUrl("https://proxy-list.org/english/index.php?p="+i);
 
-               /* System.out.println(page);
-                System.exit(0);*/
-
                 Pattern p = Pattern.compile("<ul>(.|\\n)*?</ul>");
                 Matcher m = p.matcher(page);
                 while (m.find())
@@ -67,10 +64,13 @@ public class ProxyListOrgCollector extends ProxyCollector
                             if (type.equals("HTTP"))
                             {
                                     proxyInfo.setType(ProxyInfo.PROXY_TYPES_HTTP);
-                            } else if (type.equals("HTTPS"))
+                            }
+                            else if (type.equals("HTTPS"))
                             {
                                 proxyInfo.setType(ProxyInfo.PROXY_TYPES_HTTPS);
-                            } else {
+                            }
+                            else
+                            {
                                 continue;
                             }
 
