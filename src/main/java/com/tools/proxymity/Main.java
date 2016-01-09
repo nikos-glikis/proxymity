@@ -4,7 +4,8 @@ public class Main {
 
     public static void main(String[] args)
     {
-	    Proxymity proxymity = new Proxymity();
+        DbInformation dbInformation = new DbInformation("127.0.0.1","root","toor",3306,"proxies");
+	    Proxymity proxymity = new Proxymity(dbInformation);
         proxymity.startCollectors();
 
     }

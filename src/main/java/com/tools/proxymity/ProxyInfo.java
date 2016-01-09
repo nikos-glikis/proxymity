@@ -2,10 +2,10 @@ package com.tools.proxymity;
 
 public class ProxyInfo
 {
-    final static String PROXY_TYPES_SOCKS4 = "socks4";
-    final static String PROXY_TYPES_SOCKS5 = "socks5";
-    final static String PROXY_TYPES_HTTP = "http";
-    final static String PROXY_TYPES_HTTPS = "https";
+    final static public String PROXY_TYPES_SOCKS4 = "socks4";
+    final static public String PROXY_TYPES_SOCKS5 = "socks5";
+    final static public String PROXY_TYPES_HTTP = "http";
+    final static public String PROXY_TYPES_HTTPS = "https";
 
     private String url;
     private String port;
@@ -48,5 +48,10 @@ public class ProxyInfo
             throw new Exception("Unknown Proxy Type");
         }
         this.type = type;
+    }
+
+    public String toString()
+    {
+        return url + ":"+port+"/"+type;
     }
 }
