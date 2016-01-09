@@ -35,6 +35,11 @@
             <artifactId>MyUtils</artifactId>
             <version>1.0</version>
         </dependency>
+        <dependency>
+            <groupId>com.github.detro.ghostdriver</groupId>
+            <artifactId>phantomjsdriver</artifactId>
+            <version>1.0.4</version>
+        </dependency>
 
     </dependencies>
 
