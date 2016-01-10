@@ -9,11 +9,11 @@ import java.util.Vector;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class SSLProxiesOrgCollector extends ProxyCollector
+public class SocksProxyNetCollector extends ProxyCollector
 {
 
 
-    public SSLProxiesOrgCollector(Connection dbConnection)
+    public SocksProxyNetCollector(Connection dbConnection)
     {
         super(dbConnection);
     }
@@ -24,13 +24,13 @@ public class SSLProxiesOrgCollector extends ProxyCollector
         Vector<ProxyInfo> proxies = new Vector<ProxyInfo>();
         try
         {
-            String page = Utilities.readUrl("http://www.sslproxies.org/");
+            String page = Utilities.readUrl("http://www.socks-proxy.net/");
             Pattern p = Pattern.compile("<tr><td>.*?</td></tr>");
             Matcher m = p.matcher(page);
-            while (m.find())
-            {
-                try
-                {
+            while (m.find()) {
+                try {
+
+
                     String line = m.group();
                     Pattern pp = Pattern.compile("<tr><td>.*</td><td>\\d*</td>");
                     Matcher mm = pp.matcher(line);
@@ -44,7 +44,7 @@ public class SSLProxiesOrgCollector extends ProxyCollector
                         ProxyInfo proxyInfo = new ProxyInfo();
                         proxyInfo.setHost(ip);
                         proxyInfo.setPort(port);
-                        proxyInfo.setType(ProxyInfo.PROXY_TYPES_HTTPS);
+                        proxyInfo.setType(ProxyInfo.PROXY_TYPES_SOCKS5);
                         proxies.add(proxyInfo);
                     }
                 }

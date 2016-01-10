@@ -134,6 +134,11 @@ public class Proxymity
                 new FreeProxyListNetCollector(dbConnection).start();
                 new SSLProxiesOrgCollector(dbConnection).start();
                 new SamairRuCollector(dbConnection).start();*/
+
+                new SocksProxyNetCollector(dbConnection).start();
+
+            // bit problematic
+            // new XroxyComCollector(dbConnection).start();
         }
         catch (Exception e)
         {
