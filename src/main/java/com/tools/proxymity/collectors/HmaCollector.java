@@ -25,7 +25,6 @@ public class HmaCollector extends ProxyCollector
 
     public Vector<ProxyInfo> collectProxies()
     {
-        Vector<ProxyInfo> proxies = new Vector<ProxyInfo>();
         try
         {
 
@@ -77,8 +76,6 @@ public class HmaCollector extends ProxyCollector
                                 continue;
                             }
 
-                            proxies.add(proxyInfo);
-
                         } else {
                             //System.out.println("Not");
                         }
@@ -100,6 +97,6 @@ public class HmaCollector extends ProxyCollector
         {
             e.printStackTrace();
         }
-        return proxies;
+        return getProxies();
     }
 }

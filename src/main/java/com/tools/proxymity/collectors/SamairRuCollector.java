@@ -23,7 +23,7 @@ public class SamairRuCollector extends ProxyCollector
 
     public Vector<ProxyInfo> collectProxies()
     {
-        Vector<ProxyInfo> proxies = new Vector<ProxyInfo>();
+
         try
         {
             for (int i = 1 ; i < 100; i++)
@@ -42,14 +42,14 @@ public class SamairRuCollector extends ProxyCollector
                 }
                 catch (FileNotFoundException e)
                 {
-                    return proxies;
+                    return getProxies();
                 }
                 String css = readCss(page, "http://www.samair.ru");
                 Vector<ProxyInfo> tempProxies  = extractProxies(page, css);
                 for (ProxyInfo proxyInfo: tempProxies)
                 {
                     proxyInfo.setType(ProxyInfo.PROXY_TYPES_HTTP);
-                    proxies.add(proxyInfo);
+                    addProxy(proxyInfo);
                 }
             }
 
@@ -69,7 +69,7 @@ public class SamairRuCollector extends ProxyCollector
                 }
                 catch (FileNotFoundException e)
                 {
-                    return proxies;
+                    return getProxies();
                 }
                 String css = readCss(page, "http://www.samair.ru");
 
@@ -79,7 +79,7 @@ public class SamairRuCollector extends ProxyCollector
                 {
                     proxyInfo.setType(ProxyInfo.PROXY_TYPES_SOCKS5);
                     //System.out.println(proxyInfo);
-                    proxies.add(proxyInfo);
+                    addProxy(proxyInfo);
                 }
             }
         }
@@ -87,7 +87,7 @@ public class SamairRuCollector extends ProxyCollector
         {
             e.printStackTrace();
         }
-        return proxies;
+        return getProxies();
     }
 
     private Vector<ProxyInfo> extractProxies(String page, String css)

@@ -7,7 +7,7 @@ public class Main {
 
         DbInformation dbInformation = new DbInformation("127.0.0.1","root","toor",3306,"proxies");
         Proxymity proxymity = new Proxymity(dbInformation);
-        proxymity.startCollectors();
         proxymity.startCheckers();
+        //proxymity.startCollectors();
     }
 }

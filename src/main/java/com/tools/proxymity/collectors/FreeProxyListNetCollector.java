@@ -22,7 +22,6 @@ public class FreeProxyListNetCollector extends ProxyCollector
 
     public Vector<ProxyInfo> collectProxies()
     {
-        Vector<ProxyInfo> proxies = new Vector<ProxyInfo>();
         try
         {
             String page = Utilities.readUrl("https://free-proxy-list.net/");
@@ -46,7 +45,7 @@ public class FreeProxyListNetCollector extends ProxyCollector
                         proxyInfo.setHost(ip);
                         proxyInfo.setPort(port);
                         proxyInfo.setType(ProxyInfo.PROXY_TYPES_HTTP);
-                        proxies.add(proxyInfo);
+                        addProxy(proxyInfo);
                     }
                 }
                 catch (Exception ee)
@@ -60,6 +59,6 @@ public class FreeProxyListNetCollector extends ProxyCollector
         {
             e.printStackTrace();
         }
-        return proxies;
+        return getProxies();
     }
 }

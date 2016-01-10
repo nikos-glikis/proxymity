@@ -25,7 +25,7 @@ public class ProxyListOrgCollector extends ProxyCollector
 
     public Vector<ProxyInfo> collectProxies()
     {
-        Vector<ProxyInfo> proxies = new Vector<ProxyInfo>();
+
         try
         {
             for (int i = 0; i<15; i++)
@@ -76,7 +76,7 @@ public class ProxyListOrgCollector extends ProxyCollector
 
                             proxyInfo.setHost(ip);
                             proxyInfo.setPort(port);
-                            proxies.add(proxyInfo);
+                            addProxy(proxyInfo);
                         }
                     }
                     catch (Exception e)
@@ -90,6 +90,6 @@ public class ProxyListOrgCollector extends ProxyCollector
         {
             e.printStackTrace();
         }
-        return proxies;
+        return getProxies();
     }
 }

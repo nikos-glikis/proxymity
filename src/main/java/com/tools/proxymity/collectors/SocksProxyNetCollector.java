@@ -21,7 +21,6 @@ public class SocksProxyNetCollector extends ProxyCollector
 
     public Vector<ProxyInfo> collectProxies()
     {
-        Vector<ProxyInfo> proxies = new Vector<ProxyInfo>();
         try
         {
             String page = Utilities.readUrl("http://www.socks-proxy.net/");
@@ -45,7 +44,7 @@ public class SocksProxyNetCollector extends ProxyCollector
                         proxyInfo.setHost(ip);
                         proxyInfo.setPort(port);
                         proxyInfo.setType(ProxyInfo.PROXY_TYPES_SOCKS5);
-                        proxies.add(proxyInfo);
+                        addProxy(proxyInfo);;
                     }
                 }
                 catch (Exception ee)
@@ -59,6 +58,6 @@ public class SocksProxyNetCollector extends ProxyCollector
         {
             e.printStackTrace();
         }
-        return proxies;
+        return getProxies();
     }
 }

@@ -1,7 +1,6 @@
 package com.tools.proxymity;
 
 
-import com.tools.proxymity.collectors.*;
 import com.toortools.Utilities;
 
 import java.sql.Connection;
@@ -128,18 +127,7 @@ public class Proxymity
     {
         try
         {
-                new HmaCollector(dbConnection).start();
-                new InCloakCollector(dbConnection).start();
-                new ProxyListOrgCollector(dbConnection).start();
-                new FreeProxyListNetCollector(dbConnection).start();
-                new SSLProxiesOrgCollector(dbConnection).start();
-                new SamairRuCollector(dbConnection).start();
-
-                // Unfinished
-            // new SocksProxyNetCollector(dbConnection).start();
-
-            // bit problematic
-           //  new XroxyComCollector(dbConnection).start();
+            new ProxyCollectorManager(dbConnection).start();
         }
         catch (Exception e)
         {

@@ -8,11 +8,14 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.sql.Connection;
 import java.sql.Statement;
+import java.util.Random;
 import java.util.Vector;
 import java.util.logging.Level;
 
 abstract public class ProxyCollector extends  Thread
 {
+    private Vector<ProxyInfo> proxies = new Vector<ProxyInfo>();
+
     protected Connection dbConnection;
     protected PhantomJSDriver driver;
     public ProxyCollector(Connection dbConnection)
@@ -26,16 +29,22 @@ abstract public class ProxyCollector extends  Thread
     }
     public abstract Vector<ProxyInfo> collectProxies();
 
-    final int SLEEP_SECONDS_BETWEEN_SCANS = 1;
+    final int SLEEP_SECONDS_BETWEEN_SCANS = 30;
+
+
     public void run()
     {
         while (true)
         {
-            Vector<ProxyInfo> proxyInfos = collectProxies();
-            //System.out.println("Importing "+ proxyInfos.size()+ " proxies.");
-            writeProxyInfoToDatabase(proxyInfos);
+
             try
             {
+                Thread.sleep(new Random().nextInt(5000));
+                initProxies();
+                Vector<ProxyInfo> proxyInfos = collectProxies();
+
+                writeProxyInfoToDatabase(proxyInfos);
+
                 Thread.sleep(SLEEP_SECONDS_BETWEEN_SCANS * 1000);
             }
             catch (Exception e)
@@ -43,6 +52,26 @@ abstract public class ProxyCollector extends  Thread
                 e.printStackTrace();
             }
         }
+    }
+
+    private synchronized void initProxies()
+    {
+        proxies  = new Vector<ProxyInfo>();
+    }
+
+    protected synchronized void addProxy(ProxyInfo proxyInfo)
+    {
+        proxies.add(proxyInfo);
+    }
+
+    protected Vector<ProxyInfo> getProxies()
+    {
+        return proxies;
+    }
+
+    public synchronized void writeProxyInfoToDatabase()
+    {
+        this.writeProxyInfoToDatabase(this.proxies);
     }
 
     private void writeProxyInfoToDatabase(Vector<ProxyInfo> proxyInfos)
@@ -60,7 +89,7 @@ abstract public class ProxyCollector extends  Thread
                 {
                     continue;
                 }
-                String query = "INSERT INTO `proxies`.`proxymity_proxies` (" +
+                String query = "INSERT INTO `proxies`.`"+Proxymity.TABLE_NAME+"` (" +
                         "`id`, " +
                         "`host`, " +
                         "`port`, " +

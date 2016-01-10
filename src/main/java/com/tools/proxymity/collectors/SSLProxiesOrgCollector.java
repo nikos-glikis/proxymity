@@ -11,17 +11,13 @@ import java.util.regex.Pattern;
 
 public class SSLProxiesOrgCollector extends ProxyCollector
 {
-
-
     public SSLProxiesOrgCollector(Connection dbConnection)
     {
         super(dbConnection);
     }
-
-
     public Vector<ProxyInfo> collectProxies()
     {
-        Vector<ProxyInfo> proxies = new Vector<ProxyInfo>();
+
         try
         {
             String page = Utilities.readUrl("http://www.sslproxies.org/");
@@ -45,7 +41,7 @@ public class SSLProxiesOrgCollector extends ProxyCollector
                         proxyInfo.setHost(ip);
                         proxyInfo.setPort(port);
                         proxyInfo.setType(ProxyInfo.PROXY_TYPES_HTTPS);
-                        proxies.add(proxyInfo);
+                        addProxy(proxyInfo);
                     }
                 }
                 catch (Exception ee)
@@ -59,6 +55,6 @@ public class SSLProxiesOrgCollector extends ProxyCollector
         {
             e.printStackTrace();
         }
-        return proxies;
+        return getProxies();
     }
 }

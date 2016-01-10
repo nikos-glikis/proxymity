@@ -33,7 +33,6 @@ public class InCloakCollector extends ProxyCollector
 
     public Vector<ProxyInfo> collectProxies()
     {
-        Vector<ProxyInfo> proxies = new Vector<ProxyInfo>();
         try
         {
             String page = Utilities.readUrl("https://incloak.com/proxy-list/");
@@ -103,8 +102,7 @@ public class InCloakCollector extends ProxyCollector
                         continue;
                     }
 
-                    proxies.add(proxyInfo);
-
+                    addProxy(proxyInfo);
                 }
                 catch (Exception e)
                 {
@@ -118,7 +116,7 @@ public class InCloakCollector extends ProxyCollector
         {
             e.printStackTrace();
         }
-        return proxies;
+        return getProxies();
     }
 
     private String ocrImage(String filename)

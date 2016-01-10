@@ -8,6 +8,7 @@ import java.sql.Statement;
 import java.util.Vector;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 public class ProxyCheckerManager extends Thread
 {
@@ -23,41 +24,24 @@ public class ProxyCheckerManager extends Thread
     {
         try
         {
-            ExecutorService fixedPool = Executors.newFixedThreadPool(50);
 
-            new ProxyChecker(new Proxy(Proxy.Type.SOCKS,  new InetSocketAddress("lfsdfsd", 90)), dbConnection).setMyIp();
+
+            new ProxyChecker(new ProxyInfo(), dbConnection).setMyIp();
             while (true)
             {
-                Vector<ProxyInfo> proxyInfos =getProxiesToTest();
+                ExecutorService fixedPool = Executors.newFixedThreadPool(PROXY_CHECKERS_COUNT);
+                Vector<ProxyInfo> proxyInfos = getProxiesToTest();
 
                 for (ProxyInfo proxyInfo: proxyInfos)
                 {
-                    Proxy.Type type = null;
-                    //new Proxy(Proxy.Type.HTTP, new InetSocketAddress("123.0.0.1", 8080));
-                    if (proxyInfo.getType().equals( ProxyInfo.PROXY_TYPES_SOCKS4 ) )
-                    {
-                        type = Proxy.Type.SOCKS;
-                    }
-                    else if (proxyInfo.getType().equals( ProxyInfo.PROXY_TYPES_SOCKS5 ) )
-                    {
-                        type = Proxy.Type.SOCKS;
-                    }
-                    else if (proxyInfo.getType().equals( ProxyInfo.PROXY_TYPES_HTTP ) )
-                    {
-                        type = Proxy.Type.HTTP;
-                    }
-                    else if (proxyInfo.getType().equals( ProxyInfo.PROXY_TYPES_HTTPS ) )
-                    {
-                        type = Proxy.Type.HTTP;
-                    }
-                    if (type != null)
-                    {
-                        Proxy proxy = new Proxy(type,  new InetSocketAddress(proxyInfo.getHost(), Integer.parseInt(proxyInfo.getPort()))) ;
-                        fixedPool.submit(new ProxyChecker(proxy, dbConnection));
-                    }
+                    fixedPool.submit(new ProxyChecker(proxyInfo, dbConnection));
                 }
-                //TODO remove me
-                break;
+                fixedPool.shutdown();
+                try {
+                    fixedPool.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         }
         catch (Exception e)
@@ -73,16 +57,23 @@ public class ProxyCheckerManager extends Thread
         try
         {
             Statement st = dbConnection.createStatement();
-            ResultSet rs = st.executeQuery("SELECT id, host, port, type FROM proxymity_proxies WHERE status = 'pending' UNION SELECT id, host, port, type FROM proxymity_proxies WHERE lastchecked is NULL UNION SELECT id, host, port, type FROM proxymity_proxies WHERE lastchecked BETWEEN DATE_SUB(NOW(), INTERVAL 10 MINUTE) AND NOW()");
-
+            System.out.println("Getting proxies to check");
+            ResultSet rs = st.executeQuery("SELECT id, host, port, type FROM "+Proxymity.TABLE_NAME+" WHERE status = 'pending'  UNION SELECT id, host, port, type FROM "+Proxymity.TABLE_NAME+" WHERE lastchecked is NULL  UNION SELECT id, host, port, type FROM "+Proxymity.TABLE_NAME+" WHERE lastchecked BETWEEN DATE_SUB(NOW(), INTERVAL 10 MINUTE) AND NOW() ORDER BY RAND()");
+            int i = 0;
             while (rs.next())
             {
+                i++;
                 ProxyInfo proxyInfo = new ProxyInfo();
                 proxyInfo.setId(rs.getString(1));
                 proxyInfo.setHost(rs.getString(2));
                 proxyInfo.setPort(rs.getString(3));
                 proxyInfo.setType(rs.getString(4));
                 proxyInfos.add(proxyInfo);
+            }
+            System.out.println("In total "+i+ " proxies fetched. ");
+            if (i < 10)
+            {
+                Thread.sleep(5000);
             }
         }
         catch (Exception e)
