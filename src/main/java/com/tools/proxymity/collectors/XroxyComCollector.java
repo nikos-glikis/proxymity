@@ -40,11 +40,11 @@ public class XroxyComCollector extends ProxyCollector
                     try
                     {
                         page = timeoutReadUrl(url);
-                        Thread.sleep(5000);
+                        Thread.sleep(15000);
                     }
                     catch (Exception e)
                     {
-                        System.out.println(e.toString());
+                        //System.out.println(e.toString());
                         continue;
                     }
                 }
@@ -96,7 +96,7 @@ public class XroxyComCollector extends ProxyCollector
                     {
                         e.printStackTrace();
                     }
-                    Thread.sleep(15000);
+                    Thread.sleep(35000);
                 }
                 if (!foundAtLeastOne)
                 {

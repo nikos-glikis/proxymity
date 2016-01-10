@@ -37,6 +37,7 @@ public class ProxyCollectorManager extends Thread
             collectors.add(new CoolProxyNetCollector(dbConnection));
             collectors.add(new SocksListNetCollector(dbConnection));
             collectors.add(new XroxyComCollector(dbConnection));
+            collectors.add(new ProxyNovaComCollector(dbConnection));
 
             for (ProxyCollector collector : collectors) {
                 collector.start();
