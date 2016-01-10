@@ -81,10 +81,19 @@ public class ProxyChecker implements Runnable
             {
                 markProxyAsGood(proxyInfo);
                 setProxyRemoteIp(proxyInfo, ip);
-                //System.out.println("My ip is: "+ip);
+                try
+                {
+                    String page =Utilities.readUrl("https://filippo.io/Heartbleed/");
+                    //System.out.println(page);
 
+                }
+                catch (Exception e)
+                {
+                    System.out.println("Failed to read https");
+                    System.out.println(e);
+                }
+                //System.out.println("SuMy ip is: "+ip);
             }
-            //TODO if all good save in database.
         }
         catch (Exception e)
         {

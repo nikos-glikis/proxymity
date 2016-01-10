@@ -39,11 +39,13 @@ public class ProxyCollectorManager extends Thread
             collectors.add(new XroxyComCollector(dbConnection));
             collectors.add(new ProxyNovaComCollector(dbConnection));
 
-            for (ProxyCollector collector : collectors) {
+            for (ProxyCollector collector : collectors)
+            {
                 collector.start();
             }
 
-            while (true) {
+            while (true)
+            {
                 Thread.sleep(15000);
                 for (ProxyCollector collector : collectors) {
                     collector.writeProxyInfoToDatabase();
