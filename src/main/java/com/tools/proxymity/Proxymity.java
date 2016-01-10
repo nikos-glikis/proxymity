@@ -128,17 +128,18 @@ public class Proxymity
     {
         try
         {
-                /*new HmaCollector(dbConnection).start();
+                new HmaCollector(dbConnection).start();
                 new InCloakCollector(dbConnection).start();
                 new ProxyListOrgCollector(dbConnection).start();
                 new FreeProxyListNetCollector(dbConnection).start();
                 new SSLProxiesOrgCollector(dbConnection).start();
-                new SamairRuCollector(dbConnection).start();*/
+                new SamairRuCollector(dbConnection).start();
 
-                new SocksProxyNetCollector(dbConnection).start();
+                // Unfinished
+            // new SocksProxyNetCollector(dbConnection).start();
 
             // bit problematic
-            // new XroxyComCollector(dbConnection).start();
+           //  new XroxyComCollector(dbConnection).start();
         }
         catch (Exception e)
         {

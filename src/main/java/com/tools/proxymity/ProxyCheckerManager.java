@@ -12,7 +12,7 @@ import java.util.concurrent.Executors;
 public class ProxyCheckerManager extends Thread
 {
 
-    static final int PROXY_CHECKERS_COUNT = 50;
+    static final int PROXY_CHECKERS_COUNT = 150;
     Connection dbConnection;
     public ProxyCheckerManager(Connection dbConnection)
     {
