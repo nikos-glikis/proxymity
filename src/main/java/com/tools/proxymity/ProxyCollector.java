@@ -32,7 +32,7 @@ abstract public class ProxyCollector extends  Thread
         while (true)
         {
             Vector<ProxyInfo> proxyInfos = collectProxies();
-            System.out.println("Importing "+ proxyInfos.size()+ " proxies.");
+            //System.out.println("Importing "+ proxyInfos.size()+ " proxies.");
             writeProxyInfoToDatabase(proxyInfos);
             try
             {
@@ -51,6 +51,15 @@ abstract public class ProxyCollector extends  Thread
         {
             for (ProxyInfo proxyInfo : proxyInfos)
             {
+                if (
+                        proxyInfo.getHost() == null
+                        || proxyInfo.getPort() == null
+                        || proxyInfo.getType() == null
+
+                        )
+                {
+                    continue;
+                }
                 String query = "INSERT INTO `proxies`.`proxymity_proxies` (" +
                         "`id`, " +
                         "`host`, " +

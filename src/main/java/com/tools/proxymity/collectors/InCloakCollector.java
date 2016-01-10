@@ -6,6 +6,7 @@ import com.toortools.Utilities;
 import com.toortools.os.OsHelper;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.util.Vector;
@@ -14,10 +15,20 @@ import java.util.regex.Pattern;
 
 public class InCloakCollector extends ProxyCollector
 {
+    //String imageMagickPath = "C:\\Program Files\\ImageMagick-6.9.3-Q16\\convert.exe";
+    String imageMagickPath = "bin\\imageMagick\\convert.exe";
     public InCloakCollector(Connection dbConnection)
     {
         super(dbConnection);
+        if (!new File("tmp/").isDirectory())
+        {
+            new File("tmp").mkdir();
+        }
 
+        if (OsHelper.isWindows() && ! new File(imageMagickPath).exists())
+        {
+            System.out.println("Image magick is not installed, please install or update installation path. (http://www.imagemagick.org/download/binaries/ImageMagick-6.9.3-0-Q16-x64-dll.exe)");
+        }
     }
 
     public Vector<ProxyInfo> collectProxies()
@@ -150,12 +161,11 @@ public class InCloakCollector extends ProxyCollector
             String convertPath = "convert";
             if (OsHelper.isWindows())
             {
-                convertPath = "C:\\Program Files\\ImageMagick-6.9.3-Q16\\convert.exe";
-
+                convertPath = imageMagickPath;
             }
 
             command = convertPath+ " \"" +  inputFilename + "\" \"" +outputFilename+"\"";
-             Process pr = rt.exec(command);
+            Process pr = rt.exec(command);
             BufferedReader input = new BufferedReader(new InputStreamReader(pr.getInputStream()));
 
             String line=null;

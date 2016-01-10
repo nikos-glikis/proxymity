@@ -16,13 +16,12 @@ import java.util.regex.Pattern;
 public class HmaCollector extends ProxyCollector
 {
 
-    PhantomJSDriver driver;
+
     public HmaCollector(Connection dbConnection)
     {
         super(dbConnection);
         initializePhantom();
     }
-
 
     public Vector<ProxyInfo> collectProxies()
     {

@@ -1,14 +1,14 @@
 package com.tools.proxymity;
 
 
-import com.tools.proxymity.collectors.HmaCollector;
-import com.tools.proxymity.collectors.InCloakCollector;
-import com.tools.proxymity.collectors.ProxyListOrgCollector;
+import com.tools.proxymity.collectors.*;
+import com.toortools.Utilities;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.StringTokenizer;
 
 public class Proxymity
 {
@@ -20,23 +20,26 @@ public class Proxymity
             this.dbInformation = dbInformation;
 
             connectToDatabase();
-            Statement st = dbConnection.createStatement();
-            ResultSet rs = st.executeQuery("SHOW TABLES");
-
-            boolean foundProxiesTable = false;
-            while (rs.next())
+            if (!isTableInDatabase(dbConnection, TABLE_NAME))
             {
-                if (rs.getString(1).equals(TABLE_NAME))
+                Statement st = dbConnection.createStatement();
+                String dbSchema = Utilities.readFile("dbSchema.sql");
+                StringTokenizer tokenizer = new StringTokenizer(dbSchema, ";");
+                while (tokenizer.hasMoreTokens())
                 {
-                    foundProxiesTable = true;
+                    st.execute(tokenizer.nextToken());
+                }
+
+                if (isTableInDatabase(dbConnection, TABLE_NAME))
+                {
+                    System.out.println("Table Automatically created.");
+                }
+                else
+                {
+                    throw new Exception("Proxies table doesn't exist, and automatic creation failed.");
                 }
             }
-            st.close();
 
-            if (!foundProxiesTable)
-            {
-                throw new Exception("Proxies table doesn't exist.");
-            }
         }
         catch (Exception e)
         {
@@ -52,10 +55,60 @@ public class Proxymity
         try
         {
             Class.forName("com.mysql.jdbc.Driver");
-            dbConnection = DriverManager
-                    .getConnection("jdbc:mysql://"+dbInformation.getUrl()+":"+dbInformation.getPort()+"/"+dbInformation.getDatabase()+"?"
-                            + "user="+dbInformation.getUsername()+"&password="+dbInformation.getPassword());
+            try
+            {
+                dbConnection = DriverManager
+                        .getConnection("jdbc:mysql://"+dbInformation.getUrl()+":"+dbInformation.getPort()+"/?"
+                                + "user="+dbInformation.getUsername()
+                                +"&password="+dbInformation.getPassword());
+            }
+            catch (Exception e)
+            {
+                System.out.println("Cannot connect to database, probably credentials are incorrect.");
+                System.out.println(e.toString());
+                System.exit(0);
+            }
 
+            dbConnection.close();
+            try
+            {
+                dbConnection = DriverManager
+                        .getConnection("jdbc:mysql://"+dbInformation.getUrl()+":"+dbInformation.getPort()+"/"+dbInformation.getDatabase()+"?"
+                                + "user="+dbInformation.getUsername()
+                                +"&password="+dbInformation.getPassword());
+            }
+            catch (Exception e)
+            {
+                System.out.println("Cannot connect to database, probably the database does not exist, I will try creating it.");
+                System.out.println(e.toString());
+                try
+                {
+                    dbConnection = DriverManager
+                            .getConnection("jdbc:mysql://"+dbInformation.getUrl()+":"+dbInformation.getPort()+"/?"
+                                    + "user="+dbInformation.getUsername()
+                                    +"&password="+dbInformation.getPassword());
+                    Statement st = dbConnection.createStatement();
+                    String query = "CREATE DATABASE "+dbInformation.getDatabase();
+
+                    st.execute(query);
+                    System.out.println(query);
+
+                    st.close();
+                    dbConnection.close();
+
+                    dbConnection = DriverManager
+                            .getConnection("jdbc:mysql://"+dbInformation.getUrl()+":"+dbInformation.getPort()+"/"+dbInformation.getDatabase()+"?"
+                                    + "user="+dbInformation.getUsername()
+                                    +"&password="+dbInformation.getPassword());
+
+                }
+                catch (Exception ee)
+                {
+                    System.out.println("Automatic creation of the database failed.");
+                    System.out.println(ee.toString());
+                    System.exit(0);
+                }
+            }
         }
         catch (Exception e)
         {
@@ -75,10 +128,12 @@ public class Proxymity
     {
         try
         {
-/*            new HmaCollector(dbConnection).start();
-            new InCloakCollector(dbConnection).start();
-            new ProxyListOrgCollector(dbConnection).start();*/
-
+                /*new HmaCollector(dbConnection).start();
+                new InCloakCollector(dbConnection).start();
+                new ProxyListOrgCollector(dbConnection).start();
+                new FreeProxyListNetCollector(dbConnection).start();
+                new SSLProxiesOrgCollector(dbConnection).start();
+                new SamairRuCollector(dbConnection).start();*/
         }
         catch (Exception e)
         {
@@ -91,5 +146,31 @@ public class Proxymity
     public void startCheckers()
     {
         new ProxyCheckerManager(dbConnection).start();;
+    }
+
+    public boolean isTableInDatabase(Connection connection, String table )
+    {
+        try
+        {
+            Statement st = connection.createStatement();
+            ResultSet rs = st.executeQuery("SHOW TABLES");
+
+            boolean foundProxiesTable = false;
+            while (rs.next())
+            {
+                if (rs.getString(1).equals(table))
+                {
+                    foundProxiesTable = true;
+                }
+            }
+            st.close();
+            return foundProxiesTable;
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+            System.exit(0);
+        }
+        return false;
     }
 }

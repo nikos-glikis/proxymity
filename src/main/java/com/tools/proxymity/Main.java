@@ -9,7 +9,5 @@ public class Main {
         Proxymity proxymity = new Proxymity(dbInformation);
         proxymity.startCollectors();
         proxymity.startCheckers();
-
-
     }
 }

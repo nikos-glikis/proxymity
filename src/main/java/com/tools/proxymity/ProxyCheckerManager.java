@@ -12,6 +12,7 @@ import java.util.concurrent.Executors;
 public class ProxyCheckerManager extends Thread
 {
 
+    static final int PROXY_CHECKERS_COUNT = 50;
     Connection dbConnection;
     public ProxyCheckerManager(Connection dbConnection)
     {
@@ -22,15 +23,15 @@ public class ProxyCheckerManager extends Thread
     {
         try
         {
-            ExecutorService fixedPool = Executors.newFixedThreadPool(20);
+            ExecutorService fixedPool = Executors.newFixedThreadPool(50);
 
+            new ProxyChecker(new Proxy(Proxy.Type.SOCKS,  new InetSocketAddress("lfsdfsd", 90)), dbConnection).setMyIp();
             while (true)
             {
                 Vector<ProxyInfo> proxyInfos =getProxiesToTest();
 
                 for (ProxyInfo proxyInfo: proxyInfos)
                 {
-
                     Proxy.Type type = null;
                     //new Proxy(Proxy.Type.HTTP, new InetSocketAddress("123.0.0.1", 8080));
                     if (proxyInfo.getType().equals( ProxyInfo.PROXY_TYPES_SOCKS4 ) )
