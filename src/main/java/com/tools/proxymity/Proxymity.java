@@ -75,9 +75,9 @@ public class Proxymity
     {
         try
         {
-            //new HmaCollector(dbConnection).start();
-            //new InCloakCollector(dbConnection).start();
-            //new ProxyListOrgCollector(dbConnection).start();
+/*            new HmaCollector(dbConnection).start();
+            new InCloakCollector(dbConnection).start();
+            new ProxyListOrgCollector(dbConnection).start();*/
 
         }
         catch (Exception e)
