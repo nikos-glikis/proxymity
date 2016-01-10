@@ -34,7 +34,7 @@ public class ProxyCheckerManager extends Thread
                 }
                 fixedPool.shutdown();
                 try {
-                    fixedPool.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
+                    fixedPool.awaitTermination(5, TimeUnit.MINUTES);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -54,7 +54,7 @@ public class ProxyCheckerManager extends Thread
 
     void printMessage(String message)
     {
-        System.out.println(getDateTimeAsString()+ ": "+message);
+        ConsoleColors.printGreen(getDateTimeAsString()+ ": "+message);
     }
 
     Vector<ProxyInfo> getProxiesToTest()
