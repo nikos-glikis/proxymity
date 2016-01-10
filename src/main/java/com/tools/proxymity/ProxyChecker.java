@@ -67,8 +67,6 @@ public class ProxyChecker implements Runnable
             {
                 markProxyNoGood(proxyInfo);
                 throw new Exception("Invalid Ip returned.");
-
-
             }
 
             if (ip.equals(myIp))
@@ -90,6 +88,7 @@ public class ProxyChecker implements Runnable
         }
         catch (Exception e)
         {
+            markProxyNoGood(proxyInfo);
             //System.out.print("e");
             //e.printStackTrace();
         }

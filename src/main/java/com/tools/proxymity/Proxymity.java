@@ -12,6 +12,8 @@ import java.util.StringTokenizer;
 public class Proxymity
 {
     static final public String TABLE_NAME = "proxymity_proxies";
+    public static final int RECHECK_INTERVAL_MINUTES = 10;
+
     public Proxymity(DbInformation dbInformation)
     {
         try

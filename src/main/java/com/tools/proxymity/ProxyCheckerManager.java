@@ -1,7 +1,5 @@
 package com.tools.proxymity;
 
-import java.net.InetSocketAddress;
-import java.net.Proxy;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -24,8 +22,6 @@ public class ProxyCheckerManager extends Thread
     {
         try
         {
-
-
             new ProxyChecker(new ProxyInfo(), dbConnection).setMyIp();
             while (true)
             {
@@ -50,6 +46,17 @@ public class ProxyCheckerManager extends Thread
         }
     }
 
+    String getDateTimeAsString()
+    {
+        java.util.Date date = new java.util.Date();
+        return date.toString();
+    }
+
+    void printMessage(String message)
+    {
+        System.out.println(getDateTimeAsString()+ ": "+message);
+    }
+
     Vector<ProxyInfo> getProxiesToTest()
     {
         Vector<ProxyInfo> proxyInfos = new Vector<ProxyInfo>();
@@ -57,8 +64,8 @@ public class ProxyCheckerManager extends Thread
         try
         {
             Statement st = dbConnection.createStatement();
-            System.out.println("Getting proxies to check");
-            ResultSet rs = st.executeQuery("SELECT id, host, port, type FROM "+Proxymity.TABLE_NAME+" WHERE status = 'pending'  UNION SELECT id, host, port, type FROM "+Proxymity.TABLE_NAME+" WHERE lastchecked is NULL  UNION SELECT id, host, port, type FROM "+Proxymity.TABLE_NAME+" WHERE lastchecked BETWEEN DATE_SUB(NOW(), INTERVAL 10 MINUTE) AND NOW() ORDER BY RAND()");
+
+            ResultSet rs = st.executeQuery("SELECT id, host, port, type FROM "+Proxymity.TABLE_NAME+" WHERE status = 'pending'  UNION SELECT id, host, port, type FROM "+Proxymity.TABLE_NAME+" WHERE lastchecked is NULL  UNION SELECT id, host, port, type FROM "+Proxymity.TABLE_NAME+" WHERE lastchecked not BETWEEN DATE_SUB(NOW(), INTERVAL "+ Proxymity.RECHECK_INTERVAL_MINUTES +" MINUTE) AND NOW() ORDER BY RAND()");
             int i = 0;
             while (rs.next())
             {
@@ -70,7 +77,7 @@ public class ProxyCheckerManager extends Thread
                 proxyInfo.setType(rs.getString(4));
                 proxyInfos.add(proxyInfo);
             }
-            System.out.println("In total "+i+ " proxies fetched. ");
+            printMessage("Fetched "+i+ " proxies for check. ");
             if (i < 10)
             {
                 Thread.sleep(5000);
