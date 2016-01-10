@@ -1,6 +1,7 @@
 package com.tools.proxymity;
 
 
+import com.tools.proxymity.collectors.ConsoleColors;
 import com.toortools.Utilities;
 
 import java.sql.Connection;
@@ -11,8 +12,12 @@ import java.util.StringTokenizer;
 
 public class Proxymity
 {
+    //TODO implement multiple ip sources
+    //TODO implement muntiple anonymous detectors
+    //TODO reset attributes on start
     static final public String TABLE_NAME = "proxymity_proxies";
     public static final int RECHECK_INTERVAL_MINUTES = 10;
+    public static final long SLEEP_BETWEEN_REPORTS_SECONDS = 20;
 
     public Proxymity(DbInformation dbInformation)
     {
@@ -48,9 +53,95 @@ public class Proxymity
             System.out.println("Something went wrong, probably with the database. Check that database exists and that credentials are valid.");
             System.exit(0);
         }
+        resetProxiesAttributes();
+        new Thread()
+        {
+            public void run()
+            {
+                while (true)
+                {
+                    printStatusReport();
+                    try
+                    {
+                        printStatusReport();
+                        Thread.sleep(SLEEP_BETWEEN_REPORTS_SECONDS*1000);
+                    }
+                    catch (Exception e)
+                    {
+                        e.printStackTrace();;
+                    }
+                }
+            }
 
+        }.start();
     }
 
+    private void resetProxiesAttributes()
+    {
+        try
+        {
+            Statement st = dbConnection.createStatement();
+            st.execute("UPDATE `"+TABLE_NAME+"` SET status = 'pending', fullanonymous = 'no', remoteIp = NULL");
+            st.close();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    private void printStatusReport()
+    {
+        try
+        {
+
+            int totalCount = getTotalProxiesCount();
+            int activeCount = getActiveProxiesCount();
+            int anonCount = getAnonymousProxiesCount();
+
+            ConsoleColors.printBlue("Proxies: Total/Active/Anonymous: "+totalCount+"/"+activeCount+"/"+anonCount);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    int getTotalProxiesCount()
+    {
+        String where = "1";
+        return getWhereCount(where);
+    }
+
+    int getActiveProxiesCount()
+    {
+        String where = " status = 'active'";
+        return getWhereCount(where);
+    }
+
+    int getAnonymousProxiesCount()
+    {
+        String where = " fullanonymous  = 'yes' ";
+        return getWhereCount(where);
+    }
+
+    public int getWhereCount(String where)
+    {
+        int count = 0;
+        try
+        {
+            Statement st = dbConnection.createStatement();
+            ResultSet rs = st.executeQuery("SELECT count(*) from "+TABLE_NAME+" WHERE "+where );
+            rs.next();
+            count = rs.getInt(1);
+            st.close();
+        }
+        catch (Exception e)
+        {
+            System.out.println(e);
+        }
+        return count;
+    }
     private void connectToDatabase()
     {
         try
@@ -169,4 +260,5 @@ public class Proxymity
         }
         return false;
     }
+
 }

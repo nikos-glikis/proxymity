@@ -83,15 +83,23 @@ public class ProxyChecker implements Runnable
                 setProxyRemoteIp(proxyInfo, ip);
                 try
                 {
-                    String page =Utilities.readUrl("https://filippo.io/Heartbleed/");
-                    //System.out.println(page);
-
+                    String page =Utilities.readUrl("http://ip.cc/anonymity-test.php");
+                    if (page.contains("high-anonymous (elit"))
+                    {
+                        markProxyAnonymous(proxyInfo);
+                        page = Utilities.readUrl("http://www.iprivacytools.com/proxy-checker-anonymity-test/");
+                        if (!page.contains("Proxy detected? <span style='background-color:#ffff99;'>NO</span"))
+                        {
+                            System.out.println("Anon error");
+                        }
+                    }
                 }
                 catch (Exception e)
                 {
                     System.out.println("Failed to read https");
                     System.out.println(e);
                 }
+
                 //System.out.println("SuMy ip is: "+ip);
             }
         }
@@ -100,6 +108,23 @@ public class ProxyChecker implements Runnable
             markProxyNoGood(proxyInfo);
             //System.out.print("e");
             //e.printStackTrace();
+        }
+    }
+
+    private void markProxyAnonymous(ProxyInfo proxyInfo)
+    {
+        try
+        {
+            Statement st = dbConnection.createStatement();
+            String id = sanitizeDatabaseInput(proxyInfo.getId());
+
+            st.executeUpdate("UPDATE "+Proxymity.TABLE_NAME+" SET fullanonymous = 'yes' WHERE id = '"+id+"'");
+
+            st.close();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
         }
     }
 
@@ -137,6 +162,7 @@ public class ProxyChecker implements Runnable
             id = sanitizeDatabaseInput(id);
             Statement st = dbConnection.createStatement();
             st.executeUpdate("UPDATE "+Proxymity.TABLE_NAME+" SET status = '"+proxyStatus+"', lastchecked = NOW() WHERE id = '"+id+"'");
+            st.close();
         }
         catch (Exception e)
         {
@@ -144,7 +170,7 @@ public class ProxyChecker implements Runnable
         }
     }
 
-    String sanitizeDatabaseInput(String value)
+    public static String sanitizeDatabaseInput(String value)
     {
         while (value.contains("''")) {
             value = value.replace("''","'");
@@ -183,6 +209,7 @@ public class ProxyChecker implements Runnable
             String id = sanitizeDatabaseInput(proxyInfo.getId());
 
             st.executeUpdate("UPDATE "+Proxymity.TABLE_NAME+" SET remoteIp = '"+proxyRemoteIp+"' WHERE id = '"+id+"'");
+            st.close();
         }
         catch (Exception e)
         {
