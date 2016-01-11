@@ -59,6 +59,8 @@ public class ProxyChecker implements Runnable
             {
                 sb.append(sc.nextLine());
             }
+            conn.getInputStream().close();
+
             String ip = sb.toString().trim();
             Pattern p = Pattern.compile("^\\d+\\.\\d+\\.\\d+\\.\\d+$");
             Matcher m = p.matcher(ip);
@@ -96,7 +98,7 @@ public class ProxyChecker implements Runnable
                 }
                 catch (Exception e)
                 {
-                    System.out.println("Failed to read https");
+                    System.out.println("Failed to verify Security");
                     System.out.println(e);
                 }
 
