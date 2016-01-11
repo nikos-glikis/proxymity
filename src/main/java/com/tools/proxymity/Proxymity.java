@@ -95,15 +95,29 @@ public class Proxymity
         {
 
             int totalCount = getTotalProxiesCount();
+            int pendingCount = getPendingProxiesCount();
+            int checkedCount = getCheckedProxiesCount();
             int activeCount = getActiveProxiesCount();
             int anonCount = getAnonymousProxiesCount();
 
-            ConsoleColors.printBlue("Proxies: Total/Active/Anonymous: "+totalCount+"/"+activeCount+"/"+anonCount);
+            ConsoleColors.printBlue("Proxies: Total/Checked/Active/Anonymous: "+totalCount+"/"+checkedCount+"/"+activeCount+"/"+anonCount);
         }
         catch (Exception e)
         {
             e.printStackTrace();
         }
+    }
+
+    public int getPendingProxiesCount()
+    {
+        String where = "status = 'pending' ";
+        return getWhereCount(where);
+    }
+
+    public int getCheckedProxiesCount()
+    {
+        String where = " status != 'pending' ";
+        return getWhereCount(where);
     }
 
     int getTotalProxiesCount()
@@ -259,5 +273,4 @@ public class Proxymity
         }
         return false;
     }
-
 }
