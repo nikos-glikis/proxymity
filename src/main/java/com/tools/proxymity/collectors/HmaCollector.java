@@ -39,6 +39,7 @@ public class HmaCollector extends ProxyCollector
                 }
                 catch (Exception e)
                 {
+
                     continue;
                 }
                 String page = body.getText();

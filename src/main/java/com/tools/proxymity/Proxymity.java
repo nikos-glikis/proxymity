@@ -2,6 +2,7 @@ package com.tools.proxymity;
 
 
 import com.toortools.Utilities;
+import com.toortools.tor.TorHelper;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -14,9 +15,11 @@ public class Proxymity
     //TODO implement multiple ip sources
     //TODO implement muntiple anonymous detectors
     //TODO reset attributes on start
+    //TODO use tor
     static final public String TABLE_NAME = "proxymity_proxies";
     public static final int RECHECK_INTERVAL_MINUTES = 20;
     public static final long SLEEP_BETWEEN_REPORTS_SECONDS = 30;
+    public boolean useTor = false;
 
     public Proxymity(DbInformation dbInformation)
     {
@@ -52,6 +55,8 @@ public class Proxymity
             System.out.println("Something went wrong, probably with the database. Check that database exists and that credentials are valid.");
             System.exit(0);
         }
+
+
         resetProxiesAttributes();
         new Thread()
         {
@@ -73,6 +78,13 @@ public class Proxymity
             }
 
         }.start();
+    }
+
+    public void useTor()
+    {
+        TorHelper.torifySimple(true);
+        this.useTor = true;
+
     }
 
     private void resetProxiesAttributes()
@@ -233,7 +245,7 @@ public class Proxymity
     {
         try
         {
-            new ProxyCollectorManager(dbConnection).start();
+            new ProxyCollectorManager(dbConnection, useTor).start();
         }
         catch (Exception e)
         {

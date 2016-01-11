@@ -8,10 +8,11 @@ import java.util.Vector;
 public class ProxyCollectorManager extends Thread
 {
     public Connection dbConnection;
-
-    public ProxyCollectorManager(Connection connection)
+    boolean useTor = false;
+    public ProxyCollectorManager(Connection connection, boolean useTor)
     {
         this.dbConnection = connection;
+        this.useTor = useTor;
     }
 
     public ProxyCollectorManager() throws Exception
