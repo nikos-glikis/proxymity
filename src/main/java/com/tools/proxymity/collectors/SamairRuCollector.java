@@ -103,8 +103,9 @@ public class SamairRuCollector extends ProxyCollector
                 try
                 {
                     String line = m.group();
-                    //System.out.println(line);
-                    String ip;
+                    System.out.println(line);
+                    System.exit(0);
+                    String ip=null;
                     int portInt;
                     if (line.contains("<span class="))
                     {
@@ -115,16 +116,22 @@ public class SamairRuCollector extends ProxyCollector
                     }
                     else
                     {
-                        ip = Utilities.cut("<tr><td>",":",line);
-                        String portString = Utilities.cut(":","<",line);
-                        portInt = Integer.parseInt(portString);
+                        if (line.contains(":") && line.contains("<tr><td>"))
+                        {
+                            ip = Utilities.cut("<tr><td>", ":", line);
+                            String portString = Utilities.cut(":", "<", line);
+                            portInt = Integer.parseInt(portString);
+                        }
+                    }
+                    if (ip!= null)
+                    {
+                        ProxyInfo proxyInfo = new ProxyInfo();
+                        proxyInfo.setHost(ip);
+                        proxyInfo.setPort(Integer.toString(portInt));
+
+                        proxies.add(proxyInfo);
                     }
 
-                    ProxyInfo proxyInfo = new ProxyInfo();
-                    proxyInfo.setHost(ip);
-                    proxyInfo.setPort(Integer.toString(portInt));
-
-                    proxies.add(proxyInfo);
                 }
                 catch (Exception e)
                 {

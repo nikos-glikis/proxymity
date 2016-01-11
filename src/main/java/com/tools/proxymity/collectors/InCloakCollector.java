@@ -162,7 +162,7 @@ public class InCloakCollector extends ProxyCollector
                 convertPath = imageMagickPath;
             }
 
-            command = convertPath+ " \"" +  inputFilename + "\" \"" +outputFilename+"\"";
+            command = convertPath+ " " +  inputFilename + " " +outputFilename+"";
             Process pr = rt.exec(command);
             BufferedReader input = new BufferedReader(new InputStreamReader(pr.getInputStream()));
 
