@@ -16,7 +16,7 @@ public class Proxymity
     //TODO reset attributes on start
     static final public String TABLE_NAME = "proxymity_proxies";
     public static final int RECHECK_INTERVAL_MINUTES = 20;
-    public static final long SLEEP_BETWEEN_REPORTS_SECONDS = 300;
+    public static final long SLEEP_BETWEEN_REPORTS_SECONDS = 30;
 
     public Proxymity(DbInformation dbInformation)
     {
@@ -59,7 +59,7 @@ public class Proxymity
             {
                 while (true)
                 {
-                    printStatusReport();
+
                     try
                     {
                         printStatusReport();
