@@ -1,5 +1,6 @@
 package com.tools.proxymity;
 
+import com.tools.proxymity.DataTypes.CollectorParameters;
 import com.toortools.os.OsHelper;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.phantomjs.PhantomJSDriver;
@@ -18,9 +19,12 @@ abstract public class ProxyCollector extends  Thread
 
     protected Connection dbConnection;
     protected PhantomJSDriver driver;
-    public ProxyCollector(Connection dbConnection)
+    protected boolean useTor = false;
+    public ProxyCollector(CollectorParameters collectorParameters)
     {
-        this.dbConnection = dbConnection;
+        //this.collectorParameters = collectorParameters;
+        this.dbConnection = collectorParameters.getDbConnection();
+        this.useTor = collectorParameters.isUseTor();
     }
 
     public ProxyCollector() throws Exception
@@ -142,10 +146,27 @@ abstract public class ProxyCollector extends  Thread
         System.setProperty("org.apache.commons.logging.Log", "org.apache.commons.logging.impl.NoOpLog");
 
         //Utilities.readUrl("http://proxylist.hidemyass.com/2#listable");
+
         Capabilities caps = new DesiredCapabilities();
-        String[] phantomArgs = new  String[] {
-                "--webdriver-loglevel=NONE"
+        String[] phantomArgs = new String[] {
+
         };
+        if (!useTor)
+        {
+            phantomArgs = new  String[] {
+                    "--webdriver-loglevel=NONE"
+            };
+        }
+        else
+        {
+            phantomArgs = new  String[] {
+                    "--webdriver-loglevel=NONE",
+                    "--proxy=127.0.0.1:9050",
+                    "--proxy-type=socks5"
+            };
+        }
+
+
 
         if (OsHelper.isWindows())
         {
@@ -169,5 +190,6 @@ abstract public class ProxyCollector extends  Thread
             );
         }
         driver = new PhantomJSDriver(caps);
+
     }
 }

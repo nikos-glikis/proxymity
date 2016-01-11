@@ -1,6 +1,7 @@
 package com.tools.proxymity.collectors;
 
 import com.mysql.jdbc.Util;
+import com.tools.proxymity.DataTypes.CollectorParameters;
 import com.tools.proxymity.ProxyCollector;
 import com.tools.proxymity.ProxyInfo;
 import com.toortools.Utilities;
@@ -14,9 +15,9 @@ public class FreeProxyListNetCollector extends ProxyCollector
 {
 
 
-    public FreeProxyListNetCollector(Connection dbConnection)
+    public FreeProxyListNetCollector(CollectorParameters collectorParameters)
     {
-        super(dbConnection);
+        super(collectorParameters);
     }
 
 

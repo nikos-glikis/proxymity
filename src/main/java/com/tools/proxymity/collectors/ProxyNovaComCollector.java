@@ -1,5 +1,6 @@
 package com.tools.proxymity.collectors;
 
+import com.tools.proxymity.DataTypes.CollectorParameters;
 import com.tools.proxymity.ProxyCollector;
 import com.tools.proxymity.ProxyInfo;
 import com.toortools.Utilities;
@@ -14,9 +15,9 @@ import java.util.regex.Pattern;
 
 public class ProxyNovaComCollector extends ProxyCollector
 {
-    public ProxyNovaComCollector(Connection dbConnection)
+    public ProxyNovaComCollector(CollectorParameters collectorParameters)
     {
-        super(dbConnection);
+        super(collectorParameters);
     }
 
     public Vector<ProxyInfo> collectProxies()

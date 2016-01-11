@@ -1,5 +1,6 @@
 package com.tools.proxymity.collectors;
 
+import com.tools.proxymity.DataTypes.CollectorParameters;
 import com.tools.proxymity.ProxyCollector;
 import com.tools.proxymity.ProxyInfo;
 import com.toortools.Utilities;
@@ -15,9 +16,9 @@ public class SamairRuCollector extends ProxyCollector
 {
 
 
-    public SamairRuCollector(Connection dbConnection)
+    public SamairRuCollector(CollectorParameters collectorParameters)
     {
-        super(dbConnection);
+        super(collectorParameters);
     }
 
 

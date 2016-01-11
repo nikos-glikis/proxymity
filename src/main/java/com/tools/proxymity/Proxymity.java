@@ -1,6 +1,7 @@
 package com.tools.proxymity;
 
 
+import com.tools.proxymity.DataTypes.CollectorParameters;
 import com.toortools.Utilities;
 import com.toortools.tor.TorHelper;
 
@@ -245,7 +246,10 @@ public class Proxymity
     {
         try
         {
-            new ProxyCollectorManager(dbConnection, useTor).start();
+            CollectorParameters collectorParameters = new CollectorParameters();
+            collectorParameters.setUseTor(useTor);
+            collectorParameters.setDbConnection(dbConnection);
+            new ProxyCollectorManager(collectorParameters).start();
         }
         catch (Exception e)
         {

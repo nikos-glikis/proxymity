@@ -1,5 +1,6 @@
 package com.tools.proxymity.collectors;
 
+import com.tools.proxymity.DataTypes.CollectorParameters;
 import com.tools.proxymity.ProxyCollector;
 import com.tools.proxymity.ProxyInfo;
 import com.toortools.Utilities;
@@ -17,10 +18,15 @@ public class HmaCollector extends ProxyCollector
 {
 
 
-    public HmaCollector(Connection dbConnection)
+    public HmaCollector(CollectorParameters collectorParameters)
     {
-        super(dbConnection);
+        super(collectorParameters);
+        //TODO for office
+        useTor = true;
         initializePhantom();
+        //TODO deleteme
+
+
     }
 
     public Vector<ProxyInfo> collectProxies()
@@ -40,7 +46,14 @@ public class HmaCollector extends ProxyCollector
                 catch (Exception e)
                 {
 
-                    continue;
+
+                        /*System.out.println(driver.getPageSource());
+                        System.out.println("HMA ERROR");
+                        System.exit(0);*/
+
+                        e.printStackTrace();
+
+
                 }
                 String page = body.getText();
                 Scanner sc = new Scanner(page);

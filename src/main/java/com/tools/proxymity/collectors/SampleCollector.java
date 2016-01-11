@@ -1,5 +1,6 @@
 package com.tools.proxymity.collectors;
 
+import com.tools.proxymity.DataTypes.CollectorParameters;
 import com.tools.proxymity.ProxyCollector;
 import com.tools.proxymity.ProxyInfo;
 
@@ -8,9 +9,9 @@ import java.util.Vector;
 
 public class SampleCollector extends ProxyCollector
 {
-    public SampleCollector(Connection dbConnection)
+    public SampleCollector(CollectorParameters collectorParameters)
     {
-        super(dbConnection);
+        super(collectorParameters);
     }
 
     public Vector<ProxyInfo> collectProxies()

@@ -1,6 +1,7 @@
 package com.tools.proxymity.collectors;
 
 import com.mysql.jdbc.Util;
+import com.tools.proxymity.DataTypes.CollectorParameters;
 import com.tools.proxymity.ProxyCollector;
 import com.tools.proxymity.ProxyInfo;
 import com.toortools.Utilities;
@@ -17,9 +18,9 @@ import java.util.regex.Pattern;
 
 public class ProxyListOrgCollector extends ProxyCollector
 {
-    public ProxyListOrgCollector(Connection dbConnection)
+    public ProxyListOrgCollector(CollectorParameters collectorParameters)
     {
-        super(dbConnection);
+        super(collectorParameters);
 
     }
 

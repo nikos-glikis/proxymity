@@ -1,5 +1,6 @@
 package com.tools.proxymity.collectors;
 
+import com.tools.proxymity.DataTypes.CollectorParameters;
 import com.tools.proxymity.ProxyCollector;
 import com.tools.proxymity.ProxyInfo;
 import com.toortools.Utilities;
@@ -19,9 +20,9 @@ import java.util.regex.Pattern;
 public class XroxyComCollector extends ProxyCollector
 {
 
-    public XroxyComCollector(Connection dbConnection)
+    public XroxyComCollector(CollectorParameters collectorParameters)
     {
-        super(dbConnection);
+        super(collectorParameters);
         //initializePhantom();
     }
 

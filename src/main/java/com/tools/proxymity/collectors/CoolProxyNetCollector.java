@@ -1,5 +1,6 @@
 package com.tools.proxymity.collectors;
 
+import com.tools.proxymity.DataTypes.CollectorParameters;
 import com.tools.proxymity.ProxyCollector;
 import com.tools.proxymity.ProxyInfo;
 import com.toortools.Utilities;
@@ -18,9 +19,9 @@ public class CoolProxyNetCollector extends ProxyCollector
 {
 
 
-    public CoolProxyNetCollector(Connection dbConnection)
+    public CoolProxyNetCollector(CollectorParameters collectorParameters)
     {
-        super(dbConnection);
+        super(collectorParameters);
         initializePhantom();
     }
 

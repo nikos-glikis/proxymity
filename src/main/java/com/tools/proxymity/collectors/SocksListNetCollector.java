@@ -1,5 +1,6 @@
 package com.tools.proxymity.collectors;
 
+import com.tools.proxymity.DataTypes.CollectorParameters;
 import com.tools.proxymity.ProxyCollector;
 import com.tools.proxymity.ProxyInfo;
 import com.toortools.Utilities;
@@ -17,9 +18,9 @@ public class SocksListNetCollector extends ProxyCollector
 {
 
 
-    public SocksListNetCollector(Connection dbConnection)
+    public SocksListNetCollector(CollectorParameters collectorParameters)
     {
-        super(dbConnection);
+        super(collectorParameters);
         initializePhantom();
     }
 

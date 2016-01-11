@@ -1,5 +1,6 @@
 package com.tools.proxymity.collectors;
 
+import com.tools.proxymity.DataTypes.CollectorParameters;
 import com.tools.proxymity.ProxyCollector;
 import com.tools.proxymity.ProxyInfo;
 import com.toortools.Utilities;
@@ -17,9 +18,9 @@ public class InCloakCollector extends ProxyCollector
 {
     //String imageMagickPath = "C:\\Program Files\\ImageMagick-6.9.3-Q16\\convert.exe";
     String imageMagickPath = "bin\\imageMagick\\convert.exe";
-    public InCloakCollector(Connection dbConnection)
+    public InCloakCollector(CollectorParameters collectorParameters)
     {
-        super(dbConnection);
+        super(collectorParameters);
         if (!new File("tmp/").isDirectory())
         {
             new File("tmp").mkdir();

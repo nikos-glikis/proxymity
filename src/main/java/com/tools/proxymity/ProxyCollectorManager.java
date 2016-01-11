@@ -1,5 +1,6 @@
 package com.tools.proxymity;
 
+import com.tools.proxymity.DataTypes.CollectorParameters;
 import com.tools.proxymity.collectors.*;
 
 import java.sql.Connection;
@@ -7,12 +8,10 @@ import java.util.Vector;
 
 public class ProxyCollectorManager extends Thread
 {
-    public Connection dbConnection;
-    boolean useTor = false;
-    public ProxyCollectorManager(Connection connection, boolean useTor)
+    CollectorParameters collectorParameters;
+    public ProxyCollectorManager(CollectorParameters collectorParameters)
     {
-        this.dbConnection = connection;
-        this.useTor = useTor;
+        this.collectorParameters = collectorParameters;
     }
 
     public ProxyCollectorManager() throws Exception
@@ -26,19 +25,19 @@ public class ProxyCollectorManager extends Thread
         {
             Vector<ProxyCollector> collectors = new Vector<ProxyCollector>();
 
-            collectors.add(new InCloakCollector(dbConnection));
-            collectors.add(new HmaCollector(dbConnection));
-            collectors.add(new ProxyListOrgCollector(dbConnection));
-            collectors.add(new ProxyListOrgCollector(dbConnection));
-            collectors.add(new SSLProxiesOrgCollector(dbConnection));
-            collectors.add(new SamairRuCollector(dbConnection));
-            collectors.add(new SocksProxyNetCollector(dbConnection));
-            collectors.add(new SocksProxyNetCollector(dbConnection));
-            collectors.add(new FreeProxyListNetCollector(dbConnection));
-            collectors.add(new CoolProxyNetCollector(dbConnection));
-            collectors.add(new SocksListNetCollector(dbConnection));
-            collectors.add(new XroxyComCollector(dbConnection));
-            collectors.add(new ProxyNovaComCollector(dbConnection));
+            collectors.add(new InCloakCollector(collectorParameters));
+            collectors.add(new HmaCollector(collectorParameters));
+            collectors.add(new ProxyListOrgCollector(collectorParameters));
+            collectors.add(new ProxyListOrgCollector(collectorParameters));
+            collectors.add(new SSLProxiesOrgCollector(collectorParameters));
+            collectors.add(new SamairRuCollector(collectorParameters));
+            collectors.add(new SocksProxyNetCollector(collectorParameters));
+            collectors.add(new SocksProxyNetCollector(collectorParameters));
+            collectors.add(new FreeProxyListNetCollector(collectorParameters));
+            collectors.add(new CoolProxyNetCollector(collectorParameters));
+            collectors.add(new SocksListNetCollector(collectorParameters));
+            collectors.add(new XroxyComCollector(collectorParameters));
+            collectors.add(new ProxyNovaComCollector(collectorParameters));
 
             for (ProxyCollector collector : collectors)
             {
