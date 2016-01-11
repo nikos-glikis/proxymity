@@ -31,7 +31,16 @@ public class HmaCollector extends ProxyCollector
             for (int i = 1; i<50; i++)
             {
                 driver.get("http://proxylist.hidemyass.com/"+i);
-                WebElement body = driver.findElement(By.className("flat-page"));
+
+                WebElement body = null;
+                try
+                {
+                    body = driver.findElement(By.className("flat-page"));
+                }
+                catch (Exception e)
+                {
+                    continue;
+                }
                 String page = body.getText();
                 Scanner sc = new Scanner(page);
                 boolean found = false;
