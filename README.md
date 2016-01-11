@@ -9,6 +9,11 @@ Dependencies:
 
 All tools must be installed and added to the path must be installed and accessible from the command line.
 
+Ubuntu:
+
+sudo apt-get install imagemagick gocr phantomjs
+
 Windows versions are included in the bin folder and used automatically by the code.
 
 Tested on jdk 8.
+
