@@ -6,9 +6,7 @@ import com.tools.proxymity.ProxyInfo;
 import com.toortools.Utilities;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.phantomjs.PhantomJSDriver;
 
-import java.sql.Connection;
 import java.util.Scanner;
 import java.util.Vector;
 import java.util.regex.Matcher;
