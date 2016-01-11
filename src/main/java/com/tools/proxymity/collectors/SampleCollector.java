@@ -1,10 +1,9 @@
 package com.tools.proxymity.collectors;
 
-import com.tools.proxymity.DataTypes.CollectorParameters;
+import com.tools.proxymity.datatypes.CollectorParameters;
+import com.tools.proxymity.datatypes.ProxyInfo;
 import com.tools.proxymity.ProxyCollector;
-import com.tools.proxymity.ProxyInfo;
 
-import java.sql.Connection;
 import java.util.Vector;
 
 public class SampleCollector extends ProxyCollector

@@ -1,9 +1,8 @@
 package com.tools.proxymity;
 
-import com.tools.proxymity.DataTypes.CollectorParameters;
+import com.tools.proxymity.datatypes.CollectorParameters;
 import com.tools.proxymity.collectors.*;
 
-import java.sql.Connection;
 import java.util.Vector;
 
 public class ProxyCollectorManager extends Thread
@@ -38,6 +37,10 @@ public class ProxyCollectorManager extends Thread
             collectors.add(new SocksListNetCollector(collectorParameters));
             collectors.add(new XroxyComCollector(collectorParameters));
             collectors.add(new ProxyNovaComCollector(collectorParameters));
+            collectors.add(new Socks24OrgCollector(collectorParameters));
+
+            //TODO Bit problematic with protections but huge.
+            //collectors.add(new FreeProxyCzCollector(collectorParameters));
 
             for (ProxyCollector collector : collectors)
             {
@@ -47,7 +50,8 @@ public class ProxyCollectorManager extends Thread
             while (true)
             {
                 Thread.sleep(15000);
-                for (ProxyCollector collector : collectors) {
+                for (ProxyCollector collector : collectors)
+                {
                     collector.writeProxyInfoToDatabase();
                 }
             }

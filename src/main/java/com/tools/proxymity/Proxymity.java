@@ -1,7 +1,8 @@
 package com.tools.proxymity;
 
 
-import com.tools.proxymity.DataTypes.CollectorParameters;
+import com.tools.proxymity.datatypes.CollectorParameters;
+import com.tools.proxymity.helpers.ConsoleColors;
 import com.toortools.Utilities;
 import com.toortools.tor.TorHelper;
 
@@ -17,10 +18,13 @@ public class Proxymity
     //TODO implement muntiple anonymous detectors
     //TODO reset attributes on start
     //TODO use tor
+    static final public int PROXY_CHECKERS_COUNT = 150;
     static final public String TABLE_NAME = "proxymity_proxies";
     public static final int RECHECK_INTERVAL_MINUTES = 20;
     public static final long SLEEP_BETWEEN_REPORTS_SECONDS = 30;
+    public static final long MARK_DEAD_AFTER_MINUTES = 60;
     public boolean useTor = false;
+    ProxyCheckerManager proxyCheckerManager;
 
     public Proxymity(DbInformation dbInformation)
     {
@@ -29,6 +33,7 @@ public class Proxymity
             this.dbInformation = dbInformation;
 
             connectToDatabase();
+
             if (!isTableInDatabase(dbConnection, TABLE_NAME))
             {
                 Statement st = dbConnection.createStatement();
@@ -49,6 +54,11 @@ public class Proxymity
                 }
             }
 
+            if (this.proxyCheckerManager == null)
+            {
+                proxyCheckerManager = new ProxyCheckerManager(dbConnection);
+            }
+
         }
         catch (Exception e)
         {
@@ -56,7 +66,6 @@ public class Proxymity
             System.out.println("Something went wrong, probably with the database. Check that database exists and that credentials are valid.");
             System.exit(0);
         }
-
 
         resetProxiesAttributes();
         new Thread()
@@ -69,6 +78,7 @@ public class Proxymity
                     try
                     {
                         printStatusReport();
+                        checkIfIdle();
                         Thread.sleep(SLEEP_BETWEEN_REPORTS_SECONDS*1000);
                     }
                     catch (Exception e)
@@ -79,6 +89,43 @@ public class Proxymity
             }
 
         }.start();
+    }
+    int oldPendingCount, oldCheckedCount, oldActiveCount;
+    private void checkIfIdle()
+    {
+        //Bad idea
+        /*boolean idle = false;
+
+        int pendingCount = getPendingProxiesCount();
+        int checkedCount = getCheckedProxiesCount();
+        int activeCount = getActiveProxiesCount();
+        int totalCount = getTotalProxiesCount();
+
+        if (pendingCount == oldPendingCount &&
+                checkedCount == oldCheckedCount &&
+                activeCount == oldActiveCount
+                )
+        {
+            if (totalCount != checkedCount)
+            {
+                //idle for some time.
+                System.out.println("Idle for some time, restartin proxy checkers");
+                restartProxyCheckerManager();
+            }
+        }
+        else
+        {
+            oldActiveCount = activeCount;
+            oldCheckedCount = checkedCount;
+            oldPendingCount = pendingCount;
+        }*/
+    }
+
+    private void restartProxyCheckerManager()
+    {
+        proxyCheckerManager.shutDown();
+        proxyCheckerManager = new ProxyCheckerManager(dbConnection);
+        proxyCheckerManager.start();
     }
 
     public void useTor()
@@ -93,7 +140,7 @@ public class Proxymity
         try
         {
             Statement st = dbConnection.createStatement();
-            st.execute("UPDATE `"+TABLE_NAME+"` SET status = 'pending', fullanonymous = 'no', remoteIp = NULL");
+            st.execute("UPDATE `"+TABLE_NAME+"` SET status = 'pending', fullanonymous = 'no', remoteIp = NULL, lastactive = NOW()");
             st.close();
         }
         catch (Exception e)
@@ -106,19 +153,25 @@ public class Proxymity
     {
         try
         {
-
             int totalCount = getTotalProxiesCount();
             int pendingCount = getPendingProxiesCount();
             int checkedCount = getCheckedProxiesCount();
             int activeCount = getActiveProxiesCount();
             int anonCount = getAnonymousProxiesCount();
+            int deadCount = getDeadProxiesCount();
 
-            ConsoleColors.printBlue("Proxies: Total/Checked/Active/Anonymous: "+totalCount+"/"+checkedCount+"/"+activeCount+"/"+anonCount);
+            ConsoleColors.printBlue("Proxies: Total/Checked/Active/Anonymous: "+totalCount+"/"+checkedCount+"/"+activeCount+"/"+anonCount + " Dead: "+deadCount);
         }
         catch (Exception e)
         {
             e.printStackTrace();
         }
+    }
+
+    public int getDeadProxiesCount()
+    {
+        String where = "status = 'dead' ";
+        return getWhereCount(where);
     }
 
     public int getPendingProxiesCount()
@@ -129,13 +182,13 @@ public class Proxymity
 
     public int getCheckedProxiesCount()
     {
-        String where = " status != 'pending' ";
+        String where = " status != 'pending' AND status != 'dead' ";
         return getWhereCount(where);
     }
 
     int getTotalProxiesCount()
     {
-        String where = "1";
+        String where = " status != 'dead' ";
         return getWhereCount(where);
     }
 
@@ -261,7 +314,8 @@ public class Proxymity
 
     public void startCheckers()
     {
-        new ProxyCheckerManager(dbConnection).start();;
+
+        this.proxyCheckerManager.start();
     }
 
     public boolean isTableInDatabase(Connection connection, String table )

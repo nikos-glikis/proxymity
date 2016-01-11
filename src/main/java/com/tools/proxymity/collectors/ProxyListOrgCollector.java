@@ -1,15 +1,10 @@
 package com.tools.proxymity.collectors;
 
-import com.mysql.jdbc.Util;
-import com.tools.proxymity.DataTypes.CollectorParameters;
+import com.tools.proxymity.datatypes.CollectorParameters;
+import com.tools.proxymity.datatypes.ProxyInfo;
 import com.tools.proxymity.ProxyCollector;
-import com.tools.proxymity.ProxyInfo;
 import com.toortools.Utilities;
-import com.toortools.os.OsHelper;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.sql.Connection;
 import java.util.Base64;
 import java.util.StringTokenizer;
 import java.util.Vector;

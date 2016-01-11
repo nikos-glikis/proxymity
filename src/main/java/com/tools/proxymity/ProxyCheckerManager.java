@@ -1,5 +1,8 @@
 package com.tools.proxymity;
 
+import com.tools.proxymity.datatypes.ProxyInfo;
+import com.tools.proxymity.helpers.ConsoleColors;
+
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -11,13 +14,17 @@ import java.util.concurrent.TimeUnit;
 public class ProxyCheckerManager extends Thread
 {
 
-    static final int PROXY_CHECKERS_COUNT = 150;
+
     Connection dbConnection;
+    ExecutorService fixedPool;
     public ProxyCheckerManager(Connection dbConnection)
     {
         this.dbConnection = dbConnection;
     }
-
+    public void shutDown()
+    {
+        fixedPool.shutdownNow();
+    }
     public void run()
     {
         try
@@ -25,7 +32,7 @@ public class ProxyCheckerManager extends Thread
             new ProxyChecker(new ProxyInfo(), dbConnection).setMyIp();
             while (true)
             {
-                ExecutorService fixedPool = Executors.newFixedThreadPool(PROXY_CHECKERS_COUNT);
+                fixedPool = Executors.newFixedThreadPool(Proxymity.PROXY_CHECKERS_COUNT);
                 Vector<ProxyInfo> proxyInfos = getProxiesToTest();
 
                 for (ProxyInfo proxyInfo: proxyInfos)
@@ -33,12 +40,30 @@ public class ProxyCheckerManager extends Thread
                     fixedPool.submit(new ProxyChecker(proxyInfo, dbConnection));
                 }
                 fixedPool.shutdown();
-                try {
-                    fixedPool.awaitTermination(5, TimeUnit.MINUTES);
-                } catch (InterruptedException e) {
+                markDead();
+                try
+                {
+                    fixedPool.awaitTermination(10, TimeUnit.MINUTES);
+                }
+                catch (InterruptedException e)
+                {
                     e.printStackTrace();
                 }
             }
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    private void markDead()
+    {
+        try
+        {
+            Statement st = dbConnection.createStatement();
+            st.executeUpdate("UPDATE `"+Proxymity.TABLE_NAME+"` SET status = '"+ProxyChecker.PROXY_STATUS_DEAD+"' WHERE lastactive < DATE_SUB(NOW(), INTERVAL "+ Proxymity.MARK_DEAD_AFTER_MINUTES +" MINUTE)");
+            st.close();
         }
         catch (Exception e)
         {
@@ -60,12 +85,10 @@ public class ProxyCheckerManager extends Thread
     Vector<ProxyInfo> getProxiesToTest()
     {
         Vector<ProxyInfo> proxyInfos = new Vector<ProxyInfo>();
-
         try
         {
             Statement st = dbConnection.createStatement();
-
-            ResultSet rs = st.executeQuery("SELECT id, host, port, type FROM "+Proxymity.TABLE_NAME+" WHERE status = 'pending'  UNION SELECT id, host, port, type FROM "+Proxymity.TABLE_NAME+" WHERE lastchecked is NULL  UNION SELECT id, host, port, type FROM "+Proxymity.TABLE_NAME+" WHERE lastchecked not BETWEEN DATE_SUB(NOW(), INTERVAL "+ Proxymity.RECHECK_INTERVAL_MINUTES +" MINUTE) AND NOW() ORDER BY RAND()");
+            ResultSet rs = st.executeQuery("SELECT id, host, port, type FROM "+Proxymity.TABLE_NAME+" WHERE status = 'pending'  UNION SELECT id, host, port, type FROM "+Proxymity.TABLE_NAME+" WHERE lastchecked is NULL  UNION SELECT id, host, port, type FROM "+Proxymity.TABLE_NAME+" WHERE ( status != 'dead' ) AND (lastchecked not BETWEEN DATE_SUB(NOW(), INTERVAL "+ Proxymity.RECHECK_INTERVAL_MINUTES +" MINUTE) AND NOW()) ORDER BY RAND()");
             int i = 0;
             while (rs.next())
             {
@@ -87,7 +110,6 @@ public class ProxyCheckerManager extends Thread
         {
             e.printStackTrace();
         }
-
         return proxyInfos;
     }
 }

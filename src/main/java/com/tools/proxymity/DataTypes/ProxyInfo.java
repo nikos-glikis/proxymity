@@ -1,4 +1,4 @@
-package com.tools.proxymity;
+package com.tools.proxymity.datatypes;
 
 public class ProxyInfo
 {

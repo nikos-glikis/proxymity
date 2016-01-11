@@ -1,12 +1,11 @@
 package com.tools.proxymity.collectors;
 
-import com.tools.proxymity.DataTypes.CollectorParameters;
+import com.tools.proxymity.datatypes.CollectorParameters;
+import com.tools.proxymity.datatypes.ProxyInfo;
 import com.tools.proxymity.ProxyCollector;
-import com.tools.proxymity.ProxyInfo;
 import com.toortools.Utilities;
 
 import java.io.FileNotFoundException;
-import java.sql.Connection;
 import java.util.Scanner;
 import java.util.Vector;
 import java.util.regex.Matcher;

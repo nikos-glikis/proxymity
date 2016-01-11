@@ -1,13 +1,17 @@
 package com.tools.proxymity;
 
-import com.tools.proxymity.DataTypes.CollectorParameters;
+import com.tools.proxymity.datatypes.CollectorParameters;
+import com.tools.proxymity.datatypes.ProxyInfo;
 import com.toortools.os.OsHelper;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.phantomjs.PhantomJSDriver;
 import org.openqa.selenium.phantomjs.PhantomJSDriverService;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
+import java.net.InetSocketAddress;
+import java.net.Proxy;
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.Random;
 import java.util.Vector;
@@ -190,6 +194,42 @@ abstract public class ProxyCollector extends  Thread
             );
         }
         driver = new PhantomJSDriver(caps);
+    }
 
+    protected Proxy getRandomProxy() throws Exception
+    {
+        Proxy proxy = null ;
+        try
+        {
+            Statement st = dbConnection.createStatement();
+            ResultSet rs = st.executeQuery("SELECT host,port,type FROM " + Proxymity.TABLE_NAME + " WHERE status = 'active' ORDER BY RAND() LIMIT 1");
+            if (rs.next())
+            {
+
+                String host = rs.getString(1);
+                String port = rs.getString(2);
+                String proxyType = rs.getString(3);
+                st.close();
+
+                Proxy.Type type = null;
+
+                if (proxyType.equals(ProxyInfo.PROXY_TYPES_SOCKS4)) {
+                    type = Proxy.Type.SOCKS;
+                } else if (proxyType.equals(ProxyInfo.PROXY_TYPES_SOCKS5)) {
+                    type = Proxy.Type.SOCKS;
+                } else if (proxyType.equals(ProxyInfo.PROXY_TYPES_HTTP)) {
+                    type = Proxy.Type.HTTP;
+                } else if (proxyType.equals(ProxyInfo.PROXY_TYPES_HTTPS)) {
+                    type = Proxy.Type.HTTP;
+                }
+                return new Proxy(type, new InetSocketAddress(host, Integer.parseInt(port) ));
+            }
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+            throw e;
+        }
+        return null;
     }
 }

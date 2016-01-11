@@ -1,5 +1,6 @@
 package com.tools.proxymity;
 
+import com.tools.proxymity.datatypes.ProxyInfo;
 import com.toortools.Utilities;
 
 import java.net.InetSocketAddress;
@@ -15,9 +16,10 @@ import java.util.regex.Pattern;
 
 public class ProxyChecker implements Runnable
 {
-    final static String PROXY_STATUS_PENDING = "pending";
-    final static String PROXY_STATUS_INACTIVE = "inactive";
-    final static String PROXY_STATUS_ACTIVE = "active";
+    public final static String PROXY_STATUS_PENDING = "pending";
+    public final static String PROXY_STATUS_INACTIVE = "inactive";
+    public final static String PROXY_STATUS_ACTIVE = "active";
+    public static final String PROXY_STATUS_DEAD = "dead";
     static String myIp;
     ProxyInfo proxyInfo;
     Connection dbConnection;
@@ -164,6 +166,10 @@ public class ProxyChecker implements Runnable
             id = sanitizeDatabaseInput(id);
             Statement st = dbConnection.createStatement();
             st.executeUpdate("UPDATE "+Proxymity.TABLE_NAME+" SET status = '"+proxyStatus+"', lastchecked = NOW() WHERE id = '"+id+"'");
+            if (proxyStatus.equals(ProxyChecker.PROXY_STATUS_ACTIVE))
+            {
+                st.executeUpdate("UPDATE "+Proxymity.TABLE_NAME+" SET lastactive  = NOW() WHERE id = '"+id+"'");
+            }
             st.close();
         }
         catch (Exception e)

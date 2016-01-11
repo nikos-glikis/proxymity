@@ -1,13 +1,10 @@
 package com.tools.proxymity.collectors;
 
-import com.tools.proxymity.DataTypes.CollectorParameters;
+import com.tools.proxymity.datatypes.CollectorParameters;
+import com.tools.proxymity.datatypes.ProxyInfo;
 import com.tools.proxymity.ProxyCollector;
-import com.tools.proxymity.ProxyInfo;
 import com.toortools.Utilities;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 
-import java.sql.Connection;
 import java.util.Scanner;
 import java.util.Vector;
 import java.util.regex.Matcher;

@@ -1,8 +1,8 @@
 package com.tools.proxymity.collectors;
 
-import com.tools.proxymity.DataTypes.CollectorParameters;
+import com.tools.proxymity.datatypes.CollectorParameters;
+import com.tools.proxymity.datatypes.ProxyInfo;
 import com.tools.proxymity.ProxyCollector;
-import com.tools.proxymity.ProxyInfo;
 import com.toortools.Utilities;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -20,7 +20,7 @@ public class HmaCollector extends ProxyCollector
     {
         super(collectorParameters);
         //TODO for office
-        useTor = true;
+        //useTor = true;
         initializePhantom();
         //TODO deleteme
 

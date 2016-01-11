@@ -1,4 +1,4 @@
-package com.tools.proxymity.DataTypes;
+package com.tools.proxymity.datatypes;
 
 
 import java.sql.Connection;
