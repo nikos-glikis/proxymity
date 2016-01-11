@@ -103,10 +103,10 @@ public class SamairRuCollector extends ProxyCollector
                 try
                 {
                     String line = m.group();
-                    System.out.println(line);
-                    System.exit(0);
+                    /*System.out.println(line);
+                    System.exit(0);*/
                     String ip=null;
-                    int portInt;
+                    int portInt=0;
                     if (line.contains("<span class="))
                     {
                         line = Utilities.cut("<span class=","</span",line);
