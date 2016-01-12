@@ -27,7 +27,7 @@ public class ProxyCollectorManager extends Thread
             collectors.add(new InCloakCollector(collectorParameters));
             collectors.add(new HmaCollector(collectorParameters));
             collectors.add(new ProxyListOrgCollector(collectorParameters));
-            collectors.add(new ProxyListOrgCollector(collectorParameters));
+
             collectors.add(new SSLProxiesOrgCollector(collectorParameters));
             collectors.add(new SamairRuCollector(collectorParameters));
             collectors.add(new SocksProxyNetCollector(collectorParameters));
