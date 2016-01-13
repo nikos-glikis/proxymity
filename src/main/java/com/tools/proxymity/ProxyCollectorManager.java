@@ -43,12 +43,20 @@ public class ProxyCollectorManager extends Thread
             collectors.add(new SocksListNetCollector(collectorParameters));
             collectors.add(new TorVpnComCollector(collectorParameters));
 
+           collectors.add(new GatherproxyCom(collectorParameters));
+            collectors.add(new FastproxyserversOrg(collectorParameters));
+
             //TODO Bit problematic with protections but huge.
             //collectors.add(new FreeProxyCzCollector(collectorParameters));
 
             //TODO To many results only a few good. (8000 and only 60 are good)
-            collectors.add(new Socks24OrgCollector(collectorParameters));
+            //collectors.add(new Socks24OrgCollector(collectorParameters));
 
+            //seems inactive
+            //collectors.add(new ProxyListyCom(collectorParameters));
+
+            //not much success
+            //collectors.add(new SpyIpComCollector(collectorParameters));
             for (ProxyCollector collector : collectors)
             {
                 collector.start();
