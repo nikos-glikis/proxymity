@@ -53,11 +53,56 @@ public class SocksListNetCollector extends ProxyCollector
                     break;
                 }
             }
+
+
         }
         catch (Exception e)
         {
             e.printStackTrace();
         }
+
+
+
+
+        try
+        {
+            for (int i = 1; i<150; i++)
+            {
+                driver.get("http://proxyhttp.net/free-list/anonymous-server-hide-ip-address/"+i+"#proxylist");
+                WebElement element = driver.findElement(By.tagName("body"));
+                String page = element.getText();
+
+                Pattern p = Pattern.compile("\\d+\\.\\d+\\.\\d+\\.\\d+ \\d+", Pattern.DOTALL);
+                Matcher m = p.matcher(page);
+                boolean foundAtLeastOne = false;
+                while (m.find())
+                {
+                    foundAtLeastOne = true;
+                    String line = m.group();
+                    //System.out.println(line);
+                    ProxyInfo proxyInfo = new ProxyInfo();
+                    StringTokenizer st = new StringTokenizer(line, " ");
+                    proxyInfo.setHost(st.nextToken());
+                    String port = st.nextToken();
+                    Integer.parseInt(port);
+                    proxyInfo.setPort(port);
+                    proxyInfo.setType(ProxyInfo.PROXY_TYPES_HTTP);
+                    addProxy(proxyInfo);
+                }
+                if (!foundAtLeastOne)
+                {
+                    break;
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+        //http://proxyhttp.net/free-list/anonymous-server-hide-ip-address/1#proxylist
+
+
         return getProxies();
     }
 }

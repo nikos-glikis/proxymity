@@ -13,8 +13,6 @@ import java.util.concurrent.TimeUnit;
 
 public class ProxyCheckerManager extends Thread
 {
-
-
     Connection dbConnection;
     ExecutorService fixedPool;
     public ProxyCheckerManager(Connection dbConnection)
@@ -44,6 +42,23 @@ public class ProxyCheckerManager extends Thread
                 try
                 {
                     fixedPool.awaitTermination(10, TimeUnit.MINUTES);
+                }
+                catch (InterruptedException e)
+                {
+                    e.printStackTrace();
+                }
+
+                fixedPool = Executors.newFixedThreadPool(Proxymity.PROXY_CHECKERS_COUNT);
+
+                proxyInfos  = getRandomDeadProxies(500);
+                for (ProxyInfo proxyInfo: proxyInfos)
+                {
+                    fixedPool.submit(new ProxyChecker(proxyInfo, dbConnection));
+                }
+                fixedPool.shutdown();
+                try
+                {
+                    fixedPool.awaitTermination(3, TimeUnit.MINUTES);
                 }
                 catch (InterruptedException e)
                 {
@@ -82,13 +97,11 @@ public class ProxyCheckerManager extends Thread
         ConsoleColors.printGreen(getDateTimeAsString()+ ": "+message);
     }
 
-    Vector<ProxyInfo> getProxiesToTest()
+    Vector<ProxyInfo> getProxyInfosFromResultSet(ResultSet rs)
     {
         Vector<ProxyInfo> proxyInfos = new Vector<ProxyInfo>();
         try
         {
-            Statement st = dbConnection.createStatement();
-            ResultSet rs = st.executeQuery("SELECT id, host, port, type FROM "+Proxymity.TABLE_NAME+" WHERE status = 'pending'  UNION SELECT id, host, port, type FROM "+Proxymity.TABLE_NAME+" WHERE lastchecked is NULL  UNION SELECT id, host, port, type FROM "+Proxymity.TABLE_NAME+" WHERE ( status != 'dead' ) AND (lastchecked not BETWEEN DATE_SUB(NOW(), INTERVAL "+ Proxymity.RECHECK_INTERVAL_MINUTES +" MINUTE) AND NOW()) ORDER BY RAND()");
             int i = 0;
             while (rs.next())
             {
@@ -100,6 +113,46 @@ public class ProxyCheckerManager extends Thread
                 proxyInfo.setType(rs.getString(4));
                 proxyInfos.add(proxyInfo);
             }
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return proxyInfos;
+    }
+
+    Vector<ProxyInfo> getRandomDeadProxies( int count)
+    {
+        Vector<ProxyInfo> proxyInfos = new Vector<ProxyInfo>();
+        try
+        {
+            Statement st = dbConnection.createStatement();
+            ResultSet rs = st.executeQuery("SELECT id, host, port, type FROM "+Proxymity.TABLE_NAME+" WHERE status = 'dead'  ORDER BY RAND() LIMIT "+count);
+            proxyInfos = getProxyInfosFromResultSet(rs);
+            int i = proxyInfos.size();
+            printMessage("Fetched "+i+ " random dead proxies for check.  ");
+            if (i < 10)
+            {
+                Thread.sleep(5000);
+            }
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return proxyInfos;
+    }
+
+    Vector<ProxyInfo> getProxiesToTest()
+    {
+        Vector<ProxyInfo> proxyInfos = new Vector<ProxyInfo>();
+        try
+        {
+            Statement st = dbConnection.createStatement();
+            ResultSet rs = st.executeQuery("SELECT id, host, port, type FROM "+Proxymity.TABLE_NAME+" WHERE status = 'pending'  UNION SELECT id, host, port, type FROM "+Proxymity.TABLE_NAME+" WHERE lastchecked is NULL  UNION SELECT id, host, port, type FROM "+Proxymity.TABLE_NAME+" WHERE ( status != 'dead' ) AND (lastchecked not BETWEEN DATE_SUB(NOW(), INTERVAL "+ Proxymity.RECHECK_INTERVAL_MINUTES +" MINUTE) AND NOW()) ORDER BY RAND()");
+
+            proxyInfos = getProxyInfosFromResultSet(rs);
+            int i = proxyInfos.size();
             printMessage("Fetched "+i+ " proxies for check. ");
             if (i < 10)
             {

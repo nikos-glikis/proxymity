@@ -16,19 +16,10 @@ import java.util.regex.Pattern;
 public class InCloakCollector extends ProxyCollector
 {
     //String imageMagickPath = "C:\\Program Files\\ImageMagick-6.9.3-Q16\\convert.exe";
-    String imageMagickPath = "bin\\imageMagick\\convert.exe";
+
     public InCloakCollector(CollectorParameters collectorParameters)
     {
         super(collectorParameters);
-        if (!new File("tmp/").isDirectory())
-        {
-            new File("tmp").mkdir();
-        }
-
-        if (OsHelper.isWindows() && ! new File(imageMagickPath).exists())
-        {
-            System.out.println("Image magick is not installed, please install or update installation path. (http://www.imagemagick.org/download/binaries/ImageMagick-6.9.3-0-Q16-x64-dll.exe)");
-        }
     }
 
     public Vector<ProxyInfo> collectProxies()
@@ -117,73 +108,5 @@ public class InCloakCollector extends ProxyCollector
             e.printStackTrace();
         }
         return getProxies();
-    }
-
-    private String ocrImage(String filename)
-    {
-        String text = "";
-        try
-        {
-            String gocrPath = "gocr";
-            String command;
-            if (OsHelper.isWindows())
-            {
-                gocrPath = "bin/gocr049.exe";
-            }
-            command = gocrPath + " -C \"0123456789\" " + filename;
-            Runtime rt = Runtime.getRuntime();
-            Process pr = rt.exec(command);
-            BufferedReader input = new BufferedReader(new InputStreamReader(pr.getInputStream()));
-
-            String line=null;
-            StringBuffer sb = new StringBuffer();
-            while((line=input.readLine()) != null)
-            {
-                sb.append(line);
-            }
-            return sb.toString();
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-        return text;
-    }
-
-    private void convertImageToPnm(String inputFilename, String outputFilename )
-    {
-        try
-        {
-            Runtime rt = Runtime.getRuntime();
-            String command;
-            String convertPath = "convert";
-            if (OsHelper.isWindows())
-            {
-                convertPath = imageMagickPath;
-            }
-
-            command = convertPath+ " " +  inputFilename + " " +outputFilename+"";
-            Process pr = rt.exec(command);
-            BufferedReader input = new BufferedReader(new InputStreamReader(pr.getInputStream()));
-
-            String line=null;
-
-            while((line=input.readLine()) != null) {
-                System.out.println(line);
-            }
-
-            input = new BufferedReader(new InputStreamReader(pr.getErrorStream()));
-
-            line=null;
-
-            while((line=input.readLine()) != null) {
-                System.out.println(line);
-            }
-            //System.out.println(pr.waitFor());
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
     }
 }

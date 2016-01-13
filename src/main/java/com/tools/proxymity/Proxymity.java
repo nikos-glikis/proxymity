@@ -72,9 +72,9 @@ public class Proxymity
         {
             public void run()
             {
+
                 while (true)
                 {
-
                     try
                     {
                         printStatusReport();

@@ -22,8 +22,9 @@ public class Socks24OrgCollector extends ProxyCollector
         try
         {
             //
-            doUrl("http://socksproxylist24.blogspot.com.cy/search?&max-results=40&start=0&by-date=false");
+            //doUrl("http://socksproxylist24.blogspot.com.cy/search?&max-results=40&start=0&by-date=false");
             //doUrl("http://www.socks24.org/search?&max-results=40&start=0&by-date=false");
+            doUrl("http://sslproxies24.blogspot.com.cy/search?&max-results=40&start=0&by-date=false");
 
         }
         catch (Exception e)
