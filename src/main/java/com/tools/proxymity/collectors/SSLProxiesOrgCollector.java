@@ -35,8 +35,6 @@ public class SSLProxiesOrgCollector extends ProxyCollector
                         String ip = Utilities.cut("<tr><td>", "<", line);
                         String port = Utilities.cut("</td><td>", "<", line);
                         Integer.parseInt(port);
-                        /*System.out.println("Ip: " + ip);
-                        System.out.println("Port: " + port);*/
                         ProxyInfo proxyInfo = new ProxyInfo();
                         proxyInfo.setHost(ip);
                         proxyInfo.setPort(port);

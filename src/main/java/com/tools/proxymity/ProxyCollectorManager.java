@@ -24,7 +24,7 @@ public class ProxyCollectorManager extends Thread
         {
             Vector<ProxyCollector> collectors = new Vector<ProxyCollector>();
 
-                /*collectors.add(new InCloakCollector(collectorParameters));
+                collectors.add(new InCloakCollector(collectorParameters));
                 collectors.add(new HmaCollector(collectorParameters));
                 collectors.add(new ProxyListOrgCollector(collectorParameters));
 
@@ -46,8 +46,12 @@ public class ProxyCollectorManager extends Thread
                 collectors.add(new GatherproxyCom(collectorParameters));
                 collectors.add(new FastproxyserversOrg(collectorParameters));
                 collectors.add(new MyproxylistsCom(collectorParameters));
-                collectors.add(new Proxies4googleCom(collectorParameters));*/
+                collectors.add(new Proxies4googleCom(collectorParameters));
                 collectors.add(new ProxyFireNet(collectorParameters));
+                collectors.add(new CnproxyCom(collectorParameters));
+                collectors.add(new ProxyroxComCollector(collectorParameters));
+                collectors.add(new enProxyNetPlCollector(collectorParameters));
+                collectors.add(new MaxiproxiesComCollector(collectorParameters));
 
                 //TODO Bit problematic with protections but huge.
                 //collectors.add(new FreeProxyCzCollector(collectorParameters));
