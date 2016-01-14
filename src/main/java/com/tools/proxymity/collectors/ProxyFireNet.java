@@ -32,13 +32,11 @@ public class ProxyFireNet extends ProxyCollector
     {
         try
         {
-            //processPorts();
+            processPorts();
             processLink("http://www.proxyfire.net/index.php?pageid=eliteproxylist", ProxyInfo.PROXY_TYPES_HTTP);
             processLink("http://www.proxyfire.net/index.php?pageid=anonymousproxylist", ProxyInfo.PROXY_TYPES_HTTP);
             processLink("http://www.proxyfire.net/index.php?pageid=socks4proxylist", ProxyInfo.PROXY_TYPES_SOCKS4);
             processLink("http://www.proxyfire.net/index.php?pageid=socks5proxylist", ProxyInfo.PROXY_TYPES_SOCKS5);
-            System.exit(0);
-
         }
         catch (Exception e)
         {
