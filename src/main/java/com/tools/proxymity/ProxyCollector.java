@@ -50,8 +50,13 @@ abstract public class ProxyCollector extends  Thread
     }
     public abstract Vector<ProxyInfo> collectProxies();
 
-    final int SLEEP_SECONDS_BETWEEN_SCANS = 30;
+    int SLEEP_SECONDS_BETWEEN_SCANS = 30;
 
+
+    public void setSleepSecondsBetweenScans(int minutes)
+    {
+        this.SLEEP_SECONDS_BETWEEN_SCANS = minutes;
+    }
 
     public void run()
     {
@@ -290,6 +295,43 @@ abstract public class ProxyCollector extends  Thread
             }
 
             command = convertPath+ " " +  inputFilename + " " +outputFilename+"";
+            Process pr = rt.exec(command);
+            BufferedReader input = new BufferedReader(new InputStreamReader(pr.getInputStream()));
+
+            String line=null;
+
+            while((line=input.readLine()) != null) {
+                System.out.println(line);
+            }
+
+            input = new BufferedReader(new InputStreamReader(pr.getErrorStream()));
+
+            line=null;
+
+            while((line=input.readLine()) != null) {
+                System.out.println(line);
+            }
+            //System.out.println(pr.waitFor());
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    public void convertImageToPnmDark(String inputFilename, String outputFilename )
+    {
+        try
+        {
+            Runtime rt = Runtime.getRuntime();
+            String command;
+            String convertPath = "convert";
+            if (OsHelper.isWindows())
+            {
+                convertPath = imageMagickPath;
+            }
+
+            command = convertPath+ " -type Grayscale -depth 8 -black-threshold 87% -density 300 " +  inputFilename + " " +outputFilename+"";
             Process pr = rt.exec(command);
             BufferedReader input = new BufferedReader(new InputStreamReader(pr.getInputStream()));
 

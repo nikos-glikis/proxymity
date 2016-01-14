@@ -3,6 +3,9 @@ package com.tools.proxymity.collectors;
 import com.tools.proxymity.datatypes.CollectorParameters;
 import com.tools.proxymity.datatypes.ProxyInfo;
 import com.tools.proxymity.ProxyCollector;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 
 import java.util.Vector;
 

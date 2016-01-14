@@ -24,36 +24,39 @@ public class ProxyCollectorManager extends Thread
         {
             Vector<ProxyCollector> collectors = new Vector<ProxyCollector>();
 
-            collectors.add(new InCloakCollector(collectorParameters));
-            collectors.add(new HmaCollector(collectorParameters));
-            collectors.add(new ProxyListOrgCollector(collectorParameters));
+                /*collectors.add(new InCloakCollector(collectorParameters));
+                collectors.add(new HmaCollector(collectorParameters));
+                collectors.add(new ProxyListOrgCollector(collectorParameters));
 
-            collectors.add(new SSLProxiesOrgCollector(collectorParameters));
-            collectors.add(new SamairRuCollector(collectorParameters));
-            collectors.add(new SocksProxyNetCollector(collectorParameters));
-            collectors.add(new SocksProxyNetCollector(collectorParameters));
-            collectors.add(new FreeProxyListNetCollector(collectorParameters));
-            collectors.add(new CoolProxyNetCollector(collectorParameters));
+                collectors.add(new SSLProxiesOrgCollector(collectorParameters));
+                collectors.add(new SamairRuCollector(collectorParameters));
+                collectors.add(new SocksProxyNetCollector(collectorParameters));
+                collectors.add(new SocksProxyNetCollector(collectorParameters));
+                collectors.add(new FreeProxyListNetCollector(collectorParameters));
+                collectors.add(new CoolProxyNetCollector(collectorParameters));
 
-            collectors.add(new XroxyComCollector(collectorParameters));
-            collectors.add(new ProxyNovaComCollector(collectorParameters));
-            collectors.add(new Socks24OrgCollector(collectorParameters));
-            collectors.add(new MrHinkyDinkCollector(collectorParameters));
-            collectors.add(new ProxyMooJpCollector(collectorParameters));
-            collectors.add(new SocksListNetCollector(collectorParameters));
-            collectors.add(new TorVpnComCollector(collectorParameters));
+                collectors.add(new XroxyComCollector(collectorParameters));
+                collectors.add(new ProxyNovaComCollector(collectorParameters));
+                collectors.add(new Socks24OrgCollector(collectorParameters));
+                collectors.add(new MrHinkyDinkCollector(collectorParameters));
+                collectors.add(new ProxyMooJpCollector(collectorParameters));
+                collectors.add(new SocksListNetCollector(collectorParameters));
+                collectors.add(new TorVpnComCollector(collectorParameters));
 
-           collectors.add(new GatherproxyCom(collectorParameters));
-            collectors.add(new FastproxyserversOrg(collectorParameters));
+                collectors.add(new GatherproxyCom(collectorParameters));
+                collectors.add(new FastproxyserversOrg(collectorParameters));
+                collectors.add(new MyproxylistsCom(collectorParameters));
+                collectors.add(new Proxies4googleCom(collectorParameters));*/
+                collectors.add(new ProxyFireNet(collectorParameters));
 
-            //TODO Bit problematic with protections but huge.
-            //collectors.add(new FreeProxyCzCollector(collectorParameters));
+                //TODO Bit problematic with protections but huge.
+                //collectors.add(new FreeProxyCzCollector(collectorParameters));
 
-            //TODO To many results only a few good. (8000 and only 60 are good)
-            //collectors.add(new Socks24OrgCollector(collectorParameters));
+                //TODO To many results only a few good. (8000 and only 60 are good)
+                //collectors.add(new Socks24OrgCollector(collectorParameters));
 
-            //seems inactive
-            //collectors.add(new ProxyListyCom(collectorParameters));
+                //seems inactive
+                //collectors.add(new ProxyListyCom(collectorParameters));
 
             //not much success
             //collectors.add(new SpyIpComCollector(collectorParameters));

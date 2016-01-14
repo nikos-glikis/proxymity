@@ -77,8 +77,6 @@ public class ProxyChecker implements Runnable
             {
                 markProxyNoGood(proxyInfo);
                 System.out.println("Proxy Not Anonymous.");
-
-
                 //Never seen that
             }
             else
@@ -87,7 +85,7 @@ public class ProxyChecker implements Runnable
                 setProxyRemoteIp(proxyInfo, ip);
                 try
                 {
-                    String page =Utilities.readUrl("http://ip.cc/anonymity-test.php");
+                    String page = Utilities.readUrl("http://ip.cc/anonymity-test.php");
                     if (page.contains("high-anonymous (elit"))
                     {
                         markProxyAnonymous(proxyInfo);
@@ -164,6 +162,7 @@ public class ProxyChecker implements Runnable
         {
             String id = proxyInfo.getId();
             id = sanitizeDatabaseInput(id);
+
             Statement st = dbConnection.createStatement();
             st.executeUpdate("UPDATE "+Proxymity.TABLE_NAME+" SET status = '"+proxyStatus+"', lastchecked = NOW() WHERE id = '"+id+"'");
             if (proxyStatus.equals(ProxyChecker.PROXY_STATUS_ACTIVE))
@@ -186,7 +185,7 @@ public class ProxyChecker implements Runnable
         return value.replace("'","''");
     }
 
-    private Proxy getProxyFromProxyInfo(ProxyInfo proxyInfo)
+    private static Proxy getProxyFromProxyInfo(ProxyInfo proxyInfo)
     {
         Proxy.Type type = null;
 
