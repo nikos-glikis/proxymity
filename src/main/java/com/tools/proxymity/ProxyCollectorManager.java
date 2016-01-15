@@ -53,6 +53,13 @@ public class ProxyCollectorManager extends Thread
                 collectors.add(new enProxyNetPlCollector(collectorParameters));
                 collectors.add(new MaxiproxiesComCollector(collectorParameters));
 
+                collectors.add(new UltraProxiesComCollector(collectorParameters));
+
+
+
+                // Problematic
+                // collectors.add(new IdcloakComCollector(collectorParameters));
+
                 //TODO Bit problematic with protections but huge.
                 //collectors.add(new FreeProxyCzCollector(collectorParameters));
 
