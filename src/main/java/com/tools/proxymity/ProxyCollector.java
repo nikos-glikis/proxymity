@@ -192,7 +192,7 @@ abstract public class ProxyCollector extends  Thread
             };
         }
 
-
+        String userAgent = "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:43.0) Gecko/20100101 Firefox/43.0";
 
         if (OsHelper.isWindows())
         {
@@ -206,6 +206,7 @@ abstract public class ProxyCollector extends  Thread
             ((DesiredCapabilities) caps).setCapability(
                     PhantomJSDriverService.PHANTOMJS_CLI_ARGS, phantomArgs
             );
+            ((DesiredCapabilities) caps).setCapability(PhantomJSDriverService.PHANTOMJS_PAGE_SETTINGS_PREFIX + "userAgent", userAgent);
         }
         else
         {
@@ -214,7 +215,9 @@ abstract public class ProxyCollector extends  Thread
             ((DesiredCapabilities) caps).setCapability(
                     PhantomJSDriverService.PHANTOMJS_CLI_ARGS, phantomArgs
             );
+            ((DesiredCapabilities) caps).setCapability(PhantomJSDriverService.PHANTOMJS_PAGE_SETTINGS_PREFIX + "userAgent", userAgent);
         }
+
         driver = new PhantomJSDriver(caps);
     }
 

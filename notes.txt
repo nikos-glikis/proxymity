@@ -8,7 +8,7 @@ Websites To Support:
 
 http://www.idcloak.com/proxylist/proxy-list.html
 http://www.echolink.org/proxylist.jsp
-http://www.ultraproxies.com/
+
 http://www.proxy4ever.com/
 http://www.proxyblind.org/anonymous-proxy.shtml
 http://www.proxyblind.org/free-proxy.shtml
