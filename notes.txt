@@ -1,4 +1,10 @@
-
+Not Updated:
+http://www.proxy4ever.com/
+http://www.proxyblind.org/anonymous-proxy.shtml
+http://www.proxyblind.org/free-proxy.shtml
+http://www.proxyblind.org/proxy-list.shtml
+http://www.proxyblind.org/ssl.shtml
+http://www.ultrasurf.org/
 
 TO install:
 
@@ -9,16 +15,15 @@ Websites To Support:
 http://www.idcloak.com/proxylist/proxy-list.html
 http://www.echolink.org/proxylist.jsp
 
-http://www.proxy4ever.com/
-http://www.proxyblind.org/anonymous-proxy.shtml
-http://www.proxyblind.org/free-proxy.shtml
-http://www.proxyblind.org/proxy-list.shtml
-http://www.proxyblind.org/ssl.shtml
-http://www.ultrasurf.org/
+
+
+
 
 FROM http://www.blackhatworld.com/blackhat-seo/black-hat-seo/773345-url-list-proxy-leeching.html
 
-http://proxy50-50.blogspot.in/
+http://50na50.net/proxy/socks4list
+http://50na50.net/proxy/httplist
+http://50na50.net/proxy/socks5list
 http://proxy50-50.blogspot.in/feeds/posts/default
 http://socks24.ru/socks_4_5_proxy/
 http://maxiproxies.com/feed/
@@ -466,7 +471,7 @@ http://www.proxyblind.org/ssl.shtml
 http://www.proxyforest.com/proxy.htm
 http://www.socks-proxy.net/
 http://www.sslproxies.org/
-http://www.ultrasurf.org/
+
 http://www.us-proxy.org/
 http://proxylist.hidemyass.com/1
 http://proxylist.hidemyass.com/2

@@ -29,40 +29,4 @@ public class MaxiproxiesComCollector extends ProxyCollector
         }
         return getProxies();
     }
-
-    private void genericParsingOfUrl(String url, String type)
-    {
-        try
-        {
-            String page = Utilities.readUrl(url);
-            Pattern p = Pattern.compile("\\d+\\.\\d+\\.\\d+\\.\\d+:\\d+");
-            Matcher m = p.matcher(page);
-
-            while (m.find())
-            {
-                try
-                {
-                    String line = m.group();
-                    //System.out.println(line);
-                    StringTokenizer st = new StringTokenizer(line, ":");
-                    String ip = st.nextToken();
-                    String port = st.nextToken();
-                    Integer.parseInt(port);
-                    ProxyInfo proxyInfo = new ProxyInfo();
-                    proxyInfo.setHost(ip);
-                    proxyInfo.setPort(port);
-                    proxyInfo.setType(type);
-                    addProxy(proxyInfo);
-                }
-                catch (Exception e)
-                {
-                    e.printStackTrace();
-                }
-            }
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-    }
 }

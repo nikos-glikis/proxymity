@@ -2,6 +2,7 @@ package com.tools.proxymity;
 
 import com.tools.proxymity.datatypes.CollectorParameters;
 import com.tools.proxymity.datatypes.ProxyInfo;
+import com.toortools.Utilities;
 import com.toortools.os.OsHelper;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.phantomjs.PhantomJSDriver;
@@ -17,8 +18,11 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.Random;
+import java.util.StringTokenizer;
 import java.util.Vector;
 import java.util.logging.Level;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 abstract public class ProxyCollector extends  Thread
 {
@@ -358,4 +362,41 @@ abstract public class ProxyCollector extends  Thread
             e.printStackTrace();
         }
     }
+
+    protected void genericParsingOfUrl(String url, String type)
+    {
+        try
+        {
+            String page = Utilities.readUrl(url);
+            Pattern p = Pattern.compile("\\d+\\.\\d+\\.\\d+\\.\\d+:\\d+");
+            Matcher m = p.matcher(page);
+
+            while (m.find())
+            {
+                try
+                {
+                    String line = m.group();
+                    //System.out.println(line);
+                    StringTokenizer st = new StringTokenizer(line, ":");
+                    String ip = st.nextToken();
+                    String port = st.nextToken();
+                    Integer.parseInt(port);
+                    ProxyInfo proxyInfo = new ProxyInfo();
+                    proxyInfo.setHost(ip);
+                    proxyInfo.setPort(port);
+                    proxyInfo.setType(type);
+                    addProxy(proxyInfo);
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
 }
