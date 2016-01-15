@@ -54,7 +54,7 @@ public class ProxyCollectorManager extends Thread
                 collectors.add(new MaxiproxiesComCollector(collectorParameters));
 
                 //TODO Bit problematic with protections but huge.
-                //collectors.add(new FreeProxyCzCollector(collectorParameters));
+                collectors.add(new FreeProxyCzCollector(collectorParameters));
 
                 //TODO To many results only a few good. (8000 and only 60 are good)
                 //collectors.add(new Socks24OrgCollector(collectorParameters));
