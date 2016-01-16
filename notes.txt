@@ -1,3 +1,6 @@
+//TODO see again.
+http://www.proxylists.net/kr_0.html
+
 Not Updated:
 http://www.proxy4ever.com/
 http://www.proxyblind.org/anonymous-proxy.shtml
@@ -21,31 +24,6 @@ http://www.echolink.org/proxylist.jsp
 
 FROM http://www.blackhatworld.com/blackhat-seo/black-hat-seo/773345-url-list-proxy-leeching.html
 
-http://50na50.net/proxy/socks4list
-http://50na50.net/proxy/httplist
-http://50na50.net/proxy/socks5list
-http://proxy50-50.blogspot.in/feeds/posts/default
-http://socks24.ru/socks_4_5_proxy/
-http://maxiproxies.com/feed/
-http://the-proxy-list.com/
-http://fineproxy.org/eng/
-http://maxiproxies.com/proxy-lists/feed/
-http://www.sshproxy.info/feeds/posts/default?alt=rss
-http://fineproxy.org/eng/?p=6
-http://freeproxylistsdaily.blogspot.in/feeds/posts/default
-http://www.us-proxy.org/
-https://happy-proxy.com/fresh_proxies?key=2230e82110412f1b
-https://incloak.com/proxy-list/
-http://01hitfaker.blogspot.com/feeds/posts/default?alt=rss
-http://proxysearcher.sourceforge.net/Proxy%20List.php?type=socks
-http://proxysearcher.sourceforge.net/Proxy%20List.php%3Ftype%3Dhttp
-http://dogdev.net/Proxy/all
-http://samair.ru/proxy/socks01.htm
-http://the-proxy-list.com/proxies-by-type/scrapebox-proxies/
-http://www.reliableproxylist.com/feeds/posts/default
-http://50na50.net/
-http://www.cool-proxy.net/proxies/http_proxy_list/
-http://dogdev.net/Proxy/US?port=80
 http://www.proxylists.net/
 http://www.proxz.com/proxy_list_high_anonymous_0.html
 http://free-pass.ru/forum/79
@@ -136,7 +114,9 @@ http://proxylist.hidemyass.com/
 http://proxy-masterz.com/vb/f3/23529/
 http://proxy-masterz.com/vb/f3/23462/
 http://proxy-masterz.com/vb/f3/23470/
-
+http://50na50.net/proxy/socks4list
+http://50na50.net/proxy/httplist
+http://50na50.net/proxy/socks5list
 
 FROM http://pastebin.com/raw/TSqM5Qct
 

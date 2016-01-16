@@ -89,8 +89,23 @@ public class InCloakCollector extends ProxyCollector
                     }
                     else
                     {
-                        System.out.println("Type: "+typeText);
-                        continue;
+                        if (typeText.contains("HTTP"))
+                        {
+                            proxyInfo.setType(ProxyInfo.PROXY_TYPES_HTTP);
+                        }
+                        else if (typeText.contains("SOCKS4"))
+                        {
+                            proxyInfo.setType(ProxyInfo.PROXY_TYPES_SOCKS4);
+                        }
+                        else if (typeText.contains("SOCKS5"))
+                        {
+                            proxyInfo.setType(ProxyInfo.PROXY_TYPES_SOCKS5);
+                        }
+                        else
+                        {
+                            System.out.println("nType: "+typeText);
+                            continue;
+                        }
                     }
 
                     addProxy(proxyInfo);

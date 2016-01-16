@@ -4,7 +4,9 @@ import com.tools.proxymity.datatypes.CollectorParameters;
 import com.tools.proxymity.datatypes.ProxyInfo;
 import com.toortools.Utilities;
 import com.toortools.os.OsHelper;
+import org.openqa.selenium.By;
 import org.openqa.selenium.Capabilities;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.phantomjs.PhantomJSDriver;
 import org.openqa.selenium.phantomjs.PhantomJSDriverService;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -398,5 +400,75 @@ abstract public class ProxyCollector extends  Thread
             e.printStackTrace();
         }
     }
+    protected void genericParsingOfUrlSpace(String page, String type)
+    {
+        try
+        {
+            Pattern p = Pattern.compile("\\d+\\.\\d+\\.\\d+\\.\\d+ \\d+");
+            Matcher m = p.matcher(page);
 
+            while (m.find())
+            {
+                try
+                {
+                    String line = m.group();
+                    //System.out.println(line);
+                    StringTokenizer st = new StringTokenizer(line, " ");
+                    String ip = st.nextToken();
+                    String port = st.nextToken();
+                    Integer.parseInt(port);
+                    ProxyInfo proxyInfo = new ProxyInfo();
+                    proxyInfo.setHost(ip);
+                    proxyInfo.setPort(port);
+                    proxyInfo.setType(type);
+                    addProxy(proxyInfo);
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+    public Vector<String> extractTableRows(String url)
+    {
+        Vector<String> rows = new Vector<>();
+        try
+        {
+            String page = Utilities.readUrl(url);
+            Pattern p = Pattern.compile("<tr.*?</tr>");
+            Matcher m = p.matcher(page);
+
+            while (m.find())
+            {
+                String line = m.group();
+                rows.add(line);
+            }
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return rows;
+    }
+
+    public String getUrlBodyTextWithPhantom(String url)
+    {
+        try
+        {
+
+            driver.get(url);
+            WebElement webElement = driver.findElement(By.tagName("body"));
+            return webElement.getText();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return"";
+    }
 }

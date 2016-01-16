@@ -54,6 +54,13 @@ public class ProxyCollectorManager extends Thread
                 collectors.add(new MaxiproxiesComCollector(collectorParameters));
 
                 collectors.add(new UltraProxiesComCollector(collectorParameters));
+                collectors.add(new fiftyna50NetCollector(collectorParameters));
+                collectors.add(new socks24RuCollector(collectorParameters));
+                collectors.add(new theProxyListComCollector(collectorParameters));
+                collectors.add(new fineProxyOrgCollector(collectorParameters));
+                collectors.add(new freeProxyListsDailyBlogspotInCollector(collectorParameters));
+                collectors.add(new UsProxyOrgCollector(collectorParameters));
+                collectors.add(new happyProxyComCollector(collectorParameters));
 
 
 
@@ -61,7 +68,7 @@ public class ProxyCollectorManager extends Thread
                 // collectors.add(new IdcloakComCollector(collectorParameters));
 
                 //TODO Bit problematic with protections but huge.
-                collectors.add(new FreeProxyCzCollector(collectorParameters));
+                //collectors.add(new FreeProxyCzCollector(collectorParameters));
 
                 //TODO To many results only a few good. (8000 and only 60 are good)
                 //collectors.add(new Socks24OrgCollector(collectorParameters));
