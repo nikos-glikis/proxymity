@@ -38,7 +38,7 @@ abstract public class ProxyCollector extends  Thread
     {
         try
         {
-            Thread.sleep(new Random().nextInt(30000));
+            Thread.sleep(new Random().nextInt(5000));
         }
         catch (Exception e)
         {

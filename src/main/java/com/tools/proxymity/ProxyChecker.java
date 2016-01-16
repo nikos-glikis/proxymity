@@ -85,16 +85,16 @@ public class ProxyChecker implements Runnable
                 setProxyRemoteIp(proxyInfo, ip);
                 try
                 {
-                    String page = Utilities.readUrl("http://ip.cc/anonymity-test.php");
+                  /*  String page = Utilities.readUrl("http://ip.cc/anonymity-test.php");
                     if (page.contains("high-anonymous (elit"))
                     {
                         markProxyAnonymous(proxyInfo);
-                        page = Utilities.readUrl("http://www.iprivacytools.com/proxy-checker-anonymity-test/");
+*//*                        page = Utilities.readUrl("http://www.iprivacytools.com/proxy-checker-anonymity-test/");
                         if (!page.contains("Proxy detected? <span style='background-color:#ffff99;'>NO</span"))
                         {
                             System.out.println("Anon error");
-                        }
-                    }
+                        }*//*
+                    }*/
                 }
                 catch (Exception e)
                 {
