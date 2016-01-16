@@ -36,6 +36,14 @@ abstract public class ProxyCollector extends  Thread
     protected boolean useTor = false;
     public ProxyCollector(CollectorParameters collectorParameters)
     {
+        try
+        {
+            Thread.sleep(new Random().nextInt(30000));
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
         //this.collectorParameters = collectorParameters;
         this.dbConnection = collectorParameters.getDbConnection();
         this.useTor = collectorParameters.isUseTor();

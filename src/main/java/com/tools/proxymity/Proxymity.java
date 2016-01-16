@@ -18,7 +18,7 @@ public class Proxymity
     //TODO implement muntiple anonymous detectors
     //TODO reset attributes on start
     //TODO use tor
-    static final public int PROXY_CHECKERS_COUNT = 150;
+    static final public int PROXY_CHECKERS_COUNT = 500;
     static final public String TABLE_NAME = "proxymity_proxies";
     public static final int RECHECK_INTERVAL_MINUTES = 20;
     public static final long SLEEP_BETWEEN_REPORTS_SECONDS = 30;
