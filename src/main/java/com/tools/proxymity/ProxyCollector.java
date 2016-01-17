@@ -93,6 +93,11 @@ abstract public class ProxyCollector extends  Thread
                 Thread.sleep(new Random().nextInt(5000));
                 initProxies();
                 Vector<ProxyInfo> proxyInfos = collectProxies();
+                if (driver != null)
+                {
+                    driver.close();
+                    initializePhantom();
+                }
 
                 writeProxyInfoToDatabase(proxyInfos);
 
@@ -483,12 +488,12 @@ abstract public class ProxyCollector extends  Thread
                 return sb.toString();
             }
         }
-        catch (SocketTimeoutException e)
+        catch (SocketException e)
         {
             //System.out.println("Timeout");
             return anonReadUrl(url);
         }
-        catch (ConnectException e)
+        catch (SocketTimeoutException e)
         {
             //System.out.println("Timeout");
             return anonReadUrl(url);
@@ -566,7 +571,7 @@ abstract public class ProxyCollector extends  Thread
         return rows;
     }
 
-    public String getUrlBodyTextWithPhantom(String url)
+    public synchronized String getUrlBodyTextWithPhantom(String url)
     {
         try
         {

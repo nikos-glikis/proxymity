@@ -20,6 +20,7 @@ public class Proxymity
     //TODO use tor
     //TODO global get functions / anonymize.
     //TODO delete dead after some time
+    //TODO transform random 500 to last order by checked
     static final public int PROXY_CHECKERS_COUNT = 500;
     static final public String TABLE_NAME = "proxymity_proxies";
     public static final int RECHECK_INTERVAL_MINUTES = 20;
