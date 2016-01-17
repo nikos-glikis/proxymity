@@ -18,11 +18,13 @@ public class Proxymity
     //TODO implement muntiple anonymous detectors
     //TODO reset attributes on start
     //TODO use tor
-    static final public int PROXY_CHECKERS_COUNT = 500;
+    static final public int PROXY_CHECKERS_COUNT = 250;
     static final public String TABLE_NAME = "proxymity_proxies";
     public static final int RECHECK_INTERVAL_MINUTES = 20;
     public static final long SLEEP_BETWEEN_REPORTS_SECONDS = 30;
     public static final long MARK_DEAD_AFTER_MINUTES = 60;
+    public static final long PHANTOM_JS_TIMEOUT_SECONDS = 5;
+    public static final int SLEEP_SECONDS_BETWEEN_SCANS = 120; ;
     public boolean useTor = false;
     ProxyCheckerManager proxyCheckerManager;
 
@@ -302,6 +304,8 @@ public class Proxymity
             CollectorParameters collectorParameters = new CollectorParameters();
             collectorParameters.setUseTor(useTor);
             collectorParameters.setDbConnection(dbConnection);
+            collectorParameters.setSleepBetweenScansSeconds(Proxymity.SLEEP_SECONDS_BETWEEN_SCANS);
+
             new ProxyCollectorManager(collectorParameters).start();
         }
         catch (Exception e)

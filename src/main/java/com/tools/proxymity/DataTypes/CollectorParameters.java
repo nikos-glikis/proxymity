@@ -7,6 +7,15 @@ public class CollectorParameters
 {
     Connection dbConnection;
     boolean useTor;
+    int sleepBetweenScansSeconds;
+
+    public int getSleepBetweenScansSeconds() {
+        return sleepBetweenScansSeconds;
+    }
+
+    public void setSleepBetweenScansSeconds(int sleepBetweenScansSeconds) {
+        this.sleepBetweenScansSeconds = sleepBetweenScansSeconds;
+    }
 
     public Connection getDbConnection()
     {

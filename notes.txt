@@ -24,8 +24,8 @@ http://www.echolink.org/proxylist.jsp
 
 FROM http://www.blackhatworld.com/blackhat-seo/black-hat-seo/773345-url-list-proxy-leeching.html
 
-http://www.proxylists.net/
-http://www.proxz.com/proxy_list_high_anonymous_0.html
+http://www.proxyrss.com/all.html
+http://www.freeproxylists.com/
 http://free-pass.ru/forum/79
 http://www.proxz.com/proxy_list_anonymous_us_0.html
 http://www.proxz.com/proxy_list_uk_0.html

@@ -4,12 +4,14 @@ import com.tools.proxymity.datatypes.CollectorParameters;
 import com.tools.proxymity.datatypes.ProxyInfo;
 import com.toortools.Utilities;
 import com.toortools.os.OsHelper;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Capabilities;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.phantomjs.PhantomJSDriver;
 import org.openqa.selenium.phantomjs.PhantomJSDriverService;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.FluentWait;
+import org.openqa.selenium.support.ui.Wait;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -22,6 +24,8 @@ import java.sql.Statement;
 import java.util.Random;
 import java.util.StringTokenizer;
 import java.util.Vector;
+import java.util.concurrent.TimeUnit;
+import java.util.function.Function;
 import java.util.logging.Level;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -34,19 +38,25 @@ abstract public class ProxyCollector extends  Thread
     protected Connection dbConnection;
     protected PhantomJSDriver driver;
     protected boolean useTor = false;
+    //This exists as global
+    int CURRENT_SLEEP_SECONDS_BETWEEN_SCANS =0;
     public ProxyCollector(CollectorParameters collectorParameters)
     {
         try
         {
-            Thread.sleep(new Random().nextInt(5000));
+
+            Thread.sleep(new Random().nextInt(1000));
         }
         catch (Exception e)
         {
             e.printStackTrace();
         }
         //this.collectorParameters = collectorParameters;
+        this.CURRENT_SLEEP_SECONDS_BETWEEN_SCANS = collectorParameters.getSleepBetweenScansSeconds();
+
         this.dbConnection = collectorParameters.getDbConnection();
         this.useTor = collectorParameters.isUseTor();
+
         if (!new File("tmp/").isDirectory())
         {
             new File("tmp").mkdir();
@@ -64,12 +74,12 @@ abstract public class ProxyCollector extends  Thread
     }
     public abstract Vector<ProxyInfo> collectProxies();
 
-    int SLEEP_SECONDS_BETWEEN_SCANS = 30;
+
 
 
     public void setSleepSecondsBetweenScans(int minutes)
     {
-        this.SLEEP_SECONDS_BETWEEN_SCANS = minutes;
+        this.CURRENT_SLEEP_SECONDS_BETWEEN_SCANS = minutes;
     }
 
     public void run()
@@ -85,7 +95,7 @@ abstract public class ProxyCollector extends  Thread
 
                 writeProxyInfoToDatabase(proxyInfos);
 
-                Thread.sleep(SLEEP_SECONDS_BETWEEN_SCANS * 1000);
+                Thread.sleep(this.CURRENT_SLEEP_SECONDS_BETWEEN_SCANS * 1000);
             }
             catch (Exception e)
             {
@@ -209,6 +219,7 @@ abstract public class ProxyCollector extends  Thread
             ((DesiredCapabilities) caps).setJavascriptEnabled(true);
             ((DesiredCapabilities) caps).setJavascriptEnabled(true);
             ((DesiredCapabilities) caps).setCapability("takesScreenshot", true);
+            ((DesiredCapabilities) caps).setCapability("phantomjs.page.settings.resourceTimeout", 3000);
             ((DesiredCapabilities) caps).setCapability(
                     PhantomJSDriverService.PHANTOMJS_EXECUTABLE_PATH_PROPERTY,
                     "bin\\phantomjs.exe"
@@ -222,6 +233,7 @@ abstract public class ProxyCollector extends  Thread
         {
             ((DesiredCapabilities) caps).setJavascriptEnabled(true);
             ((DesiredCapabilities) caps).setCapability("takesScreenshot", true);
+            ((DesiredCapabilities) caps).setCapability("phantomjs.page.settings.resourceTimeout", 3000);
             ((DesiredCapabilities) caps).setCapability(
                     PhantomJSDriverService.PHANTOMJS_CLI_ARGS, phantomArgs
             );
@@ -229,6 +241,8 @@ abstract public class ProxyCollector extends  Thread
         }
 
         driver = new PhantomJSDriver(caps);
+        driver.manage().timeouts()
+                .implicitlyWait(3, TimeUnit.SECONDS);
     }
 
     protected Proxy getRandomProxy() throws Exception
@@ -373,11 +387,11 @@ abstract public class ProxyCollector extends  Thread
         }
     }
 
-    protected void genericParsingOfUrl(String url, String type)
+    protected void genericParsingOfText(String page, String type)
     {
         try
         {
-            String page = Utilities.readUrl(url);
+
             Pattern p = Pattern.compile("\\d+\\.\\d+\\.\\d+\\.\\d+:\\d+");
             Matcher m = p.matcher(page);
 
@@ -408,8 +422,22 @@ abstract public class ProxyCollector extends  Thread
             e.printStackTrace();
         }
     }
-    protected void genericParsingOfUrlSpace(String page, String type)
+
+    protected void genericParsingOfUrl(String url, String type)
     {
+        try
+        {
+            String page = Utilities.readUrl(url);
+            genericParsingOfText(page, type);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+    protected boolean genericParsingOfUrlSpace(String page, String type)
+    {
+        boolean foundAtLeastOne = false;
         try
         {
             Pattern p = Pattern.compile("\\d+\\.\\d+\\.\\d+\\.\\d+ \\d+");
@@ -419,6 +447,7 @@ abstract public class ProxyCollector extends  Thread
             {
                 try
                 {
+                    foundAtLeastOne=true;
                     String line = m.group();
                     //System.out.println(line);
                     StringTokenizer st = new StringTokenizer(line, " ");
@@ -436,10 +465,12 @@ abstract public class ProxyCollector extends  Thread
                     e.printStackTrace();
                 }
             }
+            return foundAtLeastOne;
         }
         catch (Exception e)
         {
             e.printStackTrace();
+            return foundAtLeastOne;
         }
     }
     public Vector<String> extractTableRows(String url)
@@ -469,9 +500,24 @@ abstract public class ProxyCollector extends  Thread
         try
         {
 
-            driver.get(url);
+            driver.manage().timeouts().pageLoadTimeout(Proxymity.PHANTOM_JS_TIMEOUT_SECONDS, TimeUnit.SECONDS);
+            driver.manage().timeouts().setScriptTimeout(Proxymity.PHANTOM_JS_TIMEOUT_SECONDS, TimeUnit.SECONDS);
+            try
+            {
+                driver.get(url);
+            }
+            catch (Exception e)
+            {
+                //e.printStackTrace();
+            }
+
+            driver.findElement(By.tagName("body")).sendKeys("Keys.ESCAPE");
+
             WebElement webElement = driver.findElement(By.tagName("body"));
-            return webElement.getText();
+            String page = webElement.getText();
+
+            return page;
+
         }
         catch (Exception e)
         {

@@ -22,6 +22,7 @@ public class ProxyCollectorManager extends Thread
     {
         try
         {
+
             Vector<ProxyCollector> collectors = new Vector<ProxyCollector>();
 
                 collectors.add(new InCloakCollector(collectorParameters));
@@ -61,8 +62,9 @@ public class ProxyCollectorManager extends Thread
                 collectors.add(new freeProxyListsDailyBlogspotInCollector(collectorParameters));
                 collectors.add(new UsProxyOrgCollector(collectorParameters));
                 collectors.add(new happyProxyComCollector(collectorParameters));
+                collectors.add(new ProxyRssComCollector(collectorParameters)); ;
 
-
+                collectors.add(new proxzComCollector(collectorParameters));
 
                 // Problematic
                 // collectors.add(new IdcloakComCollector(collectorParameters));
