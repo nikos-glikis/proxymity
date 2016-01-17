@@ -17,9 +17,6 @@ import java.util.regex.Pattern;
 
 public class FreeProxyCzCollector extends ProxyCollector
 {
-    int SLEEP_BETWEEN_FETCH = 120;
-    int SLEEP_FAIL_SECONDS = 240;
-    //TODO protections, try with Phantomjs with proxies.
     public FreeProxyCzCollector(CollectorParameters collectorParameters)
     {
         super(collectorParameters);
@@ -32,51 +29,21 @@ public class FreeProxyCzCollector extends ProxyCollector
         {
             for (int i = 1; i<500; i++)
             {
-                //Random proxy is not used.
-                /*Proxy proxy = getRandomProxy();
 
-                while (proxy == null)
-                {
-                    Thread.sleep(5000);
-                    proxy = getRandomProxy();
-                }*/
-                StringBuffer sb = new StringBuffer();
-                //System.out.println(proxy);
                 String url = "http://free-proxy.cz/en/proxylist/main/"+i;
-
+                String page="";
                 try
                 {
-                    URLConnection c = new URL(url).openConnection();
-                    c.setRequestProperty("User-Agent","Mozilla/5.0 (Windows NT 6.1; WOW64; rv:43.0) Gecko/20100101 Firefox/43.0");
-
-
-                    Thread.sleep(3000);
-
-                    c.setReadTimeout(10000);
-                    c.setConnectTimeout(10000);
-                    Scanner sc =  new Scanner(c.getInputStream());
-
-                    while (sc.hasNext())
-                    {
-                        sb.append(sc.nextLine());
-                        sb.append("\n");
-                    }
+                    page= anonReadUrl(url);
                 }
                 catch (Exception e)
                 {
-                    System.out.println("free-proxy.cz failed" + url + " "+e.toString());
-
-                    Thread.sleep(SLEEP_FAIL_SECONDS*1000);
-                    //i--;
+                    //System.out.println("free-proxy.cz failed: " + url + " "+e.toString());
+                    i--;
                     continue;
                 }
 
                 System.out.println("free-proxy.cz success");
-
-                String page = sb.toString();
-
-
-                //System.out.println(page);
 
                 Pattern p = Pattern.compile("<tr>.*?</tr>", Pattern.DOTALL);
                 Matcher m = p.matcher(page);
@@ -133,7 +100,7 @@ public class FreeProxyCzCollector extends ProxyCollector
                         //System.exit(0);
                     }
                 }
-                Thread.sleep(SLEEP_BETWEEN_FETCH);
+
                 if (!foundAtLeastOne)
                 {
                     return getProxies();
@@ -146,7 +113,7 @@ public class FreeProxyCzCollector extends ProxyCollector
             e.printStackTrace();
             try
             {
-                Thread.sleep(SLEEP_FAIL_SECONDS*1000);
+
             }
             catch (Exception ee)
             {

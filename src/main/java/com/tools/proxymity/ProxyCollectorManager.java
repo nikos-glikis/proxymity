@@ -25,11 +25,12 @@ public class ProxyCollectorManager extends Thread
 
             Vector<ProxyCollector> collectors = new Vector<ProxyCollector>();
 
-                collectors.add(new InCloakCollector(collectorParameters));
+             /* collectors.add(new InCloakCollector(collectorParameters));
                 collectors.add(new HmaCollector(collectorParameters));
                 collectors.add(new ProxyListOrgCollector(collectorParameters));
 
                 collectors.add(new SSLProxiesOrgCollector(collectorParameters));
+
                 collectors.add(new SamairRuCollector(collectorParameters));
                 collectors.add(new SocksProxyNetCollector(collectorParameters));
                 collectors.add(new SocksProxyNetCollector(collectorParameters));
@@ -64,14 +65,14 @@ public class ProxyCollectorManager extends Thread
                 collectors.add(new happyProxyComCollector(collectorParameters));
                 collectors.add(new ProxyRssComCollector(collectorParameters)); ;
 
-                collectors.add(new proxzComCollector(collectorParameters));
-                collectors.add(new FreePassRuCollector(collectorParameters));
+                collectors.add(new proxzComCollector(collectorParameters));*/
+                //collectors.add(new FreePassRuCollector(collectorParameters));
 
                 // Problematic
                 // collectors.add(new IdcloakComCollector(collectorParameters));
 
                 //TODO Bit problematic with protections but huge.
-                //collectors.add(new FreeProxyCzCollector(collectorParameters));
+                collectors.add(new FreeProxyCzCollector(collectorParameters));
 
                 //TODO To many results only a few good. (8000 and only 60 are good)
                 //collectors.add(new Socks24OrgCollector(collectorParameters));

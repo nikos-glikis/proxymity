@@ -15,8 +15,9 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
-import java.net.InetSocketAddress;
+import java.net.*;
 import java.net.Proxy;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -270,6 +271,9 @@ abstract public class ProxyCollector extends  Thread
                     type = Proxy.Type.HTTP;
                 } else if (proxyType.equals(ProxyInfo.PROXY_TYPES_HTTPS)) {
                     type = Proxy.Type.HTTP;
+                } else {
+                    System.out.println("Else");
+                    type=Proxy.Type.HTTP;
                 }
                 return new Proxy(type, new InetSocketAddress(host, Integer.parseInt(port) ));
             }
@@ -422,12 +426,15 @@ abstract public class ProxyCollector extends  Thread
             e.printStackTrace();
         }
     }
-
     protected void genericParsingOfUrl(String url, String type)
+    {
+        genericParsingOfUrl(url,type, false );
+    }
+    protected void genericParsingOfUrl(String url, String type, boolean proxify)
     {
         try
         {
-            String page = Utilities.readUrl(url);
+            String page = readUrl(url, proxify);
             genericParsingOfText(page, type);
         }
         catch (Exception e)
@@ -435,6 +442,67 @@ abstract public class ProxyCollector extends  Thread
             e.printStackTrace();
         }
     }
+
+    public String anonReadUrl(String url) throws Exception
+    {
+        return readUrl(url, true);
+    }
+
+    public String readUrl(String url, boolean proxify) throws Exception
+    {
+        try
+        {
+            if (!proxify)
+            {
+                return Utilities.readUrl(url);
+            }
+            else
+            {
+                URL oracle = new URL(url);
+                Proxy p = getRandomProxy();
+                while (p == null) {
+                    Thread.sleep(5000);
+                    p = getRandomProxy();
+                }
+                HttpURLConnection conn = (HttpURLConnection) oracle.openConnection(p);
+                conn.setReadTimeout(10000);
+                conn.setConnectTimeout(10000);
+                conn.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:37.0) Gecko/20100101 Firefox/37.0");
+                BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+
+                String inputLine;
+                StringBuffer sb = new StringBuffer();
+                while ((inputLine = in.readLine()) != null) {
+                    sb.append(inputLine + "\n");
+
+                }
+                in.close();
+                return sb.toString();
+            }
+        }
+        catch (SocketTimeoutException e)
+        {
+            //System.out.println("Timeout");
+            return anonReadUrl(url);
+        }
+        catch (ConnectException e)
+        {
+            //System.out.println("Timeout");
+            return anonReadUrl(url);
+        }
+        catch (FileNotFoundException e)
+        {
+            throw e;
+            //System.out.println("_404 e");
+        }
+
+        catch(Exception e)
+        {
+            //e.printStackTrace();
+            throw e;
+        }
+    }
+
     protected boolean genericParsingOfUrlSpace(String page, String type)
     {
         boolean foundAtLeastOne = false;
