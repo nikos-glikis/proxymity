@@ -148,7 +148,8 @@ abstract public class ProxyCollector extends  Thread
                         "`inserted`, " +
                         "`lastchecked`, " +
                         "`status`, " +
-                        "`fullanonymous` " +
+                        "`fullanonymous`, " +
+                        "`lastactive` " +
 
                         ") VALUES  (" +
                         "0, " +
@@ -158,7 +159,9 @@ abstract public class ProxyCollector extends  Thread
                         "NOW(), " +
                         "NULL, " +
                         "'pending', " +
-                        "'no')";
+                        "'no'," +
+                        " NOW()" +
+                        ")";
                 //System.out.println(query);
 
                 Statement st = dbConnection.createStatement();

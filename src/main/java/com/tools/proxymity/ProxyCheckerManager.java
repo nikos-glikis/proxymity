@@ -77,7 +77,7 @@ public class ProxyCheckerManager extends Thread
         try
         {
             Statement st = dbConnection.createStatement();
-            st.executeUpdate("UPDATE `"+Proxymity.TABLE_NAME+"` SET status = '"+ProxyChecker.PROXY_STATUS_DEAD+"' WHERE lastactive < DATE_SUB(NOW(), INTERVAL "+ Proxymity.MARK_DEAD_AFTER_MINUTES +" MINUTE)");
+            st.executeUpdate("UPDATE `"+Proxymity.TABLE_NAME+"` SET status = '"+ProxyChecker.PROXY_STATUS_DEAD+"' WHERE `status` != '"+ProxyChecker.PROXY_STATUS_PENDING+"' AND lastactive < DATE_SUB(NOW(), INTERVAL "+ Proxymity.MARK_DEAD_AFTER_MINUTES +" MINUTE)");
             st.close();
         }
         catch (Exception e)
@@ -149,7 +149,9 @@ public class ProxyCheckerManager extends Thread
         try
         {
             Statement st = dbConnection.createStatement();
-            ResultSet rs = st.executeQuery("SELECT id, host, port, type FROM "+Proxymity.TABLE_NAME+" WHERE status = 'pending'  UNION SELECT id, host, port, type FROM "+Proxymity.TABLE_NAME+" WHERE lastchecked is NULL LIMIT 5000  UNION SELECT id, host, port, type FROM "+Proxymity.TABLE_NAME+" WHERE ( status != 'dead' ) AND (lastchecked not BETWEEN DATE_SUB(NOW(), INTERVAL "+ Proxymity.RECHECK_INTERVAL_MINUTES +" MINUTE) AND NOW())  ORDER BY RAND()  LIMIT 5000");
+            ResultSet rs = st.executeQuery("SELECT id, host, port, type FROM "+Proxymity.TABLE_NAME+" WHERE status = 'pending'  " +
+                    "UNION SELECT id, host, port, type FROM "+Proxymity.TABLE_NAME+" WHERE lastchecked is NULL LIMIT 5000  " +
+                    "UNION SELECT id, host, port, type FROM "+Proxymity.TABLE_NAME+" WHERE ( status != 'dead' ) AND (lastchecked not BETWEEN DATE_SUB(NOW(), INTERVAL "+ Proxymity.RECHECK_INTERVAL_MINUTES +" MINUTE) AND NOW())  ORDER BY RAND()  LIMIT 5000");
 
             proxyInfos = getProxyInfosFromResultSet(rs);
             int i = proxyInfos.size();

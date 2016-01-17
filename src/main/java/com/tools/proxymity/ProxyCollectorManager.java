@@ -3,6 +3,9 @@ package com.tools.proxymity;
 import com.tools.proxymity.datatypes.CollectorParameters;
 import com.tools.proxymity.collectors.*;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Vector;
 
 public class ProxyCollectorManager extends Thread
@@ -23,9 +26,9 @@ public class ProxyCollectorManager extends Thread
         try
         {
 
-            Vector<ProxyCollector> collectors = new Vector<ProxyCollector>();
+            List<ProxyCollector> collectors = new ArrayList<ProxyCollector>();
 
-             /* collectors.add(new InCloakCollector(collectorParameters));
+              collectors.add(new InCloakCollector(collectorParameters));
                 collectors.add(new HmaCollector(collectorParameters));
                 collectors.add(new ProxyListOrgCollector(collectorParameters));
 
@@ -68,12 +71,12 @@ public class ProxyCollectorManager extends Thread
                 collectors.add(new proxzComCollector(collectorParameters));
                 collectors.add(new FreeProxyCzCollector(collectorParameters));
 
-                //TODO Many results.
+                //TODO Many results, lower priority
                 collectors.add(new FreePassRuCollector(collectorParameters));
 
-                */
                 //TODO To many results only a few good. (8000 and only 60 are good)
                 collectors.add(new Socks24OrgCollector(collectorParameters));
+
 
                 // Problematic
                 //collectors.add(new IdcloakComCollector(collectorParameters));
@@ -84,6 +87,8 @@ public class ProxyCollectorManager extends Thread
 
             //not much success
             //collectors.add(new SpyIpComCollector(collectorParameters));
+
+            Collections.shuffle(collectors);
             for (ProxyCollector collector : collectors)
             {
                 collector.start();
