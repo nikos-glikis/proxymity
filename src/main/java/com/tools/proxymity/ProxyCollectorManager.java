@@ -65,6 +65,7 @@ public class ProxyCollectorManager extends Thread
                 collectors.add(new ProxyRssComCollector(collectorParameters)); ;
 
                 collectors.add(new proxzComCollector(collectorParameters));
+                collectors.add(new FreePassRuCollector(collectorParameters));
 
                 // Problematic
                 // collectors.add(new IdcloakComCollector(collectorParameters));
