@@ -31,16 +31,25 @@ public class IdcloakComCollector extends ProxyCollector
     {
         try
         {
-            FirefoxDriver driver2 = new FirefoxDriver();
+
             for (int i = 1; i<400; i++)
             {
                 /*String page = postRequest("http://www.idcloak.com/proxylist/proxy-list.html#sort","port%5B%5D=all&protocol-http=true&protocol-https=true&protocol-socks4=true&protocol-socks5=true&anonymity-low=true&anonymity-medium=true&anonymity-high=true&connection-low=true&connection-medium=true&connection-high=true&speed-low=true&speed-medium=true&speed-high=true&order=desc&by=updated&page="+i,"Cookie: _ga=GA1.2.1580931146.1452867786; _dc_gtm_UA-36933135-1=1; __zlcmid=YhfFr1U2CRoBCl");
                 ;*/
+                String page;
+                try
+                {
+                    page = anonReadUrl("http://www.idcloak.com/proxylist/proxy-list.html");
 
-                driver2.get("http://www.idcloak.com/proxylist/proxy-list.html");
-                System.out.println("sada");
-                //WebElement webElement = driver.findElement(By.tagName("body"));
-                String page = driver.getPageSource();
+                }
+                catch (Exception e)
+                {
+                    System.out.println(e);
+                    i--;
+                    continue;
+                    //e.printStackTrace();
+                }
+
                 Pattern p = Pattern.compile("<tr>.*?</tr>");
                 Matcher m = p.matcher(page);
                 System.out.println(page);

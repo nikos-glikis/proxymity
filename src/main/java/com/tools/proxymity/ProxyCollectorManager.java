@@ -65,17 +65,19 @@ public class ProxyCollectorManager extends Thread
                 collectors.add(new happyProxyComCollector(collectorParameters));
                 collectors.add(new ProxyRssComCollector(collectorParameters)); ;
 
-                collectors.add(new proxzComCollector(collectorParameters));*/
-                //collectors.add(new FreePassRuCollector(collectorParameters));
-
-                // Problematic
-                // collectors.add(new IdcloakComCollector(collectorParameters));
-
-                //TODO Bit problematic with protections but huge.
+                collectors.add(new proxzComCollector(collectorParameters));
                 collectors.add(new FreeProxyCzCollector(collectorParameters));
 
+                //TODO Many results.
+                collectors.add(new FreePassRuCollector(collectorParameters));
+
+                */
                 //TODO To many results only a few good. (8000 and only 60 are good)
-                //collectors.add(new Socks24OrgCollector(collectorParameters));
+                collectors.add(new Socks24OrgCollector(collectorParameters));
+
+                // Problematic
+                //collectors.add(new IdcloakComCollector(collectorParameters));
+
 
                 //seems inactive
                 //collectors.add(new ProxyListyCom(collectorParameters));
