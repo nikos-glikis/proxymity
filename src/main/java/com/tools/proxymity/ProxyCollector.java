@@ -93,11 +93,7 @@ abstract public class ProxyCollector extends  Thread
                 Thread.sleep(new Random().nextInt(5000));
                 initProxies();
                 Vector<ProxyInfo> proxyInfos = collectProxies();
-                if (driver != null)
-                {
-                    driver.close();
-                    initializePhantom();
-                }
+
 
                 writeProxyInfoToDatabase(proxyInfos);
 
@@ -555,7 +551,7 @@ abstract public class ProxyCollector extends  Thread
         try
         {
             String page = Utilities.readUrl(url);
-            Pattern p = Pattern.compile("<tr.*?</tr>");
+            Pattern p = Pattern.compile("<tr.*?</tr>",Pattern.DOTALL);
             Matcher m = p.matcher(page);
 
             while (m.find())

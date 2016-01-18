@@ -125,7 +125,7 @@ public class ProxyFireNet extends ProxyCollector
     {
         try
         {
-            String page = Utilities.readUrl("http://www.proxyfire.net/forum/forumdisplay.php?f=14");
+            String page = anonReadUrl("http://www.proxyfire.net/forum/forumdisplay.php?f=14");
             Pattern p = Pattern.compile("showthread\\.php\\?[^\"]*\"");
             Matcher m = p.matcher(page);
 
@@ -137,7 +137,7 @@ public class ProxyFireNet extends ProxyCollector
                     url = url.replace(toCut, "").replace("s=&amp;", "");
 
 
-                    page = Utilities.readUrl(url);
+                    page = anonReadUrl(url);
                     Pattern pp = Pattern.compile("\\d+\\.\\d+\\.\\d+\\.\\d+:\\d+");
                     Matcher mm = pp.matcher(page);
                     while (mm.find()) {

@@ -30,6 +30,28 @@ public class proxzComCollector extends ProxyCollector
                     return getProxies();
                 }
             }
+
+            for (int i = 0; i<150; i++)
+            {
+                String page = getUrlBodyTextWithPhantom("http://www.proxz.com/proxy_list_port_std_"+i+".html"); //Utilities.readUrl("http://www.proxz.com/proxy_list_high_anonymous_"+i+".html");
+                //System.out.println(page);
+                boolean foundAtLeastOne =genericParsingOfUrlSpace(page, ProxyInfo.PROXY_TYPES_HTTP);
+                if (!foundAtLeastOne)
+                {
+                    return getProxies();
+                }
+            }
+
+            for (int i = 0; i<150; i++)
+            {
+                String page = getUrlBodyTextWithPhantom("http://www.proxz.com/proxy_list_port_nonstd_"+i+".html"); //Utilities.readUrl("http://www.proxz.com/proxy_list_high_anonymous_"+i+".html");
+                //System.out.println(page);
+                boolean foundAtLeastOne =genericParsingOfUrlSpace(page, ProxyInfo.PROXY_TYPES_HTTP);
+                if (!foundAtLeastOne)
+                {
+                    return getProxies();
+                }
+            }
         }
         catch (Exception e)
         {

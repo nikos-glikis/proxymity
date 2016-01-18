@@ -36,17 +36,27 @@ public class SocksListNetCollector extends ProxyCollector
                 boolean foundAtLeastOne = false;
                 while (m.find())
                 {
-                    foundAtLeastOne = true;
-                    String line = m.group();
-                    //System.out.println(line);
-                    ProxyInfo proxyInfo = new ProxyInfo();
-                    StringTokenizer st = new StringTokenizer(line, " ");
-                    proxyInfo.setHost(st.nextToken());
-                    String port = st.nextToken();
-                    Integer.parseInt(port);
-                    proxyInfo.setPort(port);
-                    proxyInfo.setType(ProxyInfo.PROXY_TYPES_SOCKS5);
-                    addProxy(proxyInfo);
+                    try
+                    {
+                        String line = m.group();
+                        //System.out.println(line);
+                        ProxyInfo proxyInfo = new ProxyInfo();
+                        StringTokenizer st = new StringTokenizer(line, " ");
+                        proxyInfo.setHost(st.nextToken());
+                        String port = st.nextToken();
+                        if (port.contains(">")) {
+                            continue;
+                        }
+                        Integer.parseInt(port);
+                        foundAtLeastOne = true;
+                        proxyInfo.setPort(port);
+                        proxyInfo.setType(ProxyInfo.PROXY_TYPES_SOCKS5);
+                        addProxy(proxyInfo);
+                    }
+                    catch (Exception e)
+                    {
+                        e.printStackTrace();
+                    }
                 }
                 if (!foundAtLeastOne)
                 {

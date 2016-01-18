@@ -28,7 +28,7 @@ public class ProxyCollectorManager extends Thread
 
             List<ProxyCollector> collectors = new ArrayList<ProxyCollector>();
 
-              collectors.add(new InCloakCollector(collectorParameters));
+                collectors.add(new InCloakCollector(collectorParameters));
                 collectors.add(new HmaCollector(collectorParameters));
                 collectors.add(new ProxyListOrgCollector(collectorParameters));
 
@@ -78,6 +78,9 @@ public class ProxyCollectorManager extends Thread
                 collectors.add(new Socks24OrgCollector(collectorParameters));
 
                 collectors.add(new happyProxyComCollector(collectorParameters));
+                collectors.add(new ProxyListMeCollector(collectorParameters));
+
+                collectors.add(new ProxyDbNetCollector(collectorParameters));
 
 
                 // Problematic

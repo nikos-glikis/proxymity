@@ -28,6 +28,9 @@ public class UsProxyOrgCollector extends ProxyCollector
                 //System.out.println(row);
                 String ip = Utilities.cut("<tr><td>","<",row);
                 String port = Utilities.cut("</td><td>","<",row);
+                if (port.contains(">")) {
+                    continue;
+                }
                 Integer.parseInt(port);
 
                 ProxyInfo proxyInfo = new ProxyInfo();
