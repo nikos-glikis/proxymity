@@ -125,7 +125,8 @@ public class ProxyFireNet extends ProxyCollector
     {
         try
         {
-            String page = anonReadUrl("http://www.proxyfire.net/forum/forumdisplay.php?f=14");
+            String page = readMain("http://www.proxyfire.net/forum/forumdisplay.php?f=14",0);
+            System.out.println("ReadMain All Good");
             Pattern p = Pattern.compile("showthread\\.php\\?[^\"]*\"");
             Matcher m = p.matcher(page);
 
@@ -135,9 +136,7 @@ public class ProxyFireNet extends ProxyCollector
                 if (url.contains("&amp;") && url.contains("?s=")) {
                     String toCut = Utilities.cut("?s=", "&amp;", url);
                     url = url.replace(toCut, "").replace("s=&amp;", "");
-
-
-                    page = anonReadUrl(url);
+                    page = readMain(url,0);
                     Pattern pp = Pattern.compile("\\d+\\.\\d+\\.\\d+\\.\\d+:\\d+");
                     Matcher mm = pp.matcher(page);
                     while (mm.find()) {
@@ -166,5 +165,24 @@ public class ProxyFireNet extends ProxyCollector
         {
             e.printStackTrace();
         }
+    }
+
+    private String readMain(String url, int count)
+    {
+        try {
+            String page =anonReadUrl(url);
+            return page;
+        }
+        catch (Exception e) {
+            if (e.toString().contains("IOException: Server returned HTTP resp")) {
+                if (count < 30) {
+                    return readMain(url, count++);
+                } else {
+                    e.printStackTrace();
+                    return "";
+                }
+            }
+        }
+        return "";
     }
 }
