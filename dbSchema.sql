@@ -18,3 +18,5 @@ ALTER TABLE `proxymity_proxies` MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO
 ALTER TABLE `proxymity_proxies` CHANGE `status` `status` ENUM('active','inactive','pending','dead') CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;
 
 ALTER TABLE `proxymity_proxies` ADD `lastactive` DATETIME NOT NULL ;
+
+ALTER TABLE `proxymity_proxies` ADD INDEX(`lastchecked`);

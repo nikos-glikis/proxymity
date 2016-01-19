@@ -1,6 +1,8 @@
 package com.tools.proxymity.datatypes;
 
 
+import com.tools.proxymity.phantomjs.PhantomJsManager;
+
 import java.sql.Connection;
 
 public class CollectorParameters
@@ -8,6 +10,7 @@ public class CollectorParameters
     Connection dbConnection;
     boolean useTor;
     int sleepBetweenScansSeconds;
+    PhantomJsManager phantomJsManager;
 
     public int getSleepBetweenScansSeconds() {
         return sleepBetweenScansSeconds;
@@ -35,5 +38,15 @@ public class CollectorParameters
     public void setUseTor(boolean useTor)
     {
         this.useTor = useTor;
+    }
+
+    public PhantomJsManager getPhantomJsManager()
+    {
+        return phantomJsManager;
+    }
+
+    public void setPhantomJsManager(PhantomJsManager phantomJsManager)
+    {
+        this.phantomJsManager = phantomJsManager;
     }
 }

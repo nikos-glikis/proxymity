@@ -2,16 +2,15 @@ package com.tools.proxymity;
 
 import com.tools.proxymity.datatypes.CollectorParameters;
 import com.tools.proxymity.datatypes.ProxyInfo;
+import com.tools.proxymity.phantomjs.PhantomJsJob;
+import com.tools.proxymity.phantomjs.PhantomJsJobResult;
+import com.tools.proxymity.phantomjs.PhantomJsManager;
 import com.toortools.Utilities;
 import com.toortools.os.OsHelper;
 import org.openqa.selenium.*;
 import org.openqa.selenium.phantomjs.PhantomJSDriver;
 import org.openqa.selenium.phantomjs.PhantomJSDriverService;
 import org.openqa.selenium.remote.DesiredCapabilities;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.FluentWait;
-import org.openqa.selenium.support.ui.Wait;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -26,7 +25,6 @@ import java.util.Random;
 import java.util.StringTokenizer;
 import java.util.Vector;
 import java.util.concurrent.TimeUnit;
-import java.util.function.Function;
 import java.util.logging.Level;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -41,6 +39,7 @@ abstract public class ProxyCollector extends  Thread
     protected boolean useTor = false;
     //This exists as global
     int CURRENT_SLEEP_SECONDS_BETWEEN_SCANS =0;
+    protected PhantomJsManager phantomJsManager;
     public ProxyCollector(CollectorParameters collectorParameters)
     {
         try
@@ -52,6 +51,7 @@ abstract public class ProxyCollector extends  Thread
         {
             e.printStackTrace();
         }
+        phantomJsManager = collectorParameters.getPhantomJsManager();
         //this.collectorParameters = collectorParameters;
         this.CURRENT_SLEEP_SECONDS_BETWEEN_SCANS = collectorParameters.getSleepBetweenScansSeconds();
 
@@ -224,7 +224,7 @@ abstract public class ProxyCollector extends  Thread
             ((DesiredCapabilities) caps).setJavascriptEnabled(true);
             ((DesiredCapabilities) caps).setJavascriptEnabled(true);
             ((DesiredCapabilities) caps).setCapability("takesScreenshot", true);
-            ((DesiredCapabilities) caps).setCapability("phantomjs.page.settings.resourceTimeout", 3000);
+            ((DesiredCapabilities) caps).setCapability("phantomjs.content.settings.resourceTimeout", 3000);
             ((DesiredCapabilities) caps).setCapability(
                     PhantomJSDriverService.PHANTOMJS_EXECUTABLE_PATH_PROPERTY,
                     "bin\\phantomjs.exe"
@@ -238,7 +238,7 @@ abstract public class ProxyCollector extends  Thread
         {
             ((DesiredCapabilities) caps).setJavascriptEnabled(true);
             ((DesiredCapabilities) caps).setCapability("takesScreenshot", true);
-            ((DesiredCapabilities) caps).setCapability("phantomjs.page.settings.resourceTimeout", 3000);
+            ((DesiredCapabilities) caps).setCapability("phantomjs.content.settings.resourceTimeout", 3000);
             ((DesiredCapabilities) caps).setCapability(
                     PhantomJSDriverService.PHANTOMJS_CLI_ARGS, phantomArgs
             );
@@ -596,5 +596,59 @@ abstract public class ProxyCollector extends  Thread
             e.printStackTrace();
         }
         return"";
+    }
+
+    /* PhantomJs Stuff */
+
+
+    protected String downloadPageWithPhantomJs(String url) throws Exception
+    {
+        PhantomJsJobResult phantomJsJobResult = downloadWithPhantomJs(url);
+        if (phantomJsJobResult != null)
+        {
+            return phantomJsJobResult.getContent();
+        }
+        else
+        {
+            throw new Exception("PhantomJsJobResult is null");
+        }
+    }
+
+    protected String downloadPageSourceWithPhantomJs(String url) throws Exception
+    {
+        PhantomJsJobResult phantomJsJobResult = downloadWithPhantomJs(url);
+        if (phantomJsJobResult != null)
+        {
+            return phantomJsJobResult.getContent();
+        }
+        else
+        {
+            throw new Exception("PhantomJsJobResult is null");
+        }
+    }
+
+    private PhantomJsJobResult downloadWithPhantomJs(String url) throws Exception
+    {
+        try
+        {
+            PhantomJsJob phantomJsJob = phantomJsManager.addJob(url);
+            while(!phantomJsJob.isFinished())
+            {
+                Thread.sleep(2000);
+            }
+
+            if (phantomJsJob.isSuccessful())
+            {
+                return phantomJsJob.getPhantomJsJobResult() ;
+            }
+            else
+            {
+                throw phantomJsJob.getException();
+            }
+        }
+        catch (Exception e)
+        {
+            throw e;
+        }
     }
 }

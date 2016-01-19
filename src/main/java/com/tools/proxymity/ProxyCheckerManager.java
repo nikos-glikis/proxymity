@@ -50,7 +50,7 @@ public class ProxyCheckerManager extends Thread
 
                 fixedPool = Executors.newFixedThreadPool(Proxymity.PROXY_CHECKERS_COUNT);
 
-                proxyInfos  = getRandomDeadProxies(500);
+                proxyInfos  = getDeadProxiesForCheck(500);
                 for (ProxyInfo proxyInfo: proxyInfos)
                 {
                     fixedPool.submit(new ProxyChecker(proxyInfo, dbConnection));
@@ -131,6 +131,33 @@ public class ProxyCheckerManager extends Thread
             proxyInfos = getProxyInfosFromResultSet(rs);
             int i = proxyInfos.size();
             printMessage("Fetched "+i+ " random dead proxies for check.  ");
+            if (i < 10)
+            {
+                Thread.sleep(5000);
+            }
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return proxyInfos;
+    }
+
+    /**
+     * Returns the dead proxies to check. Those are the proxies that have not ben checked the longest.
+     * @param count
+     * @return
+     */
+    Vector<ProxyInfo> getDeadProxiesForCheck( int count)
+    {
+        Vector<ProxyInfo> proxyInfos = new Vector<ProxyInfo>();
+        try
+        {
+            Statement st = dbConnection.createStatement();
+            ResultSet rs = st.executeQuery("SELECT id, host, port, type FROM "+Proxymity.TABLE_NAME+" WHERE status = 'dead'  ORDER BY lastchecked LIMIT "+count);
+            proxyInfos = getProxyInfosFromResultSet(rs);
+            int i = proxyInfos.size();
+            printMessage("Fetched "+i+ " dead proxies for check.");
             if (i < 10)
             {
                 Thread.sleep(5000);
