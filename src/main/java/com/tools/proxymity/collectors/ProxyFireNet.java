@@ -126,7 +126,7 @@ public class ProxyFireNet extends ProxyCollector
         try
         {
             String page = readMain("http://www.proxyfire.net/forum/forumdisplay.php?f=14",0);
-            System.out.println("ReadMain All Good");
+
             Pattern p = Pattern.compile("showthread\\.php\\?[^\"]*\"");
             Matcher m = p.matcher(page);
 

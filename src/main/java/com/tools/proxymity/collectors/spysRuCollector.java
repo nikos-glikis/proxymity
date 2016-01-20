@@ -28,16 +28,8 @@ public class spysRuCollector extends ProxyCollector
             try
             {
 
-                /*processPage("http://spys.ru/en/free-proxy-list/__page__/");
 
-                processPage("http://spys.ru/en/anonymous-proxy-list/__page__/");
-                processPage("http://spys.ru/en/https-ssl-proxy/__page__/");
-                processPage("http://spys.ru/en/socks-proxy-list/__page__/");
-                processPage("http://spys.ru/en/http-proxy-list/__page__/");
-                processPage("http://spys.ru/en/non-anonymous-proxy-list/__page__/");
-                processPage("http://spys.ru/en/");*/
-
-                String page = Utilities.readUrl("http://spys.ru/en/proxy-by-country/");
+                String page = anonReadUrl("http://spys.ru/en/proxy-by-country/");
 
                 Pattern p = Pattern.compile("href='.*?'");
                 Matcher m = p.matcher(page);
@@ -81,6 +73,7 @@ public class spysRuCollector extends ProxyCollector
             try
             {
                 url = url.replace("__page__", new Integer(i).toString());
+                //TODO anonread with post, and read it with phantom.
                 String page = downloadPageWithPhantomJs(url,"xpp=3&xf1=0&xf2=0&xf4=0");
                 Pattern p = Pattern.compile("\\d++\\.\\d++\\.\\d++\\.\\d++:\\d+ .*? ",Pattern.DOTALL);
 

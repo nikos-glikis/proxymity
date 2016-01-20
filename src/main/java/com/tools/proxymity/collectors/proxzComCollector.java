@@ -23,11 +23,8 @@ public class proxzComCollector extends ProxyCollector
             {
                 try
                 {
-                    System.out.println("Sika Sika");
+                    //TODO seems that it does not work.
                     String page = downloadPageWithPhantomJs("http://www.proxz.com/proxy_list_high_anonymous_"+i+".html"); //Utilities.readUrl("http://www.proxz.com/proxy_list_high_anonymous_"+i+".html");
-
-                    System.out.println(page);
-                    System.out.println("Skafi skafi");
                     boolean foundAtLeastOne =genericParsingOfUrlSpace(page, ProxyInfo.PROXY_TYPES_HTTP);
                     if (!foundAtLeastOne)
                     {
