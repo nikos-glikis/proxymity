@@ -18,7 +18,7 @@ public class happyProxyComCollector extends ProxyCollector
     public happyProxyComCollector(CollectorParameters collectorParameters)
     {
         super(collectorParameters);
-        initializePhantom();
+
     }
 
     public Vector<ProxyInfo> collectProxies()
@@ -41,7 +41,15 @@ public class happyProxyComCollector extends ProxyCollector
 
                     for (int i=0; i<50; i++)
                     {
-                        genericParsingOfUrlSpace(getUrlBodyTextWithPhantom("http://www.proxylists.net/us_"+i+".html"), ProxyInfo.PROXY_TYPES_HTTP);
+                        try
+                        {
+                            genericParsingOfUrlSpace(downloadPageWithPhantomJs("http://www.proxylists.net/us_"+i+".html"), ProxyInfo.PROXY_TYPES_HTTP);
+                        }
+                        catch (Exception e)
+                        {
+                            e.printStackTrace();;
+                        }
+
                     }
                 }
             };
@@ -56,8 +64,16 @@ public class happyProxyComCollector extends ProxyCollector
             t = new Thread(){
                 public void run() {
 
-                    for (int i = 0; i < 10; i++) {
-                        genericParsingOfUrlSpace(getUrlBodyTextWithPhantom("http://www.proxylists.net/gb_" + i + ".html"), ProxyInfo.PROXY_TYPES_HTTP);
+                    for (int i = 0; i < 10; i++)
+                    {
+                        try
+                        {
+                             genericParsingOfUrlSpace(downloadPageWithPhantomJs("http://www.proxylists.net/gb_" + i + ".html"), ProxyInfo.PROXY_TYPES_HTTP);
+                        }
+                        catch (Exception e)
+                        {
+                            e.printStackTrace();;
+                        }
                     }
                 }
             };
@@ -67,33 +83,16 @@ public class happyProxyComCollector extends ProxyCollector
             t = new Thread() {
                 public void run() {
 
-                    for (int i = 0; i < 6; i++) {
-                        genericParsingOfUrlSpace(getUrlBodyTextWithPhantom("http://www.proxylists.net/ca_" + i + ".html"), ProxyInfo.PROXY_TYPES_HTTP);
-                    }
-                }
-            };
-
-            fixedPool.submit(t);
-            Thread.sleep(3000);
-
-            t = new Thread() {
-                public void run() {
-
-                    for (int i = 0; i < 50; i++) {
-                        genericParsingOfUrlSpace(getUrlBodyTextWithPhantom("http://www.proxylists.net/3128_" + i + ".html"), ProxyInfo.PROXY_TYPES_HTTP);
-                    }
-                }
-            };
-            fixedPool.submit(t);
-            Thread.sleep(3000);
-
-
-            t = new Thread() {
-                public void run() {
-
-
-                    for (int i = 0; i < 50; i++) {
-                        genericParsingOfUrlSpace(getUrlBodyTextWithPhantom("http://www.proxylists.net/8080_" + i + ".html"), ProxyInfo.PROXY_TYPES_HTTP);
+                    for (int i = 0; i < 6; i++)
+                    {
+                        try
+                        {
+                            genericParsingOfUrlSpace(downloadPageWithPhantomJs("http://www.proxylists.net/ca_" + i + ".html"), ProxyInfo.PROXY_TYPES_HTTP);
+                        }
+                        catch (Exception e)
+                        {
+                            e.printStackTrace();;
+                        }
                     }
                 }
             };
@@ -104,8 +103,57 @@ public class happyProxyComCollector extends ProxyCollector
             t = new Thread() {
                 public void run() {
 
-                    for (int i = 0; i < 80; i++) {
-                        genericParsingOfUrlSpace(getUrlBodyTextWithPhantom("http://www.proxylists.net/1080_" + i + ".html"), ProxyInfo.PROXY_TYPES_HTTP);
+                    for (int i = 0; i < 50; i++)
+                    {
+                        try
+                        {
+                            genericParsingOfUrlSpace(downloadPageWithPhantomJs("http://www.proxylists.net/3128_" + i + ".html"), ProxyInfo.PROXY_TYPES_HTTP);
+                        }
+                        catch (Exception e)
+                        {
+                            e.printStackTrace();;
+                        }
+                    }
+                }
+            };
+            fixedPool.submit(t);
+            Thread.sleep(3000);
+
+
+            t = new Thread() {
+                public void run() {
+
+
+                    for (int i = 0; i < 50; i++)
+                    {
+                        try
+                        {
+                            genericParsingOfUrlSpace(downloadPageWithPhantomJs("http://www.proxylists.net/8080_" + i + ".html"), ProxyInfo.PROXY_TYPES_HTTP);
+                        }
+                        catch (Exception e)
+                        {
+                            e.printStackTrace();;
+                        }
+                    }
+                }
+            };
+
+            fixedPool.submit(t);
+            Thread.sleep(3000);
+
+            t = new Thread() {
+                public void run() {
+
+                    for (int i = 0; i < 80; i++)
+                    {
+                        try
+                        {
+                            genericParsingOfUrlSpace(downloadPageWithPhantomJs("http://www.proxylists.net/1080_" + i + ".html"), ProxyInfo.PROXY_TYPES_HTTP);
+                        }
+                        catch (Exception e)
+                        {
+                            e.printStackTrace();;
+                        }
                     }
                 }
             };
@@ -115,8 +163,16 @@ public class happyProxyComCollector extends ProxyCollector
             t = new Thread() {
                 public void run() {
 
-                    for (int i = 0; i < 50; i++) {
-                        genericParsingOfUrlSpace(getUrlBodyTextWithPhantom("http://www.proxylists.net/80_" + i + ".html"), ProxyInfo.PROXY_TYPES_HTTP);
+                    for (int i = 0; i < 50; i++)
+                    {
+                        try
+                        {
+                            genericParsingOfUrlSpace(downloadPageWithPhantomJs("http://www.proxylists.net/80_" + i + ".html"), ProxyInfo.PROXY_TYPES_HTTP);
+                        }
+                        catch (Exception e)
+                        {
+                            e.printStackTrace();;
+                        }
                     }
                 }
             };
@@ -126,8 +182,16 @@ public class happyProxyComCollector extends ProxyCollector
             t = new Thread() {
                 public void run() {
 
-                    for (int i = 50; i < 100; i++) {
-                        genericParsingOfUrlSpace(getUrlBodyTextWithPhantom("http://www.proxylists.net/80_" + i + ".html"), ProxyInfo.PROXY_TYPES_HTTP);
+                    for (int i = 50; i < 100; i++)
+                    {
+                        try
+                        {
+                            genericParsingOfUrlSpace(downloadPageWithPhantomJs("http://www.proxylists.net/80_" + i + ".html"), ProxyInfo.PROXY_TYPES_HTTP);
+                        }
+                        catch (Exception e)
+                        {
+                            e.printStackTrace();;
+                        }
                     }
                 }
             };
@@ -137,8 +201,16 @@ public class happyProxyComCollector extends ProxyCollector
             t = new Thread() {
                 public void run() {
 
-                    for (int i = 101; i < 150; i++) {
-                        genericParsingOfUrlSpace(getUrlBodyTextWithPhantom("http://www.proxylists.net/80_" + i + ".html"), ProxyInfo.PROXY_TYPES_HTTP);
+                    for (int i = 101; i < 150; i++)
+                    {
+                        try
+                        {
+                            genericParsingOfUrlSpace(downloadPageWithPhantomJs("http://www.proxylists.net/80_" + i + ".html"), ProxyInfo.PROXY_TYPES_HTTP);
+                        }
+                        catch (Exception e)
+                        {
+                            e.printStackTrace();;
+                        }
                     }
                 }
             };
@@ -148,8 +220,16 @@ public class happyProxyComCollector extends ProxyCollector
             t = new Thread() {
                 public void run() {
 
-                    for (int i = 151; i < 200; i++) {
-                        genericParsingOfUrlSpace(getUrlBodyTextWithPhantom("http://www.proxylists.net/80_" + i + ".html"), ProxyInfo.PROXY_TYPES_HTTP);
+                    for (int i = 151; i < 200; i++)
+                    {
+                        try
+                        {
+                            genericParsingOfUrlSpace(downloadPageWithPhantomJs("http://www.proxylists.net/80_" + i + ".html"), ProxyInfo.PROXY_TYPES_HTTP);
+                        }
+                        catch (Exception e)
+                        {
+                            e.printStackTrace();;
+                        }
                     }
                 }
             };
@@ -159,8 +239,16 @@ public class happyProxyComCollector extends ProxyCollector
             t = new Thread() {
                 public void run() {
 
-                    for (int i = 201; i < 250; i++) {
-                        genericParsingOfUrlSpace(getUrlBodyTextWithPhantom("http://www.proxylists.net/80_" + i + ".html"), ProxyInfo.PROXY_TYPES_HTTP);
+                    for (int i = 201; i < 250; i++)
+                    {
+                        try
+                        {
+                            genericParsingOfUrlSpace(downloadPageWithPhantomJs("http://www.proxylists.net/80_" + i + ".html"), ProxyInfo.PROXY_TYPES_HTTP);
+                        }
+                        catch (Exception e)
+                        {
+                            e.printStackTrace();;
+                        }
                     }
                 }
             };
@@ -170,8 +258,16 @@ public class happyProxyComCollector extends ProxyCollector
             t = new Thread() {
                 public void run() {
 
-                    for (int i = 251; i < 300; i++) {
-                        genericParsingOfUrlSpace(getUrlBodyTextWithPhantom("http://www.proxylists.net/80_" + i + ".html"), ProxyInfo.PROXY_TYPES_HTTP);
+                    for (int i = 251; i < 300; i++)
+                    {
+                        try
+                        {
+                            genericParsingOfUrlSpace(downloadPageWithPhantomJs("http://www.proxylists.net/80_" + i + ".html"), ProxyInfo.PROXY_TYPES_HTTP);
+                        }
+                        catch (Exception e)
+                        {
+                            e.printStackTrace();;
+                        }
                     }
                 }
             };
@@ -181,8 +277,16 @@ public class happyProxyComCollector extends ProxyCollector
             t = new Thread() {
                 public void run() {
 
-                    for (int i = 301; i < 350; i++) {
-                        genericParsingOfUrlSpace(getUrlBodyTextWithPhantom("http://www.proxylists.net/80_" + i + ".html"), ProxyInfo.PROXY_TYPES_HTTP);
+                    for (int i = 301; i < 350; i++)
+                    {
+                        try
+                        {
+                            genericParsingOfUrlSpace(downloadPageWithPhantomJs("http://www.proxylists.net/80_" + i + ".html"), ProxyInfo.PROXY_TYPES_HTTP);
+                        }
+                        catch (Exception e)
+                        {
+                            e.printStackTrace();;
+                        }
                     }
                 }
             };
@@ -192,8 +296,16 @@ public class happyProxyComCollector extends ProxyCollector
             t = new Thread() {
                 public void run() {
 
-                    for (int i = 351; i < 400; i++) {
-                        genericParsingOfUrlSpace(getUrlBodyTextWithPhantom("http://www.proxylists.net/80_" + i + ".html"), ProxyInfo.PROXY_TYPES_HTTP);
+                    for (int i = 351; i < 400; i++)
+                    {
+                        try
+                        {
+                            genericParsingOfUrlSpace(downloadPageWithPhantomJs("http://www.proxylists.net/80_" + i + ".html"), ProxyInfo.PROXY_TYPES_HTTP);
+                        }
+                        catch (Exception e)
+                        {
+                            e.printStackTrace();;
+                        }
                     }
                 }
             };

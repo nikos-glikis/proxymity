@@ -17,7 +17,6 @@ public class ProxyMooJpCollector extends ProxyCollector
     public ProxyMooJpCollector(CollectorParameters collectorParameters)
     {
         super(collectorParameters);
-        initializePhantom();
     }
 
     public Vector<ProxyInfo> collectProxies()
@@ -26,13 +25,14 @@ public class ProxyMooJpCollector extends ProxyCollector
         {
             for (int i = 2; i< 200; i++)
             {
-                driver.get("http://proxy.moo.jp/?page="+i);
                 boolean foundAtLeastOne = false;
-                WebElement element = driver.findElement(By.tagName("body"));
-                String page = element.getText();
-                //System.out.println(driver.getPageSource());
+
+                String url = "http://proxy.moo.jp/?page="+i;
+                String page = downloadPageWithPhantomJs(url);
+                System.out.println(page);
+
                 Pattern p = Pattern.compile("\\d+\\.\\d+\\.\\d+\\.\\d+ \\d+ [^ ]* ");
-                //System.out.println("Page: " +page);
+
 
                 Matcher m = p.matcher(page);
                 while (m.find())

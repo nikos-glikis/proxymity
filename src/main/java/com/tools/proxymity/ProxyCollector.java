@@ -614,9 +614,9 @@ abstract public class ProxyCollector extends  Thread
         }
     }
 
-    protected String downloadPageSourceWithPhantomJs(String url) throws Exception
+    protected String downloadPageWithPhantomJs(String url, String postParameters) throws Exception
     {
-        PhantomJsJobResult phantomJsJobResult = downloadWithPhantomJs(url);
+        PhantomJsJobResult phantomJsJobResult = downloadWithPhantomJs(url, postParameters);
         if (phantomJsJobResult != null)
         {
             return phantomJsJobResult.getContent();
@@ -627,11 +627,28 @@ abstract public class ProxyCollector extends  Thread
         }
     }
 
+    protected String downloadPageSourceWithPhantomJs(String url) throws Exception
+    {
+       return downloadPageWithPhantomJs(url, null);
+    }
     private PhantomJsJobResult downloadWithPhantomJs(String url) throws Exception
+    {
+        return downloadWithPhantomJs(url, null);
+    }
+    private PhantomJsJobResult downloadWithPhantomJs(String url, String postParameters) throws Exception
     {
         try
         {
-            PhantomJsJob phantomJsJob = phantomJsManager.addJob(url);
+            PhantomJsJob phantomJsJob ;
+            if (postParameters == null)
+            {
+                phantomJsJob = phantomJsManager.addJob(url);
+            }
+            else
+            {
+                phantomJsJob = phantomJsManager.addJob(url, postParameters);
+            }
+
             while(!phantomJsJob.isFinished())
             {
                 Thread.sleep(2000);

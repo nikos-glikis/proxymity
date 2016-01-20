@@ -12,10 +12,10 @@ public class ProxyCollectorManager extends Thread
 {
     CollectorParameters collectorParameters;
     PhantomJsManager phantomJsManager;
-    public ProxyCollectorManager(CollectorParameters collectorParameters)
+    public ProxyCollectorManager(CollectorParameters collectorParameters, boolean useTor)
     {
         this.collectorParameters = collectorParameters;
-        this.phantomJsManager = new PhantomJsManager();
+        this.phantomJsManager = new PhantomJsManager(useTor);
         this.phantomJsManager.start();
         collectorParameters.setPhantomJsManager(this.phantomJsManager);
     }
@@ -46,6 +46,7 @@ public class ProxyCollectorManager extends Thread
                collectors.add(new ProxyNovaComCollector(collectorParameters));
                collectors.add(new Socks24OrgCollector(collectorParameters));
                collectors.add(new MrHinkyDinkCollector(collectorParameters));
+               //below has capta. Maybe try to overcome it.
                collectors.add(new ProxyMooJpCollector(collectorParameters));
                collectors.add(new SocksListNetCollector(collectorParameters));
                collectors.add(new TorVpnComCollector(collectorParameters));

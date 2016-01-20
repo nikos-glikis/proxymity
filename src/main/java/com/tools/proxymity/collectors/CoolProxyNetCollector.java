@@ -18,10 +18,8 @@ public class CoolProxyNetCollector extends ProxyCollector
     public CoolProxyNetCollector(CollectorParameters collectorParameters)
     {
         super(collectorParameters);
-        initializePhantom();
     }
-
-
+    
     public Vector<ProxyInfo> collectProxies()
     {
         try
@@ -30,10 +28,10 @@ public class CoolProxyNetCollector extends ProxyCollector
             for (int i = 1; i<50; i++)
             {
                 String url = "http://www.cool-proxy.net/proxies/http_proxy_list/sort:score/direction:desc/page:"+i;
-                //String page = Utilities.readUrl(url);
-                driver.get(url);
+                String page = downloadPageWithPhantomJs(url);
+               /* driver.get(url);
                 WebElement body = driver.findElement(By.tagName("Body"));
-                String page = body.getText();
+                String page = body.getText();*/
 
                 Pattern p = Pattern.compile("\\d+\\.\\d+\\.\\d+\\.\\d+ \\d+", Pattern.DOTALL);
                 boolean foundAtLeastOne = false;

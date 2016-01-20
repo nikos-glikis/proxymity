@@ -3,6 +3,8 @@ package com.tools.proxymity.collectors;
 import com.tools.proxymity.datatypes.CollectorParameters;
 import com.tools.proxymity.datatypes.ProxyInfo;
 import com.tools.proxymity.ProxyCollector;
+import com.tools.proxymity.phantomjs.PhantomJsJob;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -21,11 +23,9 @@ public class SampleCollector extends ProxyCollector
         try
         {
 
-            for (int i = 1; i<50; i++)
-            {
-
-
-            }
+            String page = downloadPageWithPhantomJs("http://spys.ru/free-proxy-list/CN/","xpp=3&xf1=0&xf2=0&xf4=0");
+            System.out.println(page);
+            System.exit(0);
         }
         catch (Exception e)
         {

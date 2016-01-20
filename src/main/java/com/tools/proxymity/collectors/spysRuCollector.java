@@ -81,7 +81,7 @@ public class spysRuCollector extends ProxyCollector
             try
             {
                 url = url.replace("__page__", new Integer(i).toString());
-                String page = downloadPageWithPhantomJs(url);
+                String page = downloadPageWithPhantomJs(url,"xpp=3&xf1=0&xf2=0&xf4=0");
                 Pattern p = Pattern.compile("\\d++\\.\\d++\\.\\d++\\.\\d++:\\d+ .*? ",Pattern.DOTALL);
 
                 Matcher m = p.matcher(page);

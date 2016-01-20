@@ -18,7 +18,6 @@ public class XroxyComCollector extends ProxyCollector
     public XroxyComCollector(CollectorParameters collectorParameters)
     {
         super(collectorParameters);
-        //initializePhantom();
     }
 
     public Vector<ProxyInfo> collectProxies()

@@ -20,7 +20,6 @@ public class FreeProxyCzCollector extends ProxyCollector
     public FreeProxyCzCollector(CollectorParameters collectorParameters)
     {
         super(collectorParameters);
-        //initializePhantom();
     }
 
     public Vector<ProxyInfo> collectProxies()

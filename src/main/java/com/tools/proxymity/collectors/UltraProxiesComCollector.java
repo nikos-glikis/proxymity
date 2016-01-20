@@ -19,16 +19,19 @@ public class UltraProxiesComCollector extends ProxyCollector
     public UltraProxiesComCollector(CollectorParameters collectorParameters)
     {
         super(collectorParameters);
-        initializePhantom();
+        //initializePhantom();
+        //initializePhantom();
     }
 
     public Vector<ProxyInfo> collectProxies()
     {
         try
         {
-            driver.get("http://www.ultraproxies.com/");
+            /*driver.get("http://www.ultraproxies.com/");
             WebElement webElement = driver.findElement(By.tagName("body"));
-            String page = webElement.getText();
+            String page = webElement.getText();*/
+
+            String page = downloadPageWithPhantomJs("http://www.ultraproxies.com/");
 
             //System.out.println(page);
             Pattern p = Pattern.compile("\\d+\\.\\d+\\.\\d+\\.\\d+: \\d+");

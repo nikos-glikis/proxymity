@@ -3,13 +3,6 @@ package com.tools.proxymity.collectors;
 import com.tools.proxymity.ProxyCollector;
 import com.tools.proxymity.datatypes.CollectorParameters;
 import com.tools.proxymity.datatypes.ProxyInfo;
-import com.toortools.Utilities;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.firefox.FirefoxProfile;
-import org.openqa.selenium.phantomjs.PhantomJSDriver;
 
 import java.io.DataOutputStream;
 import java.io.InputStream;

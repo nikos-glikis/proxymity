@@ -4,8 +4,10 @@ package com.tools.proxymity;
 import com.tools.proxymity.datatypes.CollectorParameters;
 import com.tools.proxymity.helpers.ConsoleColors;
 import com.toortools.Utilities;
+import com.toortools.os.OsHelper;
 import com.toortools.tor.TorHelper;
 
+import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -26,9 +28,9 @@ public class Proxymity
     public static final int RECHECK_INTERVAL_MINUTES = 20;
     public static final long SLEEP_BETWEEN_REPORTS_SECONDS = 15;
     public static final long MARK_DEAD_AFTER_MINUTES = 60;
-    public static final long PHANTOM_JS_TIMEOUT_SECONDS = 5;
+    public static final long PHANTOM_JS_TIMEOUT_SECONDS = 15;
     public static final int SLEEP_SECONDS_BETWEEN_SCANS = 120;
-    public static final int PHANTOM_JS_WORKERS_COUNT = 5;
+    public static final int PHANTOM_JS_WORKERS_COUNT = 10;
     ;
     public boolean useTor = false;
     ProxyCheckerManager proxyCheckerManager;
@@ -38,7 +40,7 @@ public class Proxymity
         try
         {
             this.dbInformation = dbInformation;
-
+            OsHelper.deleteFolderContentsRecursive(new File("tmp"));
             connectToDatabase();
 
             if (!isTableInDatabase(dbConnection, TABLE_NAME))
@@ -60,6 +62,8 @@ public class Proxymity
                     throw new Exception("Proxies table doesn't exist, and automatic creation failed.");
                 }
             }
+
+
 
             if (this.proxyCheckerManager == null)
             {
@@ -139,7 +143,6 @@ public class Proxymity
     {
         TorHelper.torifySimple(true);
         this.useTor = true;
-
     }
 
     private void resetProxiesAttributes()
@@ -311,7 +314,7 @@ public class Proxymity
             collectorParameters.setDbConnection(dbConnection);
             collectorParameters.setSleepBetweenScansSeconds(Proxymity.SLEEP_SECONDS_BETWEEN_SCANS);
 
-            new ProxyCollectorManager(collectorParameters).start();
+            new ProxyCollectorManager(collectorParameters, useTor).start();
         }
         catch (Exception e)
         {
