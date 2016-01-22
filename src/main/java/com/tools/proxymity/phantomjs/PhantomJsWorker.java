@@ -158,7 +158,7 @@ public class PhantomJsWorker extends Thread
                         /*phantomJsJob.setStatusFailed();
                         phantomJsJob.setException(e);
                         e.printStackTrace();*/
-                        e.printStackTrace();
+
                     }
 
                     //driver.findElement(By.tagName("body")).sendKeys("Keys.ESCAPE");
