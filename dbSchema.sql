@@ -20,3 +20,18 @@ ALTER TABLE `proxymity_proxies` CHANGE `status` `status` ENUM('active','inactive
 ALTER TABLE `proxymity_proxies` ADD `lastactive` DATETIME NOT NULL ;
 
 ALTER TABLE `proxymity_proxies` ADD INDEX(`lastchecked`);
+
+
+DROP PROCEDURE IF EXISTS getRandomProxy//
+
+CREATE PROCEDURE getProxy (
+    IN type enum('socks4', 'socks5', 'http', 'https')
+)
+BEGIN
+    SELECT *
+    FROM `proxymity_proxies`
+    WHERE  type = type AND
+      status ='active'
+    ORDER BY RAND()
+    LIMIT 1;
+END//
