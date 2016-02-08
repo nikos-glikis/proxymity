@@ -23,15 +23,23 @@ ALTER TABLE `proxymity_proxies` ADD INDEX(`lastchecked`);
 
 
 DROP PROCEDURE IF EXISTS getRandomProxy//
-
-CREATE PROCEDURE getProxy (
+CREATE PROCEDURE getRandomProxy
+ (
     IN type enum('socks4', 'socks5', 'http', 'https')
 )
 BEGIN
-    SELECT *
-    FROM `proxymity_proxies`
-    WHERE  type = type AND
-      status ='active'
-    ORDER BY RAND()
-    LIMIT 1;
+ IF type IS NULL THEN
+        SELECT *
+        FROM `proxymity_proxies`
+        WHERE status ='active'
+        ORDER BY RAND()
+        LIMIT 1;
+ ELSE
+        SELECT *
+        FROM `proxymity_proxies`
+        WHERE  type = type AND
+                status ='active'
+        ORDER BY RAND()
+        LIMIT 1;
+ END IF;
 END//
