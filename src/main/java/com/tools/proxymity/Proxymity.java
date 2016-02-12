@@ -31,6 +31,8 @@ public class Proxymity
     public static final long PHANTOM_JS_TIMEOUT_SECONDS = 15;
     public static final int SLEEP_SECONDS_BETWEEN_SCANS = 120;
     public static final int PHANTOM_JS_WORKERS_COUNT = 10;
+    public static final String HTTPS_CHECK_URL = "www.facebook.com";
+    public static final int TIMEOUT_MS = 10000;
     ;
     public boolean useTor = false;
     ProxyCheckerManager proxyCheckerManager;
@@ -150,7 +152,7 @@ public class Proxymity
         try
         {
             Statement st = dbConnection.createStatement();
-            st.execute("UPDATE `"+TABLE_NAME+"` SET status = 'pending', fullanonymous = 'no', remoteIp = NULL, lastactive = NOW()");
+            st.execute("UPDATE `"+TABLE_NAME+"` SET status = 'pending', fullanonymous = 'no', remoteIp = NULL, lastactive = NOW(), https = 'no'");
             st.close();
         }
         catch (Exception e)
@@ -169,8 +171,13 @@ public class Proxymity
             int activeCount = getActiveProxiesCount();
             int anonCount = getAnonymousProxiesCount();
             int deadCount = getDeadProxiesCount();
+            int socksAllCount = getSocksActive();
+            int socksHttpsActive = getSocksHttpsActive();
+            int httpsActive = getHttps();
+            int httpHttpsActive = getHttpHttpsActive();
 
             ConsoleColors.printBlue("Proxies: Total/Checked/Active/Anonymous: "+totalCount+"/"+checkedCount+"/"+activeCount+"/"+anonCount + " Dead: "+deadCount);
+            ConsoleColors.printBlue("SocksAll/Socks+Https/HTTPS/HTTP+S " + socksAllCount+"/"+socksHttpsActive+"/"+httpsActive+"/"+httpHttpsActive);
         }
         catch (Exception e)
         {
@@ -181,6 +188,30 @@ public class Proxymity
     public int getDeadProxiesCount()
     {
         String where = "status = 'dead' ";
+        return getWhereCount(where);
+    }
+
+    public int getHttpHttpsActive()
+    {
+        String where = "status = 'active' AND https = 'yes' AND type = 'http' ";
+        return getWhereCount(where);
+    }
+
+    public int getSocksHttpsActive()
+    {
+        String where = "status = 'active' AND https = 'yes' AND (type = 'socks4' OR type ='socks5')";
+        return getWhereCount(where);
+    }
+
+    public int getSocksActive()
+    {
+        String where = "status = 'active'  AND (type = 'socks4' OR type ='socks5')";
+        return getWhereCount(where);
+    }
+
+    public int getHttps()
+    {
+        String where = "status = 'active' AND https = 'yes' ";
         return getWhereCount(where);
     }
 

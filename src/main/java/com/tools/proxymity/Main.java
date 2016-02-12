@@ -12,6 +12,7 @@ public class Main
         DbInformation dbInformation = new DbInformation("localhost","root","toor",3306,"proxies");
 
         Proxymity proxymity = new Proxymity(dbInformation);
+
         //proxymity.useTor();
 
         proxymity.startCheckers();

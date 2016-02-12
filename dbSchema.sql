@@ -21,11 +21,14 @@ ALTER TABLE `proxymity_proxies` ADD `lastactive` DATETIME NOT NULL ;
 
 ALTER TABLE `proxymity_proxies` ADD INDEX(`lastchecked`);
 
+ALTER TABLE `proxymity_proxies` CHANGE `type` `type` ENUM('socks4','socks5','http') CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;
+
+ALTER TABLE `proxymity_proxies` ADD `https` ENUM('yes','no') NOT NULL DEFAULT 'no' ;
 
 DROP PROCEDURE IF EXISTS getRandomProxy//
 CREATE PROCEDURE getRandomProxy
  (
-    IN type enum('socks4', 'socks5', 'http', 'https')
+    IN type enum('socks4', 'socks5', 'http')
 )
 BEGIN
  IF type IS NULL THEN

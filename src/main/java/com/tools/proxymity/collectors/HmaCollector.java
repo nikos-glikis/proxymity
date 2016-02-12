@@ -32,7 +32,6 @@ public class HmaCollector extends ProxyCollector
 
             for (int i = 1; i<50; i++)
             {
-
                 String page = downloadPageWithPhantomJs("http://proxylist.hidemyass.com/"+i);
 
                 Scanner sc = new Scanner(page);

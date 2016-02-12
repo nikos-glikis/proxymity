@@ -3,12 +3,10 @@ package com.tools.proxymity;
 import com.tools.proxymity.datatypes.ProxyInfo;
 import com.toortools.Utilities;
 
-import java.net.InetSocketAddress;
-import java.net.Proxy;
-import java.net.URL;
-import java.net.URLConnection;
+import java.net.*;
 import java.sql.Connection;
 import java.sql.Statement;
+import java.util.Objects;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.regex.Matcher;
@@ -34,7 +32,7 @@ public class ProxyChecker implements Runnable
     {
         try
         {
-            myIp = Utilities.readUrl("http://cpanel.com/showip.shtml");
+            myIp = Utilities.readUrl("http://cpanel.com/showip.shtml").trim();
         }
         catch (Exception e)
         {
@@ -53,8 +51,8 @@ public class ProxyChecker implements Runnable
             Proxy proxy = getProxyFromProxyInfo(proxyInfo);
 
             URLConnection conn = new URL("http://cpanel.com/showip.shtml").openConnection(proxy);
-            conn.setConnectTimeout(10000);
-            conn.setReadTimeout(10000);
+            conn.setConnectTimeout(Proxymity.TIMEOUT_MS);
+            conn.setReadTimeout(Proxymity.TIMEOUT_MS);
             Scanner sc = new Scanner(conn.getInputStream());
             StringBuffer sb = new StringBuffer();
             while (sc.hasNext())
@@ -81,20 +79,49 @@ public class ProxyChecker implements Runnable
             }
             else
             {
+                //System.out.println("My Ip/Remote "+myIp+"/"+ip);
                 markProxyAsGood(proxyInfo);
                 setProxyRemoteIp(proxyInfo, ip);
                 try
                 {
-                  /*  String content = Utilities.readUrl("http://ip.cc/anonymity-test.php");
-                    if (content.contains("high-anonymous (elit"))
+                    //Try https.
+                    try
                     {
-                        markProxyAnonymous(proxyInfo);
-*//*                        content = Utilities.readUrl("http://www.iprivacytools.com/proxy-checker-anonymity-test/");
-                        if (!content.contains("Proxy detected? <span style='background-color:#ffff99;'>NO</span"))
+                        HttpURLConnection.setFollowRedirects(false);
+
+                        HttpURLConnection con =
+                                (HttpURLConnection) new URL("https://"+Proxymity.HTTPS_CHECK_URL).openConnection(proxy);
+                        con.setRequestMethod("HEAD");
+                        con.setConnectTimeout(Proxymity.TIMEOUT_MS);
+                        con.setReadTimeout(Proxymity.TIMEOUT_MS);
+                        if (con.getResponseCode() !=  HttpURLConnection.HTTP_OK)
                         {
-                            System.out.println("Anon error");
-                        }*//*
-                    }*/
+                            markProxyAsHttps(proxyInfo);
+                        }
+                        else
+                        {
+                            markProxyAsNotHttps(proxyInfo);
+                        }
+                        /*Scanner sc2 = new Scanner(con.getInputStream());
+
+                        String temp = sc2.nextLine();
+                        if (temp.equals("<!DOCTYPE html>"))
+                        {
+                            markProxyAsHttps(proxyInfo);
+                        }
+                        else
+                        {
+                            System.out.println("Https output is: "+temp);
+                            markProxyAsNotHttps(proxyInfo);
+                        }*/
+                        con.getInputStream().close();
+                    }
+                    catch (Exception e)
+                    {
+                        //System.out.println("Https error: "+e.toString());
+                        conn.getInputStream().close();
+                        markProxyAsNotHttps(proxyInfo);
+                    }
                 }
                 catch (Exception e)
                 {
@@ -149,6 +176,41 @@ public class ProxyChecker implements Runnable
         {
             setProxyStatus(proxyInfo, ProxyChecker.PROXY_STATUS_ACTIVE);
 
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    private void markProxyAsHttps(ProxyInfo proxyInfo)
+    {
+        setProxyHttpsStatus(proxyInfo, true);
+    }
+
+    private void markProxyAsNotHttps(ProxyInfo proxyInfo)
+    {
+        setProxyHttpsStatus(proxyInfo, false);
+    }
+
+    private void setProxyHttpsStatus(ProxyInfo proxyInfo, boolean https)
+    {
+        try
+        {
+            String httpsStatus;
+            if (https)
+            {
+                httpsStatus = "yes";
+            }
+            else
+            {
+                httpsStatus = "no";
+            }
+            String id = proxyInfo.getId();
+            id = sanitizeDatabaseInput(id);
+            Statement st = dbConnection.createStatement();
+            st.executeUpdate("UPDATE "+Proxymity.TABLE_NAME+" SET https = '"+httpsStatus+"'WHERE id = '"+id+"'");
+            st.close();
         }
         catch (Exception e)
         {
