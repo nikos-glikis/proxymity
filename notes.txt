@@ -1,3 +1,7 @@
+//google request
+intext:proxies intext:8080
+
+
 //TODO see again.
 http://www.proxylists.net/kr_0.html
 
@@ -33,7 +37,10 @@ http://www.proxz.com/proxy_list_high_anonymous_0.html
 http://www.proxz.com/proxy_list_port_nonstd_0.html
 http://www.proxz.com/proxy_list_port_std_0.html
 http://proxydb.net/proxy/list?protocol=http&minavail=0&maxtime=0&limit=100&column=ip&column=port&column=last_checked&ip_filter=&port_filter=&host_filter=&country_filter=&isp_filter=&via_filter=&offset=0
-
+https://kingproxies.com/
+http://www.samair.ru/proxy/
+http://nntime.com/
+http://www.proxylist.ro/
 
 DEAD:
 =====
@@ -63,9 +70,8 @@ http://proxy-masterz.com/vb/f3/
 http://www.ip-adress.com/proxy_list/
 http://www.freeproxylists.net/
 http://hideme.ru/proxy-list/
-https://kingproxies.com/
-http://proxyhttp.net/
-http://proxyhttp.net/free-list/proxy-anonymous-hide-ip-address/
+http://androidproxy.in/
+
 http://www.httptunnel.ge/ProxyListForFree.aspx
 http://www.aliveproxy.com/fastest-proxies/
 http://www.aliveproxy.com/socks5-list/
@@ -79,8 +85,8 @@ http://proxy-list.org/en/
 http://proxy-list.org/english/index.php
 http://www.xroxy.com/proxylist.htm
 http://proxies4google.com/free-proxy-list/
-http://nntime.com/
-http://www.samair.ru/proxy/
+
+
 http://www.cybersyndrome.net/pla.html
 http://www.cybersyndrome.net/
 http://en.proxy.net.pl/fresh.html
@@ -158,21 +164,8 @@ http://freeproxies.biz/page3.html
 http://freeproxies.biz/page4.html
 http://freeproxies.biz/page5.html
 http://hidemyass.com/free_proxy_lists.php
-http://nntime.com/
-http://nntime.com/index.php?start=1
-http://nntime.com/index.php?start=101
-http://nntime.com/index.php?start=151
-http://nntime.com/index.php?start=201
-http://nntime.com/index.php?start=251
-http://nntime.com/index.php?start=301
-http://nntime.com/index.php?start=351
-http://nntime.com/index.php?start=401
-http://nntime.com/index.php?start=451
-http://nntime.com/index.php?start=501
-http://nntime.com/index.php?start=51
-http://nntime.com/index.php?start=551
-http://nntime.com/index.php?start=601
-http://nntime.com/index.php?start=651
+
+
 http://proxy.hackbase.com/page1.html
 http://proxy.hackbase.com/page2.html
 http://proxy.hackbase.com/page3.html

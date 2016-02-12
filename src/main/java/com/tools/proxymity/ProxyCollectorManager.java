@@ -80,6 +80,9 @@ public class ProxyCollectorManager extends Thread
                 collectors.add(new ProxyListMeCollector(collectorParameters));
                 collectors.add(new ProxyDbNetCollector(collectorParameters));
                 collectors.add(new spysRuCollector(collectorParameters));
+                collectors.add(new KingProxiesCollector(collectorParameters));
+                collectors.add(new NnTimeComCollector(collectorParameters));
+                collectors.add(new NnTimeComCollector(collectorParameters));
 
 
                 // Problematic

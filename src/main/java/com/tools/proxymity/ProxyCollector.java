@@ -439,6 +439,7 @@ abstract public class ProxyCollector extends  Thread
         try
         {
             String page = readUrl(url, proxify);
+
             genericParsingOfText(page, type);
         }
         catch (Exception e)
@@ -567,6 +568,11 @@ abstract public class ProxyCollector extends  Thread
         return rows;
     }
 
+    /**
+     * @deprecated
+     * @param url
+     * @return
+     */
     public synchronized String getUrlBodyTextWithPhantom(String url)
     {
         try
