@@ -94,31 +94,26 @@ public class ProxyChecker implements Runnable
                         con.setRequestMethod("HEAD");
                         con.setConnectTimeout(Proxymity.TIMEOUT_MS);
                         con.setReadTimeout(Proxymity.TIMEOUT_MS);
-                        if (con.getResponseCode() !=  HttpURLConnection.HTTP_OK)
+                        if (con.getResponseCode() ==  HttpURLConnection.HTTP_OK)
                         {
                             markProxyAsHttps(proxyInfo);
                         }
                         else
                         {
+                            //System.out.println("Code is: "+con.getResponseCode());
                             markProxyAsNotHttps(proxyInfo);
                         }
-                        /*Scanner sc2 = new Scanner(con.getInputStream());
 
-                        String temp = sc2.nextLine();
-                        if (temp.equals("<!DOCTYPE html>"))
-                        {
-                            markProxyAsHttps(proxyInfo);
-                        }
-                        else
-                        {
-                            System.out.println("Https output is: "+temp);
-                            markProxyAsNotHttps(proxyInfo);
-                        }*/
                         con.getInputStream().close();
                     }
                     catch (Exception e)
                     {
                         //System.out.println("Https error: "+e.toString());
+                        if (proxyInfo.getType().equals(ProxyInfo.PROXY_TYPES_SOCKS4) || proxyInfo.getType().equals( ProxyInfo.PROXY_TYPES_SOCKS4))
+                        {
+                            //WE ARE NEVER HERE, RESEARCH WHY/
+                            System.out.println("Socks Error HTTPS: "+e.toString());
+                        }
                         conn.getInputStream().close();
                         markProxyAsNotHttps(proxyInfo);
                     }

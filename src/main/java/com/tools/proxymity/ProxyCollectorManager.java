@@ -53,7 +53,8 @@ public class ProxyCollectorManager extends Thread
                collectors.add(new GatherproxyCom(collectorParameters));
                collectors.add(new FastproxyserversOrg(collectorParameters));
                collectors.add(new MyproxylistsCom(collectorParameters));
-               collectors.add(new Proxies4googleCom(collectorParameters));
+               //offline
+                //collectors.add(new Proxies4googleCom(collectorParameters));
                collectors.add(new ProxyFireNet(collectorParameters));
                collectors.add(new CnproxyCom(collectorParameters));
                collectors.add(new ProxyroxComCollector(collectorParameters));
@@ -79,6 +80,7 @@ public class ProxyCollectorManager extends Thread
                 collectors.add(new ProxyListMeCollector(collectorParameters));
                 collectors.add(new ProxyDbNetCollector(collectorParameters));
                 collectors.add(new spysRuCollector(collectorParameters));
+
 
                 // Problematic
                 //collectors.add(new IdcloakComCollector(collectorParameters));

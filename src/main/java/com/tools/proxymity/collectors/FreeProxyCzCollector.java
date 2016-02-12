@@ -42,7 +42,7 @@ public class FreeProxyCzCollector extends ProxyCollector
                     continue;
                 }
 
-                System.out.println("free-proxy.cz success");
+                //System.out.println("free-proxy.cz success");
 
                 Pattern p = Pattern.compile("<tr>.*?</tr>", Pattern.DOTALL);
                 Matcher m = p.matcher(page);

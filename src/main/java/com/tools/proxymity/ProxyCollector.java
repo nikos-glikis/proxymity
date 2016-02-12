@@ -469,8 +469,8 @@ abstract public class ProxyCollector extends  Thread
                     p = getRandomProxy();
                 }
                 HttpURLConnection conn = (HttpURLConnection) oracle.openConnection(p);
-                conn.setReadTimeout(10000);
-                conn.setConnectTimeout(10000);
+                conn.setReadTimeout(Proxymity.TIMEOUT_MS);
+                conn.setConnectTimeout(Proxymity.TIMEOUT_MS);
                 conn.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:37.0) Gecko/20100101 Firefox/37.0");
                 BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 

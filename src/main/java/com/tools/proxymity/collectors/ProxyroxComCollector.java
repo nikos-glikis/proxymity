@@ -6,6 +6,7 @@ import com.tools.proxymity.datatypes.ProxyInfo;
 import com.toortools.Utilities;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.StringTokenizer;
 import java.util.Vector;
 import java.util.regex.Matcher;
@@ -22,19 +23,33 @@ public class ProxyroxComCollector extends ProxyCollector
     {
         try
         {
-
             for (int i = 1; i<200; i++)
             {
                 String page ="";
                 try
                 {
-                    page = Utilities.readUrl("http://proxyrox.com/?p="+i);
+                    while (true)
+                    {
+                        try
+                        {
+                            page = anonReadUrl("http://proxyrox.com/?p="+i);
+                        }
+                        catch (IOException e)
+                        {
+                            //System.out.println("ProxyRox.com fail");
+                            continue;
+                        }
+                        break;
+                    }
+                    //System.out.println("ProxyRox.com Success!");
                 }
+
                 catch (FileNotFoundException e)
                 {
                     //e.printStackTrace();
                     return getProxies();
                 }
+
                 Pattern p = Pattern.compile("\\d+\\.\\d+\\.\\d+\\.\\d+:\\d+");
                 Matcher m = p.matcher(page);
                 while (m.find())

@@ -23,7 +23,7 @@ public class Proxymity
     //TODO global get functions / anonymize.
     //TODO delete dead after some time
     //TODO transform random 500 to last order by checked
-    static final public int PROXY_CHECKERS_COUNT = 500;
+    static final public int PROXY_CHECKERS_COUNT = 250;
     static final public String TABLE_NAME = "proxymity_proxies";
     public static final int RECHECK_INTERVAL_MINUTES = 20;
     public static final long SLEEP_BETWEEN_REPORTS_SECONDS = 15;
@@ -31,7 +31,7 @@ public class Proxymity
     public static final long PHANTOM_JS_TIMEOUT_SECONDS = 15;
     public static final int SLEEP_SECONDS_BETWEEN_SCANS = 120;
     public static final int PHANTOM_JS_WORKERS_COUNT = 10;
-    public static final String HTTPS_CHECK_URL = "www.facebook.com";
+    public static final String HTTPS_CHECK_URL = "httpbin.org";
     public static final int TIMEOUT_MS = 10000;
     ;
     public boolean useTor = false;
@@ -80,7 +80,7 @@ public class Proxymity
             System.exit(0);
         }
 
-        resetProxiesAttributes();
+        //resetProxiesAttributes();
         new Thread()
         {
             public void run()
