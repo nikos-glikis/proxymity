@@ -21,6 +21,11 @@ public class MrHinkyDinkCollector extends ProxyCollector
     {
         try
         {
+            try {
+                genericParsingOfUrl("http://www.blackhatunderground.net/forum/buy-sell-trade-blackhat-marketplace/50-000-new-proxies-every-day!-worldwide-usa-elite-socks-%2850kproxies-com%29/90/", ProxyInfo.PROXY_TYPES_HTTP);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             for (int i = 1; i<50; i++)
             {
                 String url ="http://www.mrhinkydink.com/proxies"+i+".htm";
