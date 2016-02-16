@@ -50,7 +50,7 @@ public class ProxyCheckerManager extends Thread
 
                 fixedPool = Executors.newFixedThreadPool(Proxymity.PROXY_CHECKERS_COUNT);
 
-                proxyInfos  = getDeadProxiesForCheck(500);
+                proxyInfos  = getDeadProxiesForCheck(5000);
                 for (ProxyInfo proxyInfo: proxyInfos)
                 {
                     fixedPool.submit(new ProxyChecker(proxyInfo, dbConnection));
