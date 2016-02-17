@@ -25,6 +25,8 @@ ALTER TABLE `proxymity_proxies` CHANGE `type` `type` ENUM('socks4','socks5','htt
 
 ALTER TABLE `proxymity_proxies` ADD `https` ENUM('yes','no') NOT NULL DEFAULT 'no' ;
 
+DELIMITER //
+
 DROP PROCEDURE IF EXISTS getRandomProxy//
 CREATE PROCEDURE getRandomProxy
  (
@@ -46,3 +48,5 @@ BEGIN
         LIMIT 1;
  END IF;
 END//
+
+DELIMITER;
