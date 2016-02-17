@@ -9,7 +9,7 @@ public class Main
     public static void main(String[] args)
     {
 
-        DbInformation dbInformation = new DbInformation("127.0.0.1","root","toor",3306,"proxies");
+        DbInformation dbInformation = new DbInformation("127.0.0.1","root","",3306,"proxies");
 
         Proxymity proxymity = new Proxymity(dbInformation);
 
