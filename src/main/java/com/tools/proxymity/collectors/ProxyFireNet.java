@@ -1,8 +1,6 @@
 package com.tools.proxymity.collectors;
 
-import com.sun.corba.se.impl.javax.rmi.CORBA.Util;
-import com.sun.deploy.net.proxy.ProxyType;
-import com.sun.deploy.util.SystemUtils;
+
 import com.tools.proxymity.ProxyCollector;
 import com.tools.proxymity.datatypes.CollectorParameters;
 import com.tools.proxymity.datatypes.ProxyInfo;
