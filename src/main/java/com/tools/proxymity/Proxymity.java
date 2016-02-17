@@ -31,7 +31,8 @@ public class Proxymity
     public static final long PHANTOM_JS_TIMEOUT_SECONDS = 15;
     public static final int SLEEP_SECONDS_BETWEEN_SCANS = 120;
     public static final int PHANTOM_JS_WORKERS_COUNT = 10;
-    public static final String HTTPS_CHECK_URL = "httpbin.org";
+    public static final String HTTPS_CHECK_URL = "httpbin.org/ip";
+    public static final String HTTPS_CHECK_STRING = "\"origin\": \"";
     public static final int TIMEOUT_MS = 10000;
     ;
     public boolean useTor = false;

@@ -91,10 +91,22 @@ public class ProxyChecker implements Runnable
 
                         HttpURLConnection con =
                                 (HttpURLConnection) new URL("https://"+Proxymity.HTTPS_CHECK_URL).openConnection(proxy);
-                        con.setRequestMethod("HEAD");
+
                         con.setConnectTimeout(Proxymity.TIMEOUT_MS);
                         con.setReadTimeout(Proxymity.TIMEOUT_MS);
-                        if (con.getResponseCode() ==  HttpURLConnection.HTTP_OK)
+                        Scanner sc2 = new Scanner(con.getInputStream());
+                        StringBuffer sb2 = new StringBuffer();
+
+                        while (sc2.hasNext())
+                        {
+                            sb2.append(sc2.nextLine()+"\n");
+                        }
+                        if (sb2.toString().contains(Proxymity.HTTPS_CHECK_STRING)) {
+                            markProxyAsHttps(proxyInfo);
+                        } else {
+                            markProxyAsNotHttps(proxyInfo);
+                        }
+                        /*if (con.getResponseCode() ==  HttpURLConnection.HTTP_OK)
                         {
                             markProxyAsHttps(proxyInfo);
                         }
@@ -102,7 +114,7 @@ public class ProxyChecker implements Runnable
                         {
                             //System.out.println("Code is: "+con.getResponseCode());
                             markProxyAsNotHttps(proxyInfo);
-                        }
+                        }*/
 
                         con.getInputStream().close();
                     }
