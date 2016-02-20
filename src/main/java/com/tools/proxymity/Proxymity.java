@@ -66,8 +66,6 @@ public class Proxymity
                 }
             }
 
-
-
             if (this.proxyCheckerManager == null)
             {
                 proxyCheckerManager = new ProxyCheckerManager(dbConnection);

@@ -122,8 +122,6 @@ public class PhantomJsWorker extends Thread
                         {
                             HashMap<String, String> postParameters = phantomJsJob.getPostParameters();
                             String form= "<html><head></head><body><form id =\"form1\" action=\""+phantomJsJob.getUrl()+"\" method=\"post\">\n" +
-
-
                                     "<input type=\"submit\" value=\"Submit\">";
 
                             for (Map.Entry<String, String> entry : postParameters.entrySet())
