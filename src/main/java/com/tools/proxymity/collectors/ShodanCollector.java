@@ -44,13 +44,13 @@ public class ShodanCollector extends ProxyCollector
                 proxyInfo.setType(ProxyInfo.PROXY_TYPES_HTTP);
                 proxyInfo.setCheckOnlyOnce();
                 addProxy(proxyInfo);
-                proxyInfo = new ProxyInfo();
+/*                proxyInfo = new ProxyInfo();
                 proxyInfo.setHost(line);
                 proxyInfo.setPort(port);
                 proxyInfo.setPriority(-100);
                 proxyInfo.setType(ProxyInfo.PROXY_TYPES_SOCKS5);
                 proxyInfo.setCheckOnlyOnce();
-                addProxy(proxyInfo);
+                addProxy(proxyInfo);*/
 
                 //System.out.println(line);
             }
