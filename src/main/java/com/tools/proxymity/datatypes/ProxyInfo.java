@@ -11,6 +11,18 @@ public class ProxyInfo
     private String host;
     private String port;
     private String type;
+    private boolean checkOnlyOnce = false;
+    private int priority=0;
+
+    public int getPriority()
+    {
+        return priority;
+    }
+
+    public void setPriority(int priority)
+    {
+        this.priority = priority;
+    }
 
     public String getId()
     {
@@ -45,6 +57,21 @@ public class ProxyInfo
     public String getType()
     {
         return type;
+    }
+
+    public void unsetCheckOnlyOnce()
+    {
+        this.checkOnlyOnce = true;
+    }
+
+    public void setCheckOnlyOnce()
+    {
+        this.checkOnlyOnce = true;
+    }
+
+    public boolean isCheckOnlyOnce()
+    {
+        return checkOnlyOnce;
     }
 
     public void setType(String type) throws Exception

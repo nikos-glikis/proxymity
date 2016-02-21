@@ -111,6 +111,14 @@ public class ProxyCheckerManager extends Thread
                 proxyInfo.setHost(rs.getString(2));
                 proxyInfo.setPort(rs.getString(3));
                 proxyInfo.setType(rs.getString(4));
+                if (rs.getString(5).equals("yes"))
+                {
+                    proxyInfo.setCheckOnlyOnce();
+                }
+                else
+                {
+                    proxyInfo.setCheckOnlyOnce();
+                }
                 proxyInfos.add(proxyInfo);
             }
         }
@@ -127,7 +135,7 @@ public class ProxyCheckerManager extends Thread
         try
         {
             Statement st = dbConnection.createStatement();
-            ResultSet rs = st.executeQuery("SELECT id, host, port, type FROM "+Proxymity.TABLE_NAME+" WHERE status = 'dead'  ORDER BY RAND() LIMIT "+count);
+            ResultSet rs = st.executeQuery("SELECT id, host, port, type, checkOnlyOnce FROM "+Proxymity.TABLE_NAME+" WHERE status = 'dead' AND checkOnlyOnce = 'no' ORDER BY priority DESC, RAND() LIMIT "+count);
             proxyInfos = getProxyInfosFromResultSet(rs);
             int i = proxyInfos.size();
             printMessage("Fetched "+i+ " random dead proxies for check.  ");
@@ -154,7 +162,7 @@ public class ProxyCheckerManager extends Thread
         try
         {
             Statement st = dbConnection.createStatement();
-            ResultSet rs = st.executeQuery("SELECT id, host, port, type FROM "+Proxymity.TABLE_NAME+" WHERE status = 'dead'  ORDER BY lastchecked LIMIT "+count);
+            ResultSet rs = st.executeQuery("SELECT id, host, port, type, checkOnlyOnce FROM "+Proxymity.TABLE_NAME+" WHERE status = 'dead' AND checkOnlyOnce = 'no' ORDER BY lastchecked LIMIT "+count);
             proxyInfos = getProxyInfosFromResultSet(rs);
             int i = proxyInfos.size();
             printMessage("Fetched "+i+ " dead proxies for check.");
@@ -176,9 +184,9 @@ public class ProxyCheckerManager extends Thread
         try
         {
             Statement st = dbConnection.createStatement();
-            ResultSet rs = st.executeQuery("SELECT id, host, port, type FROM "+Proxymity.TABLE_NAME+" WHERE status = 'pending'  " +
-                    "UNION SELECT id, host, port, type FROM "+Proxymity.TABLE_NAME+" WHERE lastchecked is NULL LIMIT 5000  " +
-                    "UNION SELECT id, host, port, type FROM "+Proxymity.TABLE_NAME+" WHERE ( status != 'dead' ) AND (lastchecked not BETWEEN DATE_SUB(NOW(), INTERVAL "+ Proxymity.RECHECK_INTERVAL_MINUTES +" MINUTE) AND NOW())  ORDER BY RAND()  LIMIT 5000");
+            ResultSet rs = st.executeQuery("SELECT id, host, port, type, checkOnlyOnce FROM "+Proxymity.TABLE_NAME+" WHERE status = 'pending'  " +
+                    "UNION SELECT id, host, port, type, checkOnlyOnce FROM "+Proxymity.TABLE_NAME+" WHERE lastchecked is NULL LIMIT 5000  " +
+                    "UNION SELECT id, host, port, type, checkOnlyOnce FROM "+Proxymity.TABLE_NAME+" WHERE ( status != 'dead' ) AND (lastchecked not BETWEEN DATE_SUB(NOW(), INTERVAL "+ Proxymity.RECHECK_INTERVAL_MINUTES +" MINUTE) AND NOW())  ORDER BY RAND()  LIMIT 5000");
 
             proxyInfos = getProxyInfosFromResultSet(rs);
             int i = proxyInfos.size();

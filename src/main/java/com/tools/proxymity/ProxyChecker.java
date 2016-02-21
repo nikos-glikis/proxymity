@@ -168,7 +168,14 @@ public class ProxyChecker implements Runnable
     {
         try
         {
-            setProxyStatus(proxyInfo, ProxyChecker.PROXY_STATUS_INACTIVE);
+            if (proxyInfo.isCheckOnlyOnce())
+            {
+                setProxyStatus(proxyInfo, ProxyChecker.PROXY_STATUS_DEAD);
+            }
+            else
+            {
+                setProxyStatus(proxyInfo, ProxyChecker.PROXY_STATUS_INACTIVE);
+            }
 
         }
         catch (Exception e)

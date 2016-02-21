@@ -126,7 +126,7 @@ abstract public class ProxyCollector extends  Thread
         this.writeProxyInfoToDatabase(this.proxies);
     }
 
-    private void writeProxyInfoToDatabase(Vector<ProxyInfo> proxyInfos)
+    private synchronized void  writeProxyInfoToDatabase(Vector<ProxyInfo> proxyInfos)
     {
         try
         {
@@ -141,6 +141,12 @@ abstract public class ProxyCollector extends  Thread
                 {
                     continue;
                 }
+                String checkOnlyOnce ="no";
+                if (proxyInfo.isCheckOnlyOnce())
+                {
+                    checkOnlyOnce = "yes";
+                }
+
                 String query = "INSERT INTO `proxies`.`"+Proxymity.TABLE_NAME+"` (" +
                         "`id`, " +
                         "`host`, " +
@@ -150,7 +156,9 @@ abstract public class ProxyCollector extends  Thread
                         "`lastchecked`, " +
                         "`status`, " +
                         "`fullanonymous`, " +
-                        "`lastactive` " +
+                        "`lastactive`, " +
+                        "`checkOnlyOnce`, " +
+                        "`priority` " +
 
                         ") VALUES  (" +
                         "0, " +
@@ -161,7 +169,9 @@ abstract public class ProxyCollector extends  Thread
                         "NULL, " +
                         "'pending', " +
                         "'no'," +
-                        " NOW()" +
+                        " NOW()," +
+                        " '"+checkOnlyOnce+"'," +
+                        " '"+proxyInfo.getPriority()+"'" +
                         ")";
                 //System.out.println(query);
 

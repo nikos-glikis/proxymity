@@ -25,6 +25,19 @@ ALTER TABLE `proxymity_proxies` CHANGE `type` `type` ENUM('socks4','socks5','htt
 
 ALTER TABLE `proxymity_proxies` ADD `https` ENUM('yes','no') NOT NULL DEFAULT 'no' ;
 
+ALTER TABLE `proxymity_proxies` ADD `checkOnlyOnce` ENUM('yes', 'no') NOT NULL ;
+
+ALTER TABLE `proxymity_proxies` CHANGE `checkOnlyOnce` `checkOnlyOnce` ENUM('yes','no') CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'no';
+
+ALTER TABLE `proxymity_proxies` ADD `priority` INT NOT NULL ;
+
+ALTER TABLE `proxymity_proxies` ADD `priority` INT NOT NULL ;
+
+ALTER TABLE `proxymity_proxies` CHANGE `priority` `priority` INT(11) NOT NULL DEFAULT '0';
+
+
+
+
 DELIMITER //
 
 DROP PROCEDURE IF EXISTS getRandomProxy//
