@@ -6,6 +6,7 @@ import com.tools.proxymity.datatypes.ProxyInfo;
 import com.toortools.Utilities;
 
 import java.util.Collections;
+import java.util.StringTokenizer;
 import java.util.Vector;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -14,7 +15,7 @@ import java.util.regex.Pattern;
 
 public class ShodanCollector extends ProxyCollector
 {
-    String cookie = "__cfduid=dc5423f43e6dd5e4ed64fe309227fb8ba1456049527; _ga=GA1.2.1230545018.1456049528; _gat=1; polito=\"ff2e4f6987ac9513ca12271a44fc68eb56cb34f056096e5ee44985157c363f22!\"; _LOCALE_=en";
+    String cookie = "__cfduid=dc5423f43e6dd5e4ed64fe309227fb8ba1456049527; _ga=GA1.2.1230545018.1456049528; _LOCALE_=en; _gat=1; session=\"39ce55feb1e157313b5d950c1b343b24b81f1755gAJVQGVlYzk1NjJiNTZmYmZhMmI2ZDlhNGZjMDg2MzgwNzcyZDUzNjBjYjgzZTI1ZjZkZDgyZjNmMTc5MmUwODQ2ZjNxAS4\\075\"; polito=\"0dd08171d6adba4ee67dfa48f9dae9b256ce25f856096e5ee44985157c363f22!\"; polito=\"0dd08171d6adba4ee67dfa48f9dae9b256ce25f856096e5ee44985157c363f22!\"";
     public ShodanCollector(CollectorParameters collectorParameters)
     {
         super(collectorParameters);
@@ -25,7 +26,7 @@ public class ShodanCollector extends ProxyCollector
     {
         try
         {
-
+            //TODO we can do the cities.
             String page = Utilities.readUrl(url, cookie);
             if (page.contains("<p>Result limit reached.</p>")
                     ||page.contains("<div class=\"msg alert alert-info\">No results found</div>")
@@ -36,32 +37,63 @@ public class ShodanCollector extends ProxyCollector
             {
                 return false;
             }
-            Pattern p = Pattern.compile("\\d+\\.\\d+\\.\\d+\\.\\d+");
-            Matcher m = p.matcher(page);
             boolean foundAtLeastOne = false;
-            while (m.find())
+            if (port.equals("-1"))
             {
-                foundAtLeastOne = true;
-                String line = m.group();
-                ProxyInfo proxyInfo = new ProxyInfo();
-                proxyInfo.setHost(line);
-                proxyInfo.setPort(port);
-                proxyInfo.setPriority(-100);
-                proxyInfo.setType(ProxyInfo.PROXY_TYPES_HTTP);
-                proxyInfo.setCheckOnlyOnce();
-                addProxy(proxyInfo);
-/*                proxyInfo = new ProxyInfo();
-                proxyInfo.setHost(line);
-                proxyInfo.setPort(port);
-                proxyInfo.setPriority(-100);
-                proxyInfo.setType(ProxyInfo.PROXY_TYPES_SOCKS5);
-                proxyInfo.setCheckOnlyOnce();
-                addProxy(proxyInfo);*/
+                Pattern p = Pattern.compile("\\d+\\.\\d+\\.\\d+\\.\\d+\"");
+                Matcher m = p.matcher(page);
 
-                //System.out.println(line);
+                while (m.find()) {
+                    foundAtLeastOne = true;
+                    String line = m.group();
+                    ProxyInfo proxyInfo = new ProxyInfo();
+                    proxyInfo.setHost(line);
+                    proxyInfo.setPort("80");
+                    proxyInfo.setPriority(-100);
+                    proxyInfo.setType(ProxyInfo.PROXY_TYPES_HTTP);
+                    proxyInfo.setCheckOnlyOnce();
+                    addProxy(proxyInfo);
+
+                }
+                p = Pattern.compile("\\d+\\.\\d+\\.\\d+\\.\\d+:\\d+");
+                m = p.matcher(page);
+
+                while (m.find())
+                {
+                    foundAtLeastOne = true;
+                    String line = m.group();
+                    //System.out.println(line);
+                    StringTokenizer st = new StringTokenizer(line,":");
+
+                    ProxyInfo proxyInfo = new ProxyInfo();
+                    proxyInfo.setHost(st.nextToken());
+                    proxyInfo.setPort(st.nextToken());
+                    proxyInfo.setPriority(-100);
+                    proxyInfo.setType(ProxyInfo.PROXY_TYPES_HTTP);
+                    proxyInfo.setCheckOnlyOnce();
+                    addProxy(proxyInfo);
+                }
             }
-            if (!foundAtLeastOne)
+            else
             {
+                Pattern p = Pattern.compile("\\d+\\.\\d+\\.\\d+\\.\\d+");
+                Matcher m = p.matcher(page);
+
+                while (m.find()) {
+                    foundAtLeastOne = true;
+                    String line = m.group();
+                    ProxyInfo proxyInfo = new ProxyInfo();
+                    proxyInfo.setHost(line);
+                    proxyInfo.setPort(port);
+                    proxyInfo.setPriority(-100);
+                    proxyInfo.setType(ProxyInfo.PROXY_TYPES_HTTP);
+                    proxyInfo.setCheckOnlyOnce();
+                    addProxy(proxyInfo);
+
+                }
+
+            }
+            if (!foundAtLeastOne) {
                 return false;
             }
 
@@ -71,6 +103,61 @@ public class ShodanCollector extends ProxyCollector
             e.printStackTrace();
         }
         return true;
+    }
+
+    public void checkShodanText(String text, String cookie, String type)
+    {
+        try
+        {
+            for (String country: countries)
+            {
+                Thread t = new Thread(){
+                    public void run()
+                    {
+                        //System.out.println("Starting port/country: "+port+"/"+country);
+                        for (int i = 0; i < 1001; i++)
+                        {
+                            String url = "https://www.shodan.io/search?query="+text+"+country%3A\""+country+"\""+"&page=" + i;
+                            if (!checkShodanUrl(url,cookie,type,"-1"))
+                            {
+                                //System.out.println("Shodan breaking on: "+url);
+                                break;
+                            }
+                        }
+
+
+                    }
+                };
+
+                shodanThreads.add(t);
+            }
+
+            Thread t = new Thread(){
+                public void run()
+                {
+
+                    for (int i = 0; i < 1001; i++)
+                    {
+                        //System.out.println("Starting port genera: "+port);
+                        String url = "https://www.shodan.io/search?query=" + text+ "&page=" + i;
+                        if (!checkShodanUrl(url,cookie,type,"-1"))
+                        {
+                            //System.out.println("Shodan breaking on: "+url);
+                            break;
+                        }
+                    }
+
+
+                }
+            };
+
+            shodanThreads.add(t);
+
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
     }
 
     public void checkShodanPort(String port, String cookie, String type)
@@ -132,12 +219,14 @@ public class ShodanCollector extends ProxyCollector
     boolean done = false;
     public Vector<ProxyInfo> collectProxies()
     {
+        if (done)
+        {
+            return getProxies();
+        }
         try
         {
-            if (done)
-            {
-                return getProxies();
-            }
+            checkShodanText("Server: squid", cookie, ProxyInfo.PROXY_TYPES_HTTP);
+            /*
             checkShodanPort("8118",
                     cookie
                     ,ProxyInfo.PROXY_TYPES_HTTP
@@ -165,7 +254,7 @@ public class ShodanCollector extends ProxyCollector
             checkShodanPort("1080",
                     cookie
                     ,ProxyInfo.PROXY_TYPES_HTTP
-            );
+            );*/
 
             Collections.shuffle(shodanThreads);
 
@@ -175,10 +264,7 @@ public class ShodanCollector extends ProxyCollector
             }
 
             shodanExecutor.shutdown();
-
             done = true;
-
-
 
         }
         catch (Exception e)
