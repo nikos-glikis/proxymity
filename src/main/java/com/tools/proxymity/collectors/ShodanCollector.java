@@ -14,6 +14,7 @@ import java.util.regex.Pattern;
 
 public class ShodanCollector extends ProxyCollector
 {
+    String cookie = "__cfduid=dc5423f43e6dd5e4ed64fe309227fb8ba1456049527; _ga=GA1.2.1230545018.1456049528; _gat=1; polito=\"ff2e4f6987ac9513ca12271a44fc68eb56cb34f056096e5ee44985157c363f22!\"; _LOCALE_=en";
     public ShodanCollector(CollectorParameters collectorParameters)
     {
         super(collectorParameters);
@@ -26,7 +27,12 @@ public class ShodanCollector extends ProxyCollector
         {
 
             String page = Utilities.readUrl(url, cookie);
-            if (page.contains("<p>Result limit reached.</p>") || page.contains("<div class=\"msg alert alert-info\">No results found</div>"))
+            if (page.contains("<p>Result limit reached.</p>")
+                    ||page.contains("<div class=\"msg alert alert-info\">No results found</div>")
+                    ||page.contains("Please login to use search filters")
+                    ||page.contains("lease purchase a Shodan membership to access more ")
+                    )
+
             {
                 return false;
             }
@@ -122,7 +128,6 @@ public class ShodanCollector extends ProxyCollector
         }
     }
     ThreadPoolExecutor shodanExecutor = (ThreadPoolExecutor) Executors.newFixedThreadPool(10);
-    String cookie = "__cfduid=dc5423f43e6dd5e4ed64fe309227fb8ba1456049527; _ga=GA1.2.1230545018.1456049528; _LOCALE_=en; session=\"f8ef9849a67ac70ccdfc8d08d39c7b0fee0da8e6gAJVQGUxMzBhNDdhODgxZDI2MTNmMmIxZDRhMDQ5MzkxNzdkNDlmNzRlZjhjM2RkYWYwNGJkMzhhYmY1NTcyYTUzMTNxAS4\\075\"; polito=\"863932146a6bc1d351acb0b5b60f784656c98da456096e5ee44985157c363f22!\"; _gat=1";
     //Scan shodan once per session.
     boolean done = false;
     public Vector<ProxyInfo> collectProxies()
