@@ -5,7 +5,9 @@ import com.tools.proxymity.datatypes.CollectorParameters;
 import com.tools.proxymity.datatypes.ProxyInfo;
 import com.toortools.Utilities;
 
+import java.io.FileInputStream;
 import java.util.Collections;
+import java.util.Scanner;
 import java.util.StringTokenizer;
 import java.util.Vector;
 import java.util.concurrent.Executors;
@@ -219,13 +221,45 @@ public class ShodanCollector extends ProxyCollector
     boolean done = false;
     public Vector<ProxyInfo> collectProxies()
     {
+        try {
+            Scanner sc = new Scanner(new FileInputStream("input/urls.txt"));
+           /* while (sc.hasNext())
+            {
+                String line = sc.nextLine();
+                line = line.replace("http://","").replace("https://","");
+                ProxyInfo proxyInfo = new ProxyInfo();
+                if (line.contains(":"))
+                {
+                    StringTokenizer st = new StringTokenizer(line,":");
+                    proxyInfo.setHost(st.nextToken());
+                    proxyInfo.setPort(st.nextToken());
+                }
+                else
+                {
+                    proxyInfo.setPort("80");
+                }
+                proxyInfo.setType(ProxyInfo.PROXY_TYPES_HTTP);
+                proxyInfo.setCheckOnlyOnce();
+                proxyInfo.setPriority(-100);
+                addProxy(proxyInfo);
+
+
+            }
+            */
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();;
+        }
+        if (true) return getProxies();
         if (done)
         {
             return getProxies();
         }
         try
         {
-            checkShodanText("Server: squid", cookie, ProxyInfo.PROXY_TYPES_HTTP);
+            checkShodanText("wingate", cookie, ProxyInfo.PROXY_TYPES_HTTP);
+            //checkShodanText("Server: squid", cookie, ProxyInfo.PROXY_TYPES_HTTP);
             /*
             checkShodanPort("8118",
                     cookie

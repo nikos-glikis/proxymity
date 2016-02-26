@@ -31,7 +31,6 @@ ALTER TABLE `proxymity_proxies` CHANGE `checkOnlyOnce` `checkOnlyOnce` ENUM('yes
 
 ALTER TABLE `proxymity_proxies` ADD `priority` INT NOT NULL ;
 
-ALTER TABLE `proxymity_proxies` ADD `priority` INT NOT NULL ;
 
 ALTER TABLE `proxymity_proxies` CHANGE `priority` `priority` INT(11) NOT NULL DEFAULT '0';
 
