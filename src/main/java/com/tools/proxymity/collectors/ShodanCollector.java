@@ -30,7 +30,8 @@ public class ShodanCollector extends ProxyCollector
         {
             //TODO we can do the cities.
             String page = Utilities.readUrl(url, cookie);
-            if (page.contains("<p>Result limit reached.</p>")
+            if (
+                    page.contains("<p>Result limit reached.</p>")
                     ||page.contains("<div class=\"msg alert alert-info\">No results found</div>")
                     ||page.contains("Please login to use search filters")
                     ||page.contains("lease purchase a Shodan membership to access more ")
