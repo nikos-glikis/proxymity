@@ -1,7 +1,8 @@
 package com.tools.proxymity;
 
+import com.object0r.toortools.Utilities;
 import com.tools.proxymity.datatypes.ProxyInfo;
-import com.toortools.Utilities;
+
 
 import java.net.*;
 import java.sql.Connection;

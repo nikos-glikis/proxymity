@@ -2,8 +2,8 @@ package com.tools.proxymity.phantomjs;
 
 
 import com.tools.proxymity.Proxymity;
-import com.toortools.Utilities;
-import com.toortools.os.OsHelper;
+import com.object0r.toortools.Utilities;
+import com.object0r.toortools.os.OsHelper;
 import org.openqa.jetty.html.Form;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Capabilities;

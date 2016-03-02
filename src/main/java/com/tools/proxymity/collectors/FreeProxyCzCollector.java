@@ -3,7 +3,7 @@ package com.tools.proxymity.collectors;
 import com.tools.proxymity.ProxyCollector;
 import com.tools.proxymity.datatypes.CollectorParameters;
 import com.tools.proxymity.datatypes.ProxyInfo;
-import com.toortools.Utilities;
+import com.object0r.toortools.Utilities;
 
 import java.net.Proxy;
 import java.net.URL;

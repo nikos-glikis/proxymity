@@ -1,11 +1,11 @@
 package com.tools.proxymity;
 
 
+import com.object0r.toortools.Utilities;
+import com.object0r.toortools.os.OsHelper;
+import com.object0r.toortools.tor.TorHelper;
 import com.tools.proxymity.datatypes.CollectorParameters;
 import com.tools.proxymity.helpers.ConsoleColors;
-import com.toortools.Utilities;
-import com.toortools.os.OsHelper;
-import com.toortools.tor.TorHelper;
 
 import java.io.File;
 import java.sql.Connection;

@@ -3,8 +3,8 @@ package com.tools.proxymity.collectors;
 import com.tools.proxymity.datatypes.CollectorParameters;
 import com.tools.proxymity.datatypes.ProxyInfo;
 import com.tools.proxymity.ProxyCollector;
-import com.toortools.Utilities;
-import com.toortools.os.OsHelper;
+import com.object0r.toortools.Utilities;
+import com.object0r.toortools.os.OsHelper;
 
 import java.io.BufferedReader;
 import java.io.File;

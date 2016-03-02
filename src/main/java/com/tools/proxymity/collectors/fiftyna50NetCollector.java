@@ -1,11 +1,10 @@
 package com.tools.proxymity.collectors;
 
+import com.object0r.toortools.Utilities;
 import com.tools.proxymity.ProxyCollector;
 import com.tools.proxymity.datatypes.CollectorParameters;
 import com.tools.proxymity.datatypes.ProxyInfo;
-import com.toortools.Utilities;
 
-import java.lang.reflect.Proxy;
 import java.util.Vector;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

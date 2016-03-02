@@ -31,8 +31,8 @@
         </dependency>
 
         <dependency>
-            <groupId>MyUtils</groupId>
-            <artifactId>MyUtils</artifactId>
+            <groupId>com.object0r</groupId>
+            <artifactId>toortools</artifactId>
             <version>1.0.2</version>
         </dependency>
 
@@ -49,11 +49,11 @@
             <version>3.4</version>
         </dependency>
 
-<dependency>
-	<groupId>commons-lang</groupId>
-	<artifactId>commons-lang</artifactId>
-	<version>2.6</version>
-</dependency>
+            <dependency>
+                <groupId>commons-lang</groupId>
+                <artifactId>commons-lang</artifactId>
+                <version>2.6</version>
+            </dependency>
 
 
         <dependency>

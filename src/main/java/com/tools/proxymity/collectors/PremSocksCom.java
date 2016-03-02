@@ -4,7 +4,7 @@ import com.tools.proxymity.ProxyChecker;
 import com.tools.proxymity.ProxyCollector;
 import com.tools.proxymity.datatypes.CollectorParameters;
 import com.tools.proxymity.datatypes.ProxyInfo;
-import com.toortools.Utilities;
+import com.object0r.toortools.Utilities;
 
 import java.util.StringTokenizer;
 import java.util.Vector;

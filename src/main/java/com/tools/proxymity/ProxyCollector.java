@@ -1,12 +1,12 @@
 package com.tools.proxymity;
 
+import com.object0r.toortools.Utilities;
+import com.object0r.toortools.os.OsHelper;
 import com.tools.proxymity.datatypes.CollectorParameters;
 import com.tools.proxymity.datatypes.ProxyInfo;
 import com.tools.proxymity.phantomjs.PhantomJsJob;
 import com.tools.proxymity.phantomjs.PhantomJsJobResult;
 import com.tools.proxymity.phantomjs.PhantomJsManager;
-import com.toortools.Utilities;
-import com.toortools.os.OsHelper;
 import org.openqa.selenium.*;
 import org.openqa.selenium.phantomjs.PhantomJSDriver;
 import org.openqa.selenium.phantomjs.PhantomJSDriverService;

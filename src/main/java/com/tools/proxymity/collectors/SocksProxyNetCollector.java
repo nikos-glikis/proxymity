@@ -3,7 +3,7 @@ package com.tools.proxymity.collectors;
 import com.tools.proxymity.datatypes.CollectorParameters;
 import com.tools.proxymity.datatypes.ProxyInfo;
 import com.tools.proxymity.ProxyCollector;
-import com.toortools.Utilities;
+import com.object0r.toortools.Utilities;
 
 import java.util.Vector;
 import java.util.regex.Matcher;

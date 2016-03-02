@@ -4,7 +4,7 @@ import com.sun.corba.se.impl.javax.rmi.CORBA.Util;
 import com.tools.proxymity.ProxyCollector;
 import com.tools.proxymity.datatypes.CollectorParameters;
 import com.tools.proxymity.datatypes.ProxyInfo;
-import com.toortools.Utilities;
+import com.object0r.toortools.Utilities;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.Vector;
