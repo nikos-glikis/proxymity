@@ -222,36 +222,8 @@ public class ShodanCollector extends ProxyCollector
     boolean done = false;
     public Vector<ProxyInfo> collectProxies()
     {
-        try {
-            Scanner sc = new Scanner(new FileInputStream("input/urls.txt"));
-           /* while (sc.hasNext())
-            {
-                String line = sc.nextLine();
-                line = line.replace("http://","").replace("https://","");
-                ProxyInfo proxyInfo = new ProxyInfo();
-                if (line.contains(":"))
-                {
-                    StringTokenizer st = new StringTokenizer(line,":");
-                    proxyInfo.setHost(st.nextToken());
-                    proxyInfo.setPort(st.nextToken());
-                }
-                else
-                {
-                    proxyInfo.setPort("80");
-                }
-                proxyInfo.setType(ProxyInfo.PROXY_TYPES_HTTP);
-                proxyInfo.setCheckOnlyOnce();
-                proxyInfo.setPriority(-100);
-                addProxy(proxyInfo);
 
-
-            }
-            */
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();;
-        }
+        //TODO use ShodanScanner ku
         if (true) return getProxies();
         if (done)
         {
