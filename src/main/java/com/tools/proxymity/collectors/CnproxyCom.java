@@ -3,9 +3,6 @@ package com.tools.proxymity.collectors;
 import com.tools.proxymity.ProxyCollector;
 import com.tools.proxymity.datatypes.CollectorParameters;
 import com.tools.proxymity.datatypes.ProxyInfo;
-import com.object0r.toortools.Utilities;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 
 import java.util.StringTokenizer;
 import java.util.Vector;

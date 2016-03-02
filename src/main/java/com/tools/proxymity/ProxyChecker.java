@@ -91,7 +91,7 @@ public class ProxyChecker implements Runnable
                         HttpURLConnection.setFollowRedirects(false);
 
                         HttpURLConnection con =
-                                (HttpURLConnection) new URL("https://"+Proxymity.HTTPS_CHECK_URL).openConnection(proxy);
+                                (HttpURLConnection) new URL("https://"+Proxymity.HTTPS_CHECK_URL.replace("https://","")).openConnection(proxy);
 
                         con.setConnectTimeout(Proxymity.TIMEOUT_MS);
                         con.setReadTimeout(Proxymity.TIMEOUT_MS);

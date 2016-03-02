@@ -4,11 +4,6 @@ import com.tools.proxymity.datatypes.CollectorParameters;
 import com.tools.proxymity.datatypes.ProxyInfo;
 import com.tools.proxymity.ProxyCollector;
 import com.object0r.toortools.Utilities;
-import com.object0r.toortools.os.OsHelper;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.InputStreamReader;
 import java.util.Vector;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

@@ -12,6 +12,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.Properties;
 import java.util.StringTokenizer;
 
 public class Proxymity
@@ -23,26 +24,33 @@ public class Proxymity
     //TODO global get functions / anonymize.
     //TODO delete dead after some time
     //TODO transform random 500 to last order by checked
-    static final public int PROXY_CHECKERS_COUNT = 200;
+    static  public int PROXY_CHECKERS_COUNT = 200;
     static final public String TABLE_NAME = "proxymity_proxies";
-    public static final int RECHECK_INTERVAL_MINUTES = 20;
+    public static int RECHECK_INTERVAL_MINUTES = 20;
     public static final long SLEEP_BETWEEN_REPORTS_SECONDS = 15;
-    public static final long MARK_DEAD_AFTER_MINUTES = 60;
+    public static long MARK_DEAD_AFTER_MINUTES = 60;
     public static final long PHANTOM_JS_TIMEOUT_SECONDS = 15;
     public static final int SLEEP_SECONDS_BETWEEN_SCANS = 120;
-    public static final int PHANTOM_JS_WORKERS_COUNT = 10;
-    public static final String HTTPS_CHECK_URL = "httpbin.org/ip";
-    public static final String HTTPS_CHECK_STRING = "\"origin\": \"";
+    public static int PHANTOM_JS_WORKERS_COUNT = 10;
+    public static String HTTPS_CHECK_URL = "httpbin.org/ip";
+    public static String HTTPS_CHECK_STRING = "\"origin\": \"";
     public static final int TIMEOUT_MS = 10000;
     ;
     public boolean useTor = false;
     ProxyCheckerManager proxyCheckerManager;
 
-    public Proxymity(DbInformation dbInformation)
+    public Proxymity(Properties properties)
     {
         try
         {
-            this.dbInformation = dbInformation;
+            dbInformation = new DbInformation(
+                    properties.getProperty("databaseHost"),
+                    properties.getProperty("databaseUser"),
+                    properties.getProperty("databasePassword"),
+                    Integer.parseInt(properties.getProperty("databasePort")),
+                    properties.getProperty("database")
+            );
+
             OsHelper.deleteFolderContentsRecursive(new File("tmp"));
             connectToDatabase();
 
@@ -70,6 +78,8 @@ public class Proxymity
             {
                 proxyCheckerManager = new ProxyCheckerManager(dbConnection);
             }
+
+            readParams(properties);
 
         }
         catch (Exception e)
@@ -102,6 +112,26 @@ public class Proxymity
 
         }.start();
     }
+
+    private void readParams(Properties properties)
+    {
+        if (properties.get("checkerThreadsCount")!=null) {
+            try { PROXY_CHECKERS_COUNT= Integer.parseInt( (String) properties.get("checkerThreadsCount") ); } catch (Exception e) { e.printStackTrace(); }}
+        if (properties.get("checkerRecheckInterval") != null) {
+            try { RECHECK_INTERVAL_MINUTES= Integer.parseInt( (String) properties.get("checkerRecheckInterval") ); } catch (Exception e) { e.printStackTrace(); }}
+        if (properties.get("markDeadInterval") != null) {
+            try { MARK_DEAD_AFTER_MINUTES= Integer.parseInt( (String) properties.get("markDeadInterval") ); } catch (Exception e) { e.printStackTrace(); }}
+        if (properties.get("phantomJsInstances") != null) {
+            try { PHANTOM_JS_WORKERS_COUNT= Integer.parseInt( (String) properties.get("phantomJsInstances") ); } catch (Exception e) { e.printStackTrace(); } }
+        if (properties.get("phantomJsInstances") != null) {
+            try { PHANTOM_JS_WORKERS_COUNT= Integer.parseInt( (String) properties.get("phantomJsInstances") ); } catch (Exception e) { e.printStackTrace(); } }
+        if (properties.get("httpsCheckUrl") != null) {
+            try { HTTPS_CHECK_URL=  (String) properties.get("httpsCheckUrl"); } catch (Exception e) { e.printStackTrace(); } }
+        if (properties.get("httpsVerificationString") != null) {
+            try { HTTPS_CHECK_STRING=  (String) properties.get("httpsVerificationString"); } catch (Exception e) { e.printStackTrace(); } }
+
+    }
+
     int oldPendingCount, oldCheckedCount, oldActiveCount;
     private void checkIfIdle()
     {
