@@ -129,7 +129,13 @@ public class Proxymity
             try { HTTPS_CHECK_URL=  (String) properties.get("httpsCheckUrl"); } catch (Exception e) { e.printStackTrace(); } }
         if (properties.get("httpsVerificationString") != null) {
             try { HTTPS_CHECK_STRING=  (String) properties.get("httpsVerificationString"); } catch (Exception e) { e.printStackTrace(); } }
+        if (properties.get("useTor") !=null ) {
+            String useTor = (String)properties.get("useTor")+"".toLowerCase();
+            if (useTor.equals("true")) {
+                useTor();
+            }
 
+        }
     }
 
     int oldPendingCount, oldCheckedCount, oldActiveCount;
@@ -172,6 +178,7 @@ public class Proxymity
 
     public void useTor()
     {
+        System.out.println("Using Tor.");
         TorHelper.torifySimple(true);
         this.useTor = true;
     }
