@@ -26,7 +26,10 @@ public class Main
         */
         try
         {
-            RecurringProcessHelper.exitAfterSeconds(Integer.parseInt(properties.getProperty("exitAfterMinutes"))*60);
+            if (properties.getProperty("exitAfterMinutes")!=null)
+            {
+                RecurringProcessHelper.exitAfterSeconds(Integer.parseInt(properties.getProperty("exitAfterMinutes"))*60);
+            }
         }
         catch (Exception e)
         {
