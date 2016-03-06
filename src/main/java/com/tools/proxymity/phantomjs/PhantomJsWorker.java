@@ -191,7 +191,7 @@ public class PhantomJsWorker extends Thread
             {
                 //if (e.toString().contains("The driver server has unexpectedly died"))
                // {
-                    try { driver.close(); } catch (Exception ee) { System.out.println(ee); }
+                    try { driver.quit(); } catch (Exception ee) { System.out.println(ee); }
                     initializePhantom();
                 //}
                 if (count <2)
