@@ -97,92 +97,116 @@ public class PhantomJsWorker extends Thread
     {
         while (true)
         {
-            try
-            {
+
                 PhantomJsJob phantomJsJob = phantomJsManager.getNextJob();
                 while (phantomJsJob == null)
                 {
-                    Thread.sleep(2000);
+                    try {
+                        Thread.sleep(2000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                     phantomJsJob = phantomJsManager.getNextJob();
                     //System.out.println("Job is null");
                 }
+            processJob(phantomJsJob);
+        }
+    }
 
+    public void processJob(PhantomJsJob phantomJsJob)
+    {
+        processJob(phantomJsJob, 1);
+    }
+
+    public void processJob(PhantomJsJob phantomJsJob, int count)
+    {
+        try
+        {
+            try
+            {
+                phantomJsJob.setStatusProcessing();
+                //TODO download with phantomjs
+                String url = phantomJsJob.getUrl();
                 try
                 {
-                    phantomJsJob.setStatusProcessing();
-                    //TODO download with phantomjs
-                    String url = phantomJsJob.getUrl();
-                    try
+                    if (phantomJsJob.isRequestGet())
                     {
-                        if (phantomJsJob.isRequestGet())
-                        {
-                            driver.get(url);
-                        }
-                        else if (phantomJsJob.isRequestPost())
-                        {
-                            HashMap<String, String> postParameters = phantomJsJob.getPostParameters();
-                            String form= "<html><head></head><body><form id =\"form1\" action=\""+phantomJsJob.getUrl()+"\" method=\"post\">\n" +
-                                    "<input type=\"submit\" value=\"Submit\">";
-
-                            for (Map.Entry<String, String> entry : postParameters.entrySet())
-                            {
-
-                                String key = entry.getKey();
-                                String value = entry.getValue();
-
-                                form+="    <input type=\"hodden\" name=\""+key+"\" value=\""+value+"\">\n";
-                            }
-                            form +="</form></body></html>";
-
-                            if (!new File("tmp").isDirectory())
-                            {
-                                new File("tmp").mkdir();
-                            }
-                            String tmpFilename = "tmp/"+uuid+".html";
-                            PrintWriter pr = new PrintWriter(new FileOutputStream(tmpFilename));
-                            pr.print(form);
-                            pr.close();
-
-                            driver.get("file:///"+(new File(tmpFilename).getAbsolutePath()));
-
-
-                            WebElement element = driver.findElement(By.id("form1"));
-                            element.submit();
-                        }
+                        driver.get(url);
                     }
-                    catch (org.openqa.selenium.TimeoutException e)
+                    else if (phantomJsJob.isRequestPost())
                     {
-                        //We can ignore timeout Exception.
+                        HashMap<String, String> postParameters = phantomJsJob.getPostParameters();
+                        String form= "<html><head></head><body><form id =\"form1\" action=\""+phantomJsJob.getUrl()+"\" method=\"post\">\n" +
+                                "<input type=\"submit\" value=\"Submit\">";
+
+                        for (Map.Entry<String, String> entry : postParameters.entrySet())
+                        {
+
+                            String key = entry.getKey();
+                            String value = entry.getValue();
+
+                            form+="    <input type=\"hodden\" name=\""+key+"\" value=\""+value+"\">\n";
+                        }
+                        form +="</form></body></html>";
+
+                        if (!new File("tmp").isDirectory())
+                        {
+                            new File("tmp").mkdir();
+                        }
+                        String tmpFilename = "tmp/"+uuid+".html";
+                        PrintWriter pr = new PrintWriter(new FileOutputStream(tmpFilename));
+                        pr.print(form);
+                        pr.close();
+
+                        driver.get("file:///"+(new File(tmpFilename).getAbsolutePath()));
+
+
+                        WebElement element = driver.findElement(By.id("form1"));
+                        element.submit();
+                    }
+                }
+                catch (org.openqa.selenium.TimeoutException e)
+                {
+                    //We can ignore timeout Exception.
                         /*phantomJsJob.setStatusFailed();
                         phantomJsJob.setException(e);
                         e.printStackTrace();*/
 
-                    }
-
-                    //driver.findElement(By.tagName("body")).sendKeys("Keys.ESCAPE");
-
-                    WebElement webElement = driver.findElement(By.tagName("body"));
-
-                    PhantomJsJobResult phantomJsJobResult = new PhantomJsJobResult();
-                    phantomJsJobResult.setContent(webElement.getText());
-                    phantomJsJobResult.setSourceCode(driver.getPageSource());
-                    phantomJsJob.setPhantomJsJobResult(phantomJsJobResult);
-
-                    //String page = Utilities.readUrl(phantomJsJob.getUrl());
-                    //phantomJsJob.setContent(page);
-                    phantomJsJob.setStatusSuccess();
                 }
-                catch (Exception e)
-                {
-                    phantomJsJob.setStatusFailed();
-                    phantomJsJob.setException(e);
-                    e.printStackTrace();
-                }
+
+                //driver.findElement(By.tagName("body")).sendKeys("Keys.ESCAPE");
+
+                WebElement webElement = driver.findElement(By.tagName("body"));
+
+                PhantomJsJobResult phantomJsJobResult = new PhantomJsJobResult();
+                phantomJsJobResult.setContent(webElement.getText());
+                phantomJsJobResult.setSourceCode(driver.getPageSource());
+                phantomJsJob.setPhantomJsJobResult(phantomJsJobResult);
+
+                //String page = Utilities.readUrl(phantomJsJob.getUrl());
+                //phantomJsJob.setContent(page);
+                phantomJsJob.setStatusSuccess();
             }
             catch (Exception e)
             {
+                //if (e.toString().contains("The driver server has unexpectedly died"))
+               // {
+                    try { driver.close(); } catch (Exception ee) { System.out.println(ee); }
+                    initializePhantom();
+                //}
+                if (count <2)
+                {
+                    processJob(phantomJsJob, count+1);
+                    return;
+                }
+                phantomJsJob.setStatusFailed();
+                phantomJsJob.setException(e);
                 e.printStackTrace();
             }
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
         }
     }
 }
