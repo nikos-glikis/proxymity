@@ -33,7 +33,7 @@ public class ProxyChecker implements Runnable
     {
         try
         {
-            myIp = Utilities.readUrl("http://cpanel.com/showip.shtml").trim();
+            myIp = Utilities.getIp();
         }
         catch (Exception e)
         {
@@ -50,27 +50,7 @@ public class ProxyChecker implements Runnable
 
 
             Proxy proxy = getProxyFromProxyInfo(proxyInfo);
-
-            URLConnection conn = new URL("http://cpanel.com/showip.shtml").openConnection(proxy);
-            conn.setConnectTimeout(Proxymity.TIMEOUT_MS);
-            conn.setReadTimeout(Proxymity.TIMEOUT_MS);
-            Scanner sc = new Scanner(conn.getInputStream());
-            StringBuffer sb = new StringBuffer();
-            while (sc.hasNext())
-            {
-                sb.append(sc.nextLine());
-            }
-            conn.getInputStream().close();
-
-            String ip = sb.toString().trim();
-            Pattern p = Pattern.compile("^\\d+\\.\\d+\\.\\d+\\.\\d+$");
-            Matcher m = p.matcher(ip);
-
-            if (ip.length() > 13 || ip.length() < 5 || !m.find())
-            {
-                markProxyNoGood(proxyInfo);
-                throw new Exception("Invalid Ip returned.");
-            }
+            String ip = Utilities.getIp(proxy, 3, Proxymity.TIMEOUT_MS, Proxymity.TIMEOUT_MS);
 
             if (ip.equals(myIp))
             {
@@ -127,7 +107,7 @@ public class ProxyChecker implements Runnable
                             //WE ARE NEVER HERE, RESEARCH WHY/
                             System.out.println("Socks Error HTTPS: "+e.toString());
                         }
-                        conn.getInputStream().close();
+
                         markProxyAsNotHttps(proxyInfo);
                     }
                 }
