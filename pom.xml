@@ -31,7 +31,7 @@
         </dependency>
 
         <dependency>
-            <groupId>com.object0r</groupId>
+            <groupId>com.object0r.toortools</groupId>
             <artifactId>toortools</artifactId>
             <version>1.0.2</version>
         </dependency>
@@ -78,7 +78,7 @@
 
                     <archive>
                         <manifest>
-                            <mainClass>com.tools.proxymity.Main</mainClass>
+                            <mainClass>com.object0r.tools.proxymity.Main</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>
