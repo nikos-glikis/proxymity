@@ -46,7 +46,7 @@ public class ProxyChecker implements Runnable
             Thread.sleep(new Random().nextInt(3000));
 
             Proxy proxy = getProxyFromProxyInfo(proxyInfo);
-            String ip = Utilities.getIp(proxy, 3, Proxymity.TIMEOUT_MS, Proxymity.TIMEOUT_MS);
+            String ip = Utilities.getIp(proxy, 3, Proxymity.TIMEOUT_MS/1000, Proxymity.TIMEOUT_MS/1000);
 
             if (ip.equals(myIp))
             {

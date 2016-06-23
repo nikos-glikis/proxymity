@@ -34,13 +34,14 @@ public class InCloakCollector extends ProxyCollector
                     //System.out.println(line);
                     String ip = Utilities.cut("class=tdl>","<", line).trim();
                     //System.out.println("Ip: "+ ip);
-                    String portImage = "https://incloak.com"+Utilities.cut("<img src=\"","\"", line).trim();
+                    /*String portImage = "https://incloak.com"+Utilities.cut("<img src=\"","\"", line).trim();
                     //System.out.println("PortImage: "+ portImage);
                     Utilities.downloadFile(portImage, "tmp/image.gif");
 
-                    convertImageToPnm("tmp/image.gif", "tmp/image.pnm");
+                    convertImageToPnm("tmp/image.gif", "tmp/image.pnm");*/
                     //System.out.println(ocrImage("tmp/image.pnm"));
-                    String portText = ocrImage("tmp/image.pnm").trim().replace("O","0").replace("o","0");
+                    //String portText = ocrImage("tmp/image.pnm").trim().replace("O","0").replace("o","0");
+                    String portText  = Utilities.cut("</td><td>", "<",line);
                     //System.out.println("-"+portText+"-");
                     int port = 0;
                     try

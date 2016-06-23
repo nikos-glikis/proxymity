@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
 
 public class ShodanCollector extends ProxyCollector
 {
-    String cookie = "__cfduid=dc5423f43e6dd5e4ed64fe309227fb8ba1456049527; _ga=GA1.2.1230545018.1456049528; _LOCALE_=en; _gat=1; session=\"39ce55feb1e157313b5d950c1b343b24b81f1755gAJVQGVlYzk1NjJiNTZmYmZhMmI2ZDlhNGZjMDg2MzgwNzcyZDUzNjBjYjgzZTI1ZjZkZDgyZjNmMTc5MmUwODQ2ZjNxAS4\\075\"; polito=\"0dd08171d6adba4ee67dfa48f9dae9b256ce25f856096e5ee44985157c363f22!\"; polito=\"0dd08171d6adba4ee67dfa48f9dae9b256ce25f856096e5ee44985157c363f22!\"";
+    String cookie = "__cfduid=d216a341634eb333d0131299ca3e1f0d71455779013; _ga=GA1.2.1267034398.1455779015; _gat=1; polito=\"32065234dccc57340f064844a4d652f5576bac0056ce0326e44985606644274b!\"; _LOCALE_=en";
     public ShodanCollector(CollectorParameters collectorParameters)
     {
         super(collectorParameters);
@@ -46,7 +46,7 @@ public class ShodanCollector extends ProxyCollector
 
                 while (m.find()) {
                     foundAtLeastOne = true;
-                    String line = m.group();
+                    String line = m.group().replace("\"","");
                     ProxyInfo proxyInfo = new ProxyInfo();
                     proxyInfo.setHost(line);
                     proxyInfo.setPort("80");
@@ -222,7 +222,7 @@ public class ShodanCollector extends ProxyCollector
     {
 
         //TODO use ShodanScanner ku
-        if (true) return getProxies();
+        //if (true) return getProxies();
         if (done)
         {
             return getProxies();
@@ -230,8 +230,7 @@ public class ShodanCollector extends ProxyCollector
         try
         {
             checkShodanText("wingate", cookie, ProxyInfo.PROXY_TYPES_HTTP);
-            //checkShodanText("Server: squid", cookie, ProxyInfo.PROXY_TYPES_HTTP);
-            /*
+            checkShodanText("Server: squid", cookie, ProxyInfo.PROXY_TYPES_HTTP);
             checkShodanPort("8118",
                     cookie
                     ,ProxyInfo.PROXY_TYPES_HTTP
@@ -259,7 +258,7 @@ public class ShodanCollector extends ProxyCollector
             checkShodanPort("1080",
                     cookie
                     ,ProxyInfo.PROXY_TYPES_HTTP
-            );*/
+            );
 
             Collections.shuffle(shodanThreads);
 
