@@ -13,6 +13,7 @@ public class Main
 
     public static void main(String[] args)
     {
+
         RecurringProcessHelper.checkAndRun("proxymity");
 
         Properties properties = readProperties();

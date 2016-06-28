@@ -7,7 +7,7 @@ phantomjsdriver.log
 image.pnm
 tmp/*
 *.iml
-
+_state/
 target/
 
 ## Directory-based project format:

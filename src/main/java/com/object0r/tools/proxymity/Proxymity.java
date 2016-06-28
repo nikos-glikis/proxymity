@@ -61,7 +61,12 @@ public class Proxymity
                 StringTokenizer tokenizer = new StringTokenizer(dbSchema, ";");
                 while (tokenizer.hasMoreTokens())
                 {
-                    st.execute(tokenizer.nextToken());
+                    String line = tokenizer.nextToken().trim();
+                    System.out.println("Executing "+line);
+                    if (!line.equals(""))
+                    {
+                        st.execute(line);
+                    }
                 }
 
                 if (isTableInDatabase(dbConnection, TABLE_NAME))

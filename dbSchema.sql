@@ -10,7 +10,7 @@ CREATE TABLE `proxymity_proxies` (
   `remoteIp` varchar(50) DEFAULT NULL
 ) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 
---
+
 ALTER TABLE `proxymity_proxies` ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `host` (`host`,`port`,`type`);
 
 ALTER TABLE `proxymity_proxies` MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=0;
@@ -30,37 +30,8 @@ ALTER TABLE `proxymity_proxies` ADD `checkOnlyOnce` ENUM('yes', 'no') NOT NULL ;
 ALTER TABLE `proxymity_proxies` CHANGE `checkOnlyOnce` `checkOnlyOnce` ENUM('yes','no') CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'no';
 
 ALTER TABLE `proxymity_proxies` ADD `priority` INT NOT NULL ;
-
-
 ALTER TABLE `proxymity_proxies` CHANGE `priority` `priority` INT(11) NOT NULL DEFAULT '0';
 
 ALTER TABLE `proxymity_proxies` ADD INDEX(`https`);
 
 ALTER TABLE `proxymity_proxies` ADD INDEX(`status`);
-
-
-DELIMITER //
-
-DROP PROCEDURE IF EXISTS getRandomProxy//
-CREATE PROCEDURE getRandomProxy
- (
-    IN type enum('socks4', 'socks5', 'http')
-)
-BEGIN
- IF type IS NULL THEN
-        SELECT *
-        FROM `proxymity_proxies`
-        WHERE status ='active'
-        ORDER BY RAND()
-        LIMIT 1;
- ELSE
-        SELECT *
-        FROM `proxymity_proxies`
-        WHERE  type = type AND
-                status ='active'
-        ORDER BY RAND()
-        LIMIT 1;
- END IF;
-END//
-
-DELIMITER;

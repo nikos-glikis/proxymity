@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-mvn clean compile assembly:single
+mvn  -T 8 clean compile assembly:single
