@@ -17,13 +17,7 @@ public class Main
 
         Properties properties = readProperties();
 
-        /*DbInformation dbInformation = new DbInformation(
-                properties.getProperty(properties.getProperty("databaseHost")),
-                properties.getProperty(properties.getProperty("databaseUser")),
-                properties.getProperty("databasePassword"),
-                Integer.parseInt(properties.getProperty("databasePort")),
-                properties.getProperty("database"));
-        */
+
         try
         {
             if (properties.getProperty("exitAfterMinutes")!=null)
