@@ -13,15 +13,16 @@ RUN tar xvjf phantomjs-2.1.1-linux-x86_64.tar.bz2
 RUN mv phantomjs-2.1.1-linux-x86_64 /usr/local/share
 RUN ln -sf /usr/local/share/phantomjs-2.1.1-linux-x86_64/bin/phantomjs /usr/local/bin
 
-#build phantomjs from source
-#RUN git clone git://github.com/ariya/phantomjs.git
-#RUN cd phantomjs ; git checkout 2.1.1
-#RUN cd phantomjs ; git submodule init
-#RUN cd phantomjs ; git submodule update
-#RUN cd phantomjs ; python build.py
-
+#LAMP
+RUN apt-get -q -y  --force-yes  install apache2  php5 php-pear php5-mysql
+RUN service apache2 restart
+RUN mkdir -p /var/log/httpd
+ADD web/proxymity.conf /etc/apache2/sites-available/proxymity.conf
+RUN a2ensite proxymity.conf
+RUN a2ensite proxymity
 
 EXPOSE 3306 3309
+EXPOSE 80 8983
 
 # Add maven to path
 ENV PATH /opt/apache-maven-3.3.9/bin:$PATH
@@ -30,8 +31,8 @@ ENV PATH /opt/apache-maven-3.3.9/bin:$PATH
 ADD ./ /opt/proxymity
 VOLUME /var/lib/mysql
 
-RUN cd /opt/proxymity/ && ./build.sh
+RUN cd /opt/proxymity/ && mvn  -T 4  clean compile assembly:single
 
 
 #ENTRYPOINT service mysql start ; service tor start && cd /opt/proxymity/ && ./build.sh && java -cp .:dependency/*:target/com.tools.proxymity-1.0-jar-with-dependencies.jar com.object0r.tools.proxymity.MainCollect
-ENTRYPOINT service mysql start ; service tor start && cd /opt/proxymity/  && java -cp .:dependency/*:target/com.tools.proxymity-1.0-jar-with-dependencies.jar com.object0r.tools.proxymity.MainCollect
+ENTRYPOINT service mysql start ; service tor start ; service apache2 start && cd /opt/proxymity/  && java -cp .:dependency/*:target/com.tools.proxymity-1.0-jar-with-dependencies.jar com.object0r.tools.proxymity.MainCollect
