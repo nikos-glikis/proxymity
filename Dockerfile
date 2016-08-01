@@ -36,4 +36,4 @@ RUN cd /opt/proxymity/ && mvn  -T 4  clean compile assembly:single
 
 
 #ENTRYPOINT service mysql start ; service tor start && cd /opt/proxymity/ && ./build.sh && java -cp .:dependency/*:target/com.tools.proxymity-1.0-jar-with-dependencies.jar com.object0r.tools.proxymity.MainCollect
-ENTRYPOINT service mysql start ; service tor start ; service apache2 restart && cd /opt/proxymity/  && java -cp .:dependency/*:target/com.tools.proxymity-1.0-jar-with-dependencies.jar com.object0r.tools.proxymity.MainCollect
+ENTRYPOINT service mysql start ; service tor start ; service apache2 restart && cd /opt/proxymity/  && java -cp .:dependency/*:target/com.tools.proxymity-1.0-jar-with-dependencies.jar com.object0r.tools.proxymity.Main
