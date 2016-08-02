@@ -13,7 +13,7 @@ $res = mysqli_query($db, "SELECT * FROM proxymity_proxies WHERE status='active' 
 echo mysqli_error($db);
 $results = array();
 while ($row = mysqli_fetch_array($res)) {
-    print $row['host'].":'.$row['port']."\n";
+    print $row['host'].":".$row['port']."\n";
     $results[] = $row;
 }
 die();
