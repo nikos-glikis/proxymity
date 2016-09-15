@@ -6,6 +6,7 @@ import com.object0r.tools.proxymity.helpers.ConsoleColors;
 import com.object0r.toortools.Utilities;
 import com.object0r.toortools.os.OsHelper;
 import com.object0r.toortools.tor.TorHelper;
+import org.apache.log4j.Logger;
 
 import java.io.File;
 import java.sql.Connection;
@@ -17,6 +18,8 @@ import java.util.StringTokenizer;
 
 public class Proxymity
 {
+
+
     //TODO implement multiple ip sources
     //TODO implement muntiple anonymous detectors
     //TODO reset attributes on start
@@ -24,7 +27,7 @@ public class Proxymity
     //TODO global get functions / anonymize.
     //TODO delete dead after some time
     //TODO transform random 500 to last order by checked
-    static  public int PROXY_CHECKERS_COUNT = 60;
+    static public int PROXY_CHECKERS_COUNT = 60;
     static final public String TABLE_NAME = "proxymity_proxies";
     public static int RECHECK_INTERVAL_MINUTES = 20;
     public static final long SLEEP_BETWEEN_REPORTS_SECONDS = 15;
@@ -62,7 +65,7 @@ public class Proxymity
                 while (tokenizer.hasMoreTokens())
                 {
                     String line = tokenizer.nextToken().trim();
-                    System.out.println("Executing "+line);
+                    System.out.println("Executing " + line);
                     if (!line.equals(""))
                     {
                         st.execute(line);
@@ -106,11 +109,12 @@ public class Proxymity
                     {
                         printStatusReport();
                         checkIfIdle();
-                        Thread.sleep(SLEEP_BETWEEN_REPORTS_SECONDS*1000);
+                        Thread.sleep(SLEEP_BETWEEN_REPORTS_SECONDS * 1000);
                     }
                     catch (Exception e)
                     {
-                        e.printStackTrace();;
+                        e.printStackTrace();
+                        ;
                     }
                 }
             }
@@ -120,23 +124,88 @@ public class Proxymity
 
     private void readParams(Properties properties)
     {
-        if (properties.get("checkerThreadsCount")!=null) {
-            try { PROXY_CHECKERS_COUNT= Integer.parseInt( (String) properties.get("checkerThreadsCount") ); } catch (Exception e) { e.printStackTrace(); }}
-        if (properties.get("checkerRecheckInterval") != null) {
-            try { RECHECK_INTERVAL_MINUTES= Integer.parseInt( (String) properties.get("checkerRecheckInterval") ); } catch (Exception e) { e.printStackTrace(); }}
-        if (properties.get("markDeadInterval") != null) {
-            try { MARK_DEAD_AFTER_MINUTES= Integer.parseInt( (String) properties.get("markDeadInterval") ); } catch (Exception e) { e.printStackTrace(); }}
-        if (properties.get("phantomJsInstances") != null) {
-            try { PHANTOM_JS_WORKERS_COUNT= Integer.parseInt( (String) properties.get("phantomJsInstances") ); } catch (Exception e) { e.printStackTrace(); } }
-        if (properties.get("phantomJsInstances") != null) {
-            try { PHANTOM_JS_WORKERS_COUNT= Integer.parseInt( (String) properties.get("phantomJsInstances") ); } catch (Exception e) { e.printStackTrace(); } }
-        if (properties.get("httpsCheckUrl") != null) {
-            try { HTTPS_CHECK_URL=  (String) properties.get("httpsCheckUrl"); } catch (Exception e) { e.printStackTrace(); } }
-        if (properties.get("httpsVerificationString") != null) {
-            try { HTTPS_CHECK_STRING=  (String) properties.get("httpsVerificationString"); } catch (Exception e) { e.printStackTrace(); } }
-        if (properties.get("useTor") !=null ) {
-            String useTor = (String)properties.get("useTor")+"".toLowerCase();
-            if (useTor.equals("true")) {
+        if (properties.get("checkerThreadsCount") != null)
+        {
+            try
+            {
+                PROXY_CHECKERS_COUNT = Integer.parseInt((String) properties.get("checkerThreadsCount"));
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+        }
+        if (properties.get("checkerRecheckInterval") != null)
+        {
+            try
+            {
+                RECHECK_INTERVAL_MINUTES = Integer.parseInt((String) properties.get("checkerRecheckInterval"));
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+        }
+        if (properties.get("markDeadInterval") != null)
+        {
+            try
+            {
+                MARK_DEAD_AFTER_MINUTES = Integer.parseInt((String) properties.get("markDeadInterval"));
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+        }
+        if (properties.get("phantomJsInstances") != null)
+        {
+            try
+            {
+                PHANTOM_JS_WORKERS_COUNT = Integer.parseInt((String) properties.get("phantomJsInstances"));
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+        }
+        if (properties.get("phantomJsInstances") != null)
+        {
+            try
+            {
+                PHANTOM_JS_WORKERS_COUNT = Integer.parseInt((String) properties.get("phantomJsInstances"));
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+        }
+        if (properties.get("httpsCheckUrl") != null)
+        {
+            try
+            {
+                HTTPS_CHECK_URL = (String) properties.get("httpsCheckUrl");
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+        }
+        if (properties.get("httpsVerificationString") != null)
+        {
+            try
+            {
+                HTTPS_CHECK_STRING = (String) properties.get("httpsVerificationString");
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+        }
+        if (properties.get("useTor") != null)
+        {
+            String useTor = (String) properties.get("useTor") + "".toLowerCase();
+            if (useTor.equals("true"))
+            {
                 useTor();
             }
 
@@ -144,6 +213,7 @@ public class Proxymity
     }
 
     int oldPendingCount, oldCheckedCount, oldActiveCount;
+
     private void checkIfIdle()
     {
         //Bad idea
@@ -193,7 +263,7 @@ public class Proxymity
         try
         {
             Statement st = dbConnection.createStatement();
-            st.execute("UPDATE `"+TABLE_NAME+"` SET status = 'pending', fullanonymous = 'no', remoteIp = NULL, lastactive = NOW(), https = 'no'");
+            st.execute("UPDATE `" + TABLE_NAME + "` SET status = 'pending', fullanonymous = 'no', remoteIp = NULL, lastactive = NOW(), https = 'no'");
             st.close();
         }
         catch (Exception e)
@@ -217,8 +287,8 @@ public class Proxymity
             int httpsActive = getHttps();
             int httpHttpsActive = getHttpHttpsActive();
 
-            ConsoleColors.printBlue("Proxies: Total/Checked/Active/Anonymous: "+totalCount+"/"+checkedCount+"/"+activeCount+"/"+anonCount + " Dead: "+deadCount);
-            ConsoleColors.printBlue("SocksAll/Socks+Https/HTTPS/HTTP+S " + socksAllCount+"/"+socksHttpsActive+"/"+httpsActive+"/"+httpHttpsActive);
+            ConsoleColors.printBlue("Proxies: Total/Checked/Active/Anonymous: " + totalCount + "/" + checkedCount + "/" + activeCount + "/" + anonCount + " Dead: " + deadCount);
+            ConsoleColors.printBlue("SocksAll/Socks+Https/HTTPS/HTTP+S " + socksAllCount + "/" + socksHttpsActive + "/" + httpsActive + "/" + httpHttpsActive);
         }
         catch (Exception e)
         {
@@ -292,7 +362,7 @@ public class Proxymity
         try
         {
             Statement st = dbConnection.createStatement();
-            ResultSet rs = st.executeQuery("SELECT count(*) from "+TABLE_NAME+" WHERE "+where );
+            ResultSet rs = st.executeQuery("SELECT count(*) from " + TABLE_NAME + " WHERE " + where);
             rs.next();
             count = rs.getInt(1);
             st.close();
@@ -303,6 +373,7 @@ public class Proxymity
         }
         return count;
     }
+
     private void connectToDatabase()
     {
         try
@@ -311,9 +382,9 @@ public class Proxymity
             try
             {
                 dbConnection = DriverManager
-                        .getConnection("jdbc:mysql://"+dbInformation.getUrl()+":"+dbInformation.getPort()+"/?"
-                                + "user="+dbInformation.getUsername()
-                                +"&password="+dbInformation.getPassword());
+                        .getConnection("jdbc:mysql://" + dbInformation.getUrl() + ":" + dbInformation.getPort() + "/?"
+                                + "user=" + dbInformation.getUsername()
+                                + "&password=" + dbInformation.getPassword());
             }
             catch (Exception e)
             {
@@ -326,9 +397,9 @@ public class Proxymity
             try
             {
                 dbConnection = DriverManager
-                        .getConnection("jdbc:mysql://"+dbInformation.getUrl()+":"+dbInformation.getPort()+"/"+dbInformation.getDatabase()+"?"
-                                + "user="+dbInformation.getUsername()
-                                +"&password="+dbInformation.getPassword());
+                        .getConnection("jdbc:mysql://" + dbInformation.getUrl() + ":" + dbInformation.getPort() + "/" + dbInformation.getDatabase() + "?"
+                                + "user=" + dbInformation.getUsername()
+                                + "&password=" + dbInformation.getPassword());
             }
             catch (Exception e)
             {
@@ -337,11 +408,11 @@ public class Proxymity
                 try
                 {
                     dbConnection = DriverManager
-                            .getConnection("jdbc:mysql://"+dbInformation.getUrl()+":"+dbInformation.getPort()+"/?"
-                                    + "user="+dbInformation.getUsername()
-                                    +"&password="+dbInformation.getPassword());
+                            .getConnection("jdbc:mysql://" + dbInformation.getUrl() + ":" + dbInformation.getPort() + "/?"
+                                    + "user=" + dbInformation.getUsername()
+                                    + "&password=" + dbInformation.getPassword());
                     Statement st = dbConnection.createStatement();
-                    String query = "CREATE DATABASE "+dbInformation.getDatabase();
+                    String query = "CREATE DATABASE " + dbInformation.getDatabase();
 
                     st.execute(query);
                     System.out.println(query);
@@ -350,9 +421,9 @@ public class Proxymity
                     dbConnection.close();
 
                     dbConnection = DriverManager
-                            .getConnection("jdbc:mysql://"+dbInformation.getUrl()+":"+dbInformation.getPort()+"/"+dbInformation.getDatabase()+"?"
-                                    + "user="+dbInformation.getUsername()
-                                    +"&password="+dbInformation.getPassword());
+                            .getConnection("jdbc:mysql://" + dbInformation.getUrl() + ":" + dbInformation.getPort() + "/" + dbInformation.getDatabase() + "?"
+                                    + "user=" + dbInformation.getUsername()
+                                    + "&password=" + dbInformation.getPassword());
 
                 }
                 catch (Exception ee)
@@ -402,7 +473,7 @@ public class Proxymity
         this.proxyCheckerManager.start();
     }
 
-    public boolean isTableInDatabase(Connection connection, String table )
+    public boolean isTableInDatabase(Connection connection, String table)
     {
         try
         {

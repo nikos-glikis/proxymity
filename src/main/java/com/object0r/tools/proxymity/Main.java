@@ -2,6 +2,7 @@ package com.object0r.tools.proxymity;
 
 
 import com.object0r.toortools.os.RecurringProcessHelper;
+import org.apache.log4j.PropertyConfigurator;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -13,7 +14,8 @@ public class Main
 
     public static void main(String[] args)
     {
-
+        String log4jConfPath = "log4j.properties";
+        PropertyConfigurator.configure(log4jConfPath);
         RecurringProcessHelper.checkAndRun("proxymity");
 
         Properties properties = readProperties();
