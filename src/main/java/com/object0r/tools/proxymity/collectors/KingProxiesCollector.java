@@ -32,4 +32,10 @@ public class KingProxiesCollector extends ProxyCollector
         }
         return getProxies();
     }
+
+    @Override
+    protected String collectorName()
+    {
+        return "kingproxies.com";
+    }
 }

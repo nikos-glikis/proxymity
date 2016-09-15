@@ -28,4 +28,10 @@ public class fineProxyOrgCollector extends ProxyCollector
         }
         return getProxies();
     }
+
+    @Override
+    protected String collectorName()
+    {
+        return "fineproxy.org";
+    }
 }

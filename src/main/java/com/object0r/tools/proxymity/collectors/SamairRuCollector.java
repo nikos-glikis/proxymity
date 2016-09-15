@@ -90,6 +90,12 @@ public class SamairRuCollector extends ProxyCollector
         return getProxies();
     }
 
+    @Override
+    protected String collectorName()
+    {
+        return "samair.ru";
+    }
+
     private Vector<ProxyInfo> extractProxies(String page, String css)
     {
         Vector<ProxyInfo> proxies = new Vector<ProxyInfo>();

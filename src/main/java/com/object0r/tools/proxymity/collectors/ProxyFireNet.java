@@ -43,6 +43,12 @@ public class ProxyFireNet extends ProxyCollector
         return getProxies();
     }
 
+    @Override
+    protected String collectorName()
+    {
+        return "proxyfire.net";
+    }
+
     private void processLink(String url, String type)
     {
         try

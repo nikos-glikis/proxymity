@@ -344,4 +344,10 @@ public class happyProxyComCollector extends ProxyCollector
         return getProxies();
     }
 
+    @Override
+    protected String collectorName()
+    {
+        return "happy-proxy.com";
+    }
+
 }

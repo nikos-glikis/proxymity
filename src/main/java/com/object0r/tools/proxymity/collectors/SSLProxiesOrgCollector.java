@@ -55,4 +55,10 @@ public class SSLProxiesOrgCollector extends ProxyCollector
         }
         return getProxies();
     }
+
+    @Override
+    protected String collectorName()
+    {
+        return "sslproxies.org";
+    }
 }

@@ -79,4 +79,10 @@ public class proxzComCollector extends ProxyCollector
         }
         return getProxies();
     }
+
+    @Override
+    protected String collectorName()
+    {
+        return "proxz.com";
+    }
 }

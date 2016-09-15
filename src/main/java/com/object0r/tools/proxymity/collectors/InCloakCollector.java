@@ -120,4 +120,10 @@ public class InCloakCollector extends ProxyCollector
         }
         return getProxies();
     }
+
+    @Override
+    protected String collectorName()
+    {
+        return "incloak.com";
+    }
 }

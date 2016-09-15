@@ -48,6 +48,12 @@ public class FreePassRuCollector extends ProxyCollector
         return getProxies();
     }
 
+    @Override
+    protected String collectorName()
+    {
+        return "free-pass.ru";
+    }
+
     private String myRead(String url) throws Exception
     {
         while (true)

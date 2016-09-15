@@ -54,6 +54,12 @@ public class ProxyDbNetCollector extends ProxyCollector
         return getProxies();
     }
 
+    @Override
+    protected String collectorName()
+    {
+        return "proxydb.net";
+    }
+
     public void processCategory(String url, String type)
     {
         try

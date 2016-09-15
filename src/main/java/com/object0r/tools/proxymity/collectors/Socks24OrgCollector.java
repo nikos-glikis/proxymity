@@ -33,6 +33,12 @@ public class Socks24OrgCollector extends ProxyCollector
         return getProxies();
     }
 
+    @Override
+    protected String collectorName()
+    {
+        return "socks24.org";
+    }
+
     private void doUrl(String initialUrl) {
         try
         {

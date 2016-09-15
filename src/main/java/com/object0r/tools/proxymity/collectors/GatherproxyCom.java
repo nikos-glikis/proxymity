@@ -30,6 +30,12 @@ public class GatherproxyCom extends ProxyCollector
         return getProxies();
     }
 
+    @Override
+    protected String collectorName()
+    {
+        return "gatherproxy.com";
+    }
+
     private void processUrlSocks(String url )
     {
         try

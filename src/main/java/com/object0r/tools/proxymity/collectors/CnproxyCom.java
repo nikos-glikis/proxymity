@@ -80,4 +80,10 @@ public class CnproxyCom extends ProxyCollector
         }
         return getProxies();
     }
+
+    @Override
+    protected String collectorName()
+    {
+        return "cnproxy.com";
+    }
 }

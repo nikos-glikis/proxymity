@@ -32,4 +32,10 @@ public class ProxylistRo extends ProxyCollector
         }
         return getProxies();
     }
+
+    @Override
+    protected String collectorName()
+    {
+        return "proxylist.ro";
+    }
 }

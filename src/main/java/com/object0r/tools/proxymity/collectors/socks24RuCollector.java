@@ -29,6 +29,12 @@ public class socks24RuCollector extends ProxyCollector
         return getProxies();
     }
 
+    @Override
+    protected String collectorName()
+    {
+        return "socks24.ru";
+    }
+
     private void processUrl(String url, String proxyTypesHttp)
     {
         try

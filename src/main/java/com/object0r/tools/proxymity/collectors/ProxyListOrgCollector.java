@@ -88,4 +88,10 @@ public class ProxyListOrgCollector extends ProxyCollector
         }
         return getProxies();
     }
+
+    @Override
+    protected String collectorName()
+    {
+        return "proxy-list.org";
+    }
 }

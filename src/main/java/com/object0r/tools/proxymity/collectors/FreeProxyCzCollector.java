@@ -116,4 +116,10 @@ public class FreeProxyCzCollector extends ProxyCollector
         }
         return getProxies();
     }
+
+    @Override
+    protected String collectorName()
+    {
+        return "free-proxy.cz";
+    }
 }

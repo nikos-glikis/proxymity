@@ -83,4 +83,10 @@ public class ProxyroxComCollector extends ProxyCollector
         }
         return getProxies();
     }
+
+    @Override
+    protected String collectorName()
+    {
+        return "proxyrox.com";
+    }
 }

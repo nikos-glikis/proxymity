@@ -99,4 +99,10 @@ public class HmaCollector extends ProxyCollector
         }
         return getProxies();
     }
+
+    @Override
+    protected String collectorName()
+    {
+        return "proxylist.hidemyass.com";
+    }
 }

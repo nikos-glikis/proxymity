@@ -106,6 +106,12 @@ public class XroxyComCollector extends ProxyCollector
         return getProxies();
     }
 
+    @Override
+    protected String collectorName()
+    {
+        return "xroxy.com";
+    }
+
     private String timeoutReadUrl(String url) throws Exception
     {
 

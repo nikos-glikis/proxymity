@@ -21,26 +21,29 @@ public class MrHinkyDinkCollector extends ProxyCollector
     {
         try
         {
-            try {
+            try
+            {
                 genericParsingOfUrl("http://www.blackhatunderground.net/forum/buy-sell-trade-blackhat-marketplace/50-000-new-proxies-every-day!-worldwide-usa-elite-socks-%2850kproxies-com%29/90/", ProxyInfo.PROXY_TYPES_HTTP);
-            } catch (Exception e) {
+            }
+            catch (Exception e)
+            {
                 e.printStackTrace();
             }
-            for (int i = 1; i<50; i++)
+            for (int i = 1; i < 50; i++)
             {
-                String url ="http://www.mrhinkydink.com/proxies"+i+".htm";
+                String url = "http://www.mrhinkydink.com/proxies" + i + ".htm";
                 if (i == 1)
                 {
                     url = "http://www.mrhinkydink.com/proxies.htm";
                 }
                 String page = Utilities.readUrl(url);
-                Pattern p = Pattern.compile("<tr bgcolor=\"#[^\"]*\" class=\"text\" height=10>.*?</tr>",Pattern.DOTALL);
+                Pattern p = Pattern.compile("<tr bgcolor=\"#[^\"]*\" class=\"text\" height=10>.*?</tr>", Pattern.DOTALL);
                 Matcher m = p.matcher(page);
 
                 while (m.find())
                 {
                     String line = m.group();
-                    Pattern pp = Pattern.compile("<td>.*?</td>",Pattern.DOTALL);
+                    Pattern pp = Pattern.compile("<td>.*?</td>", Pattern.DOTALL);
                     Matcher mm = pp.matcher(line);
                     if (mm.find())
                     {
@@ -70,5 +73,11 @@ public class MrHinkyDinkCollector extends ProxyCollector
             e.printStackTrace();
         }
         return getProxies();
+    }
+
+    @Override
+    protected String collectorName()
+    {
+        return "mrhinkydink.com";
     }
 }

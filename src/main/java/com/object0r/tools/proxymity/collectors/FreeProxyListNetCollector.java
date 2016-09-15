@@ -26,14 +26,17 @@ public class FreeProxyListNetCollector extends ProxyCollector
             String page = Utilities.readUrl("https://free-proxy-list.net/");
             Pattern p = Pattern.compile("<tr><td>.*?</td></tr>");
             Matcher m = p.matcher(page);
-            while (m.find()) {
-                try {
+            while (m.find())
+            {
+                try
+                {
 
 
                     String line = m.group();
                     Pattern pp = Pattern.compile("<tr><td>.*</td><td>\\d*</td>");
                     Matcher mm = pp.matcher(line);
-                    if (mm.find()) {
+                    if (mm.find())
+                    {
                         line = mm.group().trim();
                         String ip = Utilities.cut("<tr><td>", "<", line);
                         String port = Utilities.cut("</td><td>", "<", line);
@@ -59,5 +62,11 @@ public class FreeProxyListNetCollector extends ProxyCollector
             e.printStackTrace();
         }
         return getProxies();
+    }
+
+    @Override
+    protected String collectorName()
+    {
+        return "free-proxy-list.net";
     }
 }

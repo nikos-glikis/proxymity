@@ -11,8 +11,6 @@ import java.util.regex.Pattern;
 
 public class CoolProxyNetCollector extends ProxyCollector
 {
-
-
     public CoolProxyNetCollector(CollectorParameters collectorParameters)
     {
         super(collectorParameters);
@@ -63,6 +61,12 @@ public class CoolProxyNetCollector extends ProxyCollector
             e.printStackTrace();
         }
         return getProxies();
+    }
+
+    @Override
+    protected String collectorName()
+    {
+        return "cool-proxy.net";
     }
 
     String strRot13(String string)

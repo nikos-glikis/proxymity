@@ -277,4 +277,10 @@ public class ShodanCollector extends ProxyCollector
         }
         return getProxies();
     }
+
+    @Override
+    protected String collectorName()
+    {
+        return "shodan";
+    }
 }

@@ -46,4 +46,10 @@ public class ProxyRssComCollector extends ProxyCollector
         }
         return getProxies();
     }
+
+    @Override
+    protected String collectorName()
+    {
+        return "proxyrss.com";
+    }
 }

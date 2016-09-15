@@ -78,6 +78,12 @@ public class PremSocksCom extends ProxyCollector
         return getProxies();
     }
 
+    @Override
+    protected String collectorName()
+    {
+        return "premsocks.com";
+    }
+
     private void processPartialIp(String mergedIp)
     {
         try

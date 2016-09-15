@@ -53,4 +53,10 @@ public class FastproxyserversOrg extends ProxyCollector
         }
         return getProxies();
     }
+
+    @Override
+    protected String collectorName()
+    {
+        return "fastproxyservers.org";
+    }
 }

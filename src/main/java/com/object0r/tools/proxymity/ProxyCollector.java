@@ -75,8 +75,7 @@ abstract public class ProxyCollector extends  Thread
     }
     public abstract Vector<ProxyInfo> collectProxies();
 
-
-
+    protected abstract String collectorName();
 
     public void setSleepSecondsBetweenScans(int minutes)
     {

@@ -25,4 +25,10 @@ public class freeProxyListsDailyBlogspotInCollector extends ProxyCollector
         }
         return getProxies();
     }
+
+    @Override
+    protected String collectorName()
+    {
+        return "freeproxylistsdaily.blogspot.in";
+    }
 }

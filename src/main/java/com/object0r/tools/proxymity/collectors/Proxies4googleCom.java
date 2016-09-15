@@ -57,4 +57,10 @@ public class Proxies4googleCom extends ProxyCollector
         }
         return getProxies();
     }
+
+    @Override
+    protected String collectorName()
+    {
+        return "proxies4google.com";
+    }
 }

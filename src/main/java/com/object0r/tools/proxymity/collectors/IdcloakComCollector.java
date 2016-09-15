@@ -66,6 +66,12 @@ public class IdcloakComCollector extends ProxyCollector
         return getProxies();
     }
 
+    @Override
+    protected String collectorName()
+    {
+        return "idcloak.com";
+    }
+
     public static String postRequest(String targetURL, String postParams, String givenCookies)
     {
         boolean returnCookies= false;

@@ -46,4 +46,10 @@ public class enProxyNetPlCollector extends ProxyCollector
         }
         return getProxies();
     }
+
+    @Override
+    protected String collectorName()
+    {
+        return "en.proxy.net.pl";
+    }
 }

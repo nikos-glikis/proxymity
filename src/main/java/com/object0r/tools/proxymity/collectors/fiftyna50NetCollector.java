@@ -47,4 +47,10 @@ public class fiftyna50NetCollector extends ProxyCollector
         }
         return getProxies();
     }
+
+    @Override
+    protected String collectorName()
+    {
+        return "proxy50-50.blogspot.in";
+    }
 }

@@ -40,4 +40,10 @@ public class NnTimeComCollector extends ProxyCollector
         }
         return getProxies();
     }
+
+    @Override
+    protected String collectorName()
+    {
+        return "nntime.com";
+    }
 }

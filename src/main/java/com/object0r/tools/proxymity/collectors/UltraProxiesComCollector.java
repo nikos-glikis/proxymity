@@ -54,4 +54,10 @@ public class UltraProxiesComCollector extends ProxyCollector
         }
         return getProxies();
     }
+
+    @Override
+    protected String collectorName()
+    {
+        return "ultraproxies.com";
+    }
 }

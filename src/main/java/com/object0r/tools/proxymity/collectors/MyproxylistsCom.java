@@ -61,4 +61,10 @@ public class MyproxylistsCom extends ProxyCollector
         }
         return getProxies();
     }
+
+    @Override
+    protected String collectorName()
+    {
+        return "myproxylists.com";
+    }
 }

@@ -68,4 +68,10 @@ public class ProxyListyCom extends ProxyCollector
         }
         return getProxies();
     }
+
+    @Override
+    protected String collectorName()
+    {
+        return "proxylisty.com";
+    }
 }

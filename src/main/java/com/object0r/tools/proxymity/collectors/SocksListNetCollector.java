@@ -114,4 +114,10 @@ public class SocksListNetCollector extends ProxyCollector
 
         return getProxies();
     }
+
+    @Override
+    protected String collectorName()
+    {
+        return "sockslist.net";
+    }
 }

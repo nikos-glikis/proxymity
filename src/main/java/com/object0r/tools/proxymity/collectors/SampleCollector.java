@@ -30,4 +30,10 @@ public class SampleCollector extends ProxyCollector
         }
         return getProxies();
     }
+
+    @Override
+    protected String collectorName()
+    {
+        return "blackhatunderground.net";
+    }
 }

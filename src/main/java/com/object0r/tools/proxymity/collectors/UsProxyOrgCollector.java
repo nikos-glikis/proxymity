@@ -45,4 +45,10 @@ public class UsProxyOrgCollector extends ProxyCollector
         return getProxies();
     }
 
+    @Override
+    protected String collectorName()
+    {
+        return "us-proxy.org";
+    }
+
 }

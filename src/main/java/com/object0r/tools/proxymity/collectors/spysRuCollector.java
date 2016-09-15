@@ -22,11 +22,8 @@ public class spysRuCollector extends ProxyCollector
     {
         try
         {
-
             try
             {
-
-
                 String page = anonReadUrl("http://spys.ru/en/proxy-by-country/");
 
                 Pattern p = Pattern.compile("href='.*?'");
@@ -62,6 +59,12 @@ public class spysRuCollector extends ProxyCollector
             e.printStackTrace();
         }
         return getProxies();
+    }
+
+    @Override
+    protected String collectorName()
+    {
+        return "spys.ru";
     }
 
     private void processPage(String url)

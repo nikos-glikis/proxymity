@@ -58,4 +58,10 @@ public class ProxyListMeCollector extends ProxyCollector
         }
         return getProxies();
     }
+
+    @Override
+    protected String collectorName()
+    {
+        return "proxylist.me";
+    }
 }

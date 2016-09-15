@@ -29,4 +29,10 @@ public class theProxyListComCollector extends ProxyCollector
         }
         return getProxies();
     }
+
+    @Override
+    protected String collectorName()
+    {
+        return "the-proxy-list.com";
+    }
 }

@@ -27,4 +27,10 @@ public class MaxiproxiesComCollector extends ProxyCollector
         }
         return getProxies();
     }
+
+    @Override
+    protected String collectorName()
+    {
+        return "maxiproxies.com";
+    }
 }

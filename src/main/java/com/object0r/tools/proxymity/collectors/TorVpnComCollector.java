@@ -66,4 +66,10 @@ public class TorVpnComCollector extends ProxyCollector
         }
         return getProxies();
     }
+
+    @Override
+    protected String collectorName()
+    {
+        return "torvpn.com";
+    }
 }

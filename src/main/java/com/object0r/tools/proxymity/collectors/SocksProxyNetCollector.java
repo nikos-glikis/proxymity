@@ -45,7 +45,8 @@ public class SocksProxyNetCollector extends ProxyCollector
                         proxyInfo.setHost(ip);
                         proxyInfo.setPort(port);
                         proxyInfo.setType(ProxyInfo.PROXY_TYPES_SOCKS5);
-                        addProxy(proxyInfo);;
+                        addProxy(proxyInfo);
+                        ;
                     }
                 }
 
@@ -61,5 +62,11 @@ public class SocksProxyNetCollector extends ProxyCollector
             e.printStackTrace();
         }
         return getProxies();
+    }
+
+    @Override
+    protected String collectorName()
+    {
+        return "socks-proxy.net";
     }
 }

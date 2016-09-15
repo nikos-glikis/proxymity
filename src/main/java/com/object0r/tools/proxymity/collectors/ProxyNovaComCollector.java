@@ -63,6 +63,12 @@ public class ProxyNovaComCollector extends ProxyCollector
         return getProxies();
     }
 
+    @Override
+    protected String collectorName()
+    {
+        return "proxynova.com";
+    }
+
     public String[] getCountryCodes()
     {
         String[] countries = new String[103];

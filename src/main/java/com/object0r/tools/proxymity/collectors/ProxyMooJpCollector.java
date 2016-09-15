@@ -81,4 +81,10 @@ public class ProxyMooJpCollector extends ProxyCollector
         }
         return getProxies();
     }
+
+    @Override
+    protected String collectorName()
+    {
+        return "proxy.moo.jp";
+    }
 }
