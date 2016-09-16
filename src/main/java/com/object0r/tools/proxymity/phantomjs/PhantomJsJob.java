@@ -9,8 +9,45 @@ public class PhantomJsJob
     final static String STATUS_PROCESSING = "processing";
     final static String STATUS_SUCCESS = "success";
     final static String STATUS_FAILED = "failed";
-    final static String REQUEST_ACTION_POST  = "POST";
-    final static String REQUEST_ACTION_GET  = "GET";
+    final static String REQUEST_ACTION_POST = "POST";
+    final static String REQUEST_ACTION_GET = "GET";
+
+    final static String ELEMENT_TYPES_TAG_NAME = "tag_name";
+    final static String ELEMENT_TYPES_CLASS = "class";
+
+    static String elementType = ELEMENT_TYPES_TAG_NAME;
+    static String elementName = "body";
+
+    public static void setElementTypeTagName()
+    {
+        elementType = ELEMENT_TYPES_TAG_NAME;
+    }
+
+    public static void setElementTypeClass()
+    {
+        elementType = ELEMENT_TYPES_CLASS;
+    }
+
+    public boolean isElementTypeTagName()
+    {
+        return elementName.equals(ELEMENT_TYPES_TAG_NAME);
+    }
+
+    public boolean isElementTypeClass()
+    {
+        return elementName.equals(ELEMENT_TYPES_CLASS);
+    }
+
+
+    public static void setElementName(String name)
+    {
+        elementName = name;
+    }
+
+    public String getElementName()
+    {
+        return elementName;
+    }
 
 
     String url;
@@ -45,7 +82,7 @@ public class PhantomJsJob
             String line = st.nextToken();
             if (line.contains("="))
             {
-                StringTokenizer st2 = new StringTokenizer(line,"=");
+                StringTokenizer st2 = new StringTokenizer(line, "=");
                 addPostParameter(st2.nextToken(), st2.nextToken());
             }
         }
@@ -99,12 +136,12 @@ public class PhantomJsJob
 
     public boolean isFinished()
     {
-        return status.equals(STATUS_SUCCESS ) || status.equals(STATUS_FAILED);
+        return status.equals(STATUS_SUCCESS) || status.equals(STATUS_FAILED);
     }
 
     public boolean isSuccessful()
     {
-        return status.equals(STATUS_SUCCESS );
+        return status.equals(STATUS_SUCCESS);
     }
 
     public void setStatusFailed()

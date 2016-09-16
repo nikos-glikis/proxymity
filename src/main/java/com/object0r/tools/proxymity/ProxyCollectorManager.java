@@ -3,6 +3,7 @@ package com.object0r.tools.proxymity;
 import com.object0r.tools.proxymity.collectors.*;
 import com.object0r.tools.proxymity.datatypes.CollectorParameters;
 import com.object0r.tools.proxymity.phantomjs.PhantomJsManager;
+import com.object0r.toortools.DB;
 import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ public class ProxyCollectorManager extends Thread
 
     CollectorParameters collectorParameters;
     PhantomJsManager phantomJsManager;
+    DB counts = new DB("proxymity", "counts");
 
     public ProxyCollectorManager(CollectorParameters collectorParameters, boolean useTor)
     {
@@ -36,7 +38,7 @@ public class ProxyCollectorManager extends Thread
 
             List<ProxyCollector> collectors = new ArrayList<ProxyCollector>();
 
-            collectors.add(new InCloakCollector(collectorParameters));
+            /*collectors.add(new InCloakCollector(collectorParameters));
             collectors.add(new HmaCollector(collectorParameters));
             collectors.add(new ProxyListOrgCollector(collectorParameters));
             collectors.add(new SSLProxiesOrgCollector(collectorParameters));
@@ -48,10 +50,10 @@ public class ProxyCollectorManager extends Thread
             collectors.add(new XroxyComCollector(collectorParameters));
             collectors.add(new ProxyNovaComCollector(collectorParameters));
             collectors.add(new Socks24OrgCollector(collectorParameters));
-            collectors.add(new MrHinkyDinkCollector(collectorParameters));
+            collectors.add(new MrHinkyDinkCollector(collectorParameters));*/
             //below has capta. Maybe try to overcome it.
             collectors.add(new ProxyMooJpCollector(collectorParameters));
-            collectors.add(new SocksListNetCollector(collectorParameters));
+            /*collectors.add(new SocksListNetCollector(collectorParameters));
             collectors.add(new TorVpnComCollector(collectorParameters));
             collectors.add(new GatherproxyCom(collectorParameters));
             collectors.add(new FastproxyserversOrg(collectorParameters));
@@ -88,7 +90,7 @@ public class ProxyCollectorManager extends Thread
             collectors.add(new NnTimeComCollector(collectorParameters));
             collectors.add(new NnTimeComCollector(collectorParameters));
             collectors.add(new SampleCollector(collectorParameters));
-            collectors.add(new ShodanCollector(collectorParameters));
+            collectors.add(new ShodanCollector(collectorParameters));*/
 
             // Problematic
             //collectors.add(new IdcloakComCollector(collectorParameters));
@@ -111,8 +113,10 @@ public class ProxyCollectorManager extends Thread
                 Thread.sleep(15000);
                 for (ProxyCollector collector : collectors)
                 {
-                    log.info(collector.collectorName() + " gave me " + collector.getProxies().size());
+                    int collectorCount = collector.getProxies().size();
+                    //log.info(collector.collectorName() + " gave me " + collectorCount);
                     collector.writeProxyInfoToDatabase();
+                    updateCounts(collector.collectorName(), collectorCount);
                 }
             }
         }
@@ -120,5 +124,30 @@ public class ProxyCollectorManager extends Thread
         {
             e.printStackTrace();
         }
+    }
+
+    private void updateCounts(String collectorName, int collectorCount)
+    {
+        setCollectorCount(collectorName, getExistingCount(collectorName) + collectorCount);
+    }
+
+    private void setCollectorCount(String collectorName, int count)
+    {
+        counts.put(collectorName, Integer.toString(count));
+    }
+
+    private int getExistingCount(String collectorName)
+    {
+        String existingCount = counts.get(collectorName);
+        int existingCountInt = 0;
+        try
+        {
+            existingCountInt = Integer.parseInt(existingCount);
+        }
+        catch (Exception e)
+        {
+            //noop;
+        }
+        return existingCountInt;
     }
 }
