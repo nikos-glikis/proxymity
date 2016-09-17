@@ -20,20 +20,20 @@ public class FreePassRuCollector extends ProxyCollector
     {
         try
         {
-            String page = anonReadUrl("http://free-pass.ru/forum/79");
+            String page = persistentAnonReadUrl("http://free-pass.ru/forum/79", 50);
 
-            Pattern p = Pattern.compile("http://free-pass.ru/forum/79-\\d+-\\d+");
+            Pattern p = Pattern.compile("/forum/79-\\d+-\\d+");
             Matcher m = p.matcher(page);
 
             while (m.find())
             {
 
-                String url = m.group();
-                String page2 = myRead(url);
-                genericParsingOfText(page2,ProxyInfo.PROXY_TYPES_HTTP);
-                genericParsingOfText(page2,ProxyInfo.PROXY_TYPES_HTTPS);
-                genericParsingOfText(page2,ProxyInfo.PROXY_TYPES_SOCKS4);
-                genericParsingOfText(page2,ProxyInfo.PROXY_TYPES_SOCKS5);
+                String url = "http://free-pass.ru" + m.group();
+                String page2 = persistentAnonReadUrl(url, 50);
+                genericParsingOfText(page2, ProxyInfo.PROXY_TYPES_HTTP);
+                genericParsingOfText(page2, ProxyInfo.PROXY_TYPES_HTTPS);
+                genericParsingOfText(page2, ProxyInfo.PROXY_TYPES_SOCKS4);
+                genericParsingOfText(page2, ProxyInfo.PROXY_TYPES_SOCKS5);
                 Thread.sleep(30000);
             }
 
@@ -54,7 +54,7 @@ public class FreePassRuCollector extends ProxyCollector
         return "free-pass.ru";
     }
 
-    private String myRead(String url) throws Exception
+    /*private String myRead(String url) throws Exception
     {
         while (true)
         {
@@ -68,9 +68,7 @@ public class FreePassRuCollector extends ProxyCollector
                 {
                     return anonReadUrl(url);
                 }
-
             }
-
         }
-    }
+    }*/
 }

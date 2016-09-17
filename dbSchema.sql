@@ -35,3 +35,5 @@ ALTER TABLE `proxymity_proxies` CHANGE `priority` `priority` INT(11) NOT NULL DE
 ALTER TABLE `proxymity_proxies` ADD INDEX(`https`);
 
 ALTER TABLE `proxymity_proxies` ADD INDEX(`status`);
+
+ALTER TABLE `proxymity_proxies`	ADD COLUMN `source` VARCHAR(50) NULL AFTER `priority`;

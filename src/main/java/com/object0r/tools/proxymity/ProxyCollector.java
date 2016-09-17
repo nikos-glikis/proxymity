@@ -95,9 +95,7 @@ abstract public class ProxyCollector extends Thread
                 Thread.sleep(new Random().nextInt(5000));
                 initProxies();
                 Vector<ProxyInfo> proxyInfos = collectProxies();
-
-
-                writeProxyInfoToDatabase(proxyInfos);
+                writeProxyInfoToDatabase(proxyInfos, collectorName());
 
                 Thread.sleep(this.CURRENT_SLEEP_SECONDS_BETWEEN_SCANS * 1000);
             }
@@ -125,10 +123,10 @@ abstract public class ProxyCollector extends Thread
 
     public synchronized void writeProxyInfoToDatabase()
     {
-        this.writeProxyInfoToDatabase(this.proxies);
+        this.writeProxyInfoToDatabase(this.proxies, collectorName());
     }
 
-    private synchronized void writeProxyInfoToDatabase(Vector<ProxyInfo> proxyInfos)
+    private synchronized void writeProxyInfoToDatabase(Vector<ProxyInfo> proxyInfos, String source)
     {
         try
         {
@@ -160,7 +158,8 @@ abstract public class ProxyCollector extends Thread
                         "`fullanonymous`, " +
                         "`lastactive`, " +
                         "`checkOnlyOnce`, " +
-                        "`priority` " +
+                        "`priority`, " +
+                        "`source` " +
 
                         ") VALUES  (" +
                         "0, " +
@@ -173,7 +172,8 @@ abstract public class ProxyCollector extends Thread
                         "'no'," +
                         " NOW()," +
                         " '" + checkOnlyOnce + "'," +
-                        " '" + proxyInfo.getPriority() + "'" +
+                        " '" + proxyInfo.getPriority() + "'," +
+                        " '" + source + "'" +
                         ")";
                 //System.out.println(query);
 
@@ -483,6 +483,30 @@ abstract public class ProxyCollector extends Thread
         catch (Exception e)
         {
             e.printStackTrace();
+        }
+    }
+
+
+    public String persistentAnonReadUrl(String url, int limit) throws Exception
+    {
+        int failures = 0;
+        while (true)
+        {
+            try
+            {
+                return anonReadUrl(url);
+            }
+            catch (Exception e)
+            {
+                if (failures++ > limit)
+                {
+                    throw e;
+                }
+                else
+                {
+                    continue;
+                }
+            }
         }
     }
 
