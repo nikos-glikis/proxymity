@@ -1,7 +1,7 @@
 logs
 sessions/
 ### JetBrains template
-config.properties
+/config.properties
 input/
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio
 image.gif

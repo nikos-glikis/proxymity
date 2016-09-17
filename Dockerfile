@@ -20,7 +20,8 @@ RUN apt-get install  -q -y  --force-yes vim
 RUN apt-get -q -y  --force-yes  install apache2  php5 php-pear php5-mysql
 RUN service apache2 restart
 RUN mkdir -p /var/log/httpd
-ADD  web/proxymity.conf /etc/apache2/sites-available/proxymity.conf
+ADD docker/proxymity.conf /etc/apache2/sites-available/proxymity.conf
+
 RUN a2ensite proxymity.conf
 RUN a2ensite proxymity
 
@@ -32,6 +33,7 @@ ENV PATH /opt/apache-maven-3.3.9/bin:$PATH
 
 
 ADD ./ /opt/proxymity
+ADD docker/config.properties /opt/proxymity/config.properties
 VOLUME /var/lib/mysql
 
 RUN cd /opt/proxymity/ && mvn  -T 4  clean compile assembly:single
