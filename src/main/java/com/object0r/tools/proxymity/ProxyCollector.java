@@ -606,10 +606,38 @@ abstract public class ProxyCollector extends Thread
 
     public Vector<String> extractTableRows(String url)
     {
+        return extractTableRows(url, false);
+    }
+
+
+    public Vector<String> extractTableRows(String url, boolean anon)
+    {
         Vector<String> rows = new Vector<>();
         try
         {
-            String page = Utilities.readUrl(url);
+            String page;
+            if (anon)
+            {
+                while (true)
+                {
+                    try
+                    {
+                        page = anonReadUrl(url);
+                    }
+                    catch (Exception e)
+                    {
+                        //
+                        continue;
+                    }
+                    break;
+                }
+
+            }
+            else
+            {
+                page = Utilities.readUrl(url);
+            }
+
             Pattern p = Pattern.compile("<tr.*?</tr>", Pattern.DOTALL);
             Matcher m = p.matcher(page);
 

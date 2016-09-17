@@ -21,14 +21,14 @@ public class FreeProxyCzCollector extends ProxyCollector
     {
         try
         {
-            for (int i = 1; i<500; i++)
+            for (int i = 1; i < 500; i++)
             {
 
-                String url = "http://free-proxy.cz/en/proxylist/main/"+i;
-                String page="";
+                String url = "http://free-proxy.cz/en/proxylist/main/" + i;
+                String page = "";
                 try
                 {
-                    //page= anonReadUrl(url);
+                    //page = anonReadUrl(url);
                     page= readUrl(url,false);
                 }
                 catch (Exception e)
@@ -57,11 +57,11 @@ public class FreeProxyCzCollector extends ProxyCollector
                             Pattern pp = Pattern.compile("document.write\\(Base64.decode\\(\"[^\"]*\"");
                             Matcher mm = pp.matcher(line);
                             mm.find();
-                            String ip = mm.group().replace("document.write(Base64.decode(\"","").replace("\"","");
+                            String ip = mm.group().replace("document.write(Base64.decode(\"", "").replace("\"", "");
                             ip = new String(Base64.getDecoder().decode(ip));
                             //System.out.println("Ip: "+ip);
                             mm.find();
-                            String port = mm.group().replace("document.write(Base64.decode(\"","").replace("\"","");
+                            String port = mm.group().replace("document.write(Base64.decode(\"", "").replace("\"", "");
                             port = new String(Base64.getDecoder().decode(port));
                             ProxyInfo proxyInfo = new ProxyInfo();
                             proxyInfo.setHost(ip);

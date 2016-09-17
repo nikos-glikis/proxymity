@@ -74,7 +74,7 @@ public class ProxyCollectorManager extends Thread
 //            collectors.add(new ProxyRssComCollector(collectorParameters));
 //            ;
 //            collectors.add(new proxzComCollector(collectorParameters));
-            collectors.add(new FreeProxyCzCollector(collectorParameters));
+//            collectors.add(new FreeProxyCzCollector(collectorParameters));
 //
 //            //TODO Many results, lower priority
 //            collectors.add(new FreePassRuCollector(collectorParameters));
@@ -83,7 +83,7 @@ public class ProxyCollectorManager extends Thread
 //            collectors.add(new Socks24OrgCollector(collectorParameters));
 //            collectors.add(new happyProxyComCollector(collectorParameters));
 //            collectors.add(new ProxyListMeCollector(collectorParameters));
-//            collectors.add(new ProxyDbNetCollector(collectorParameters));
+            collectors.add(new ProxyDbNetCollector(collectorParameters));
 //            collectors.add(new spysRuCollector(collectorParameters));
 //            collectors.add(new KingProxiesCollector(collectorParameters));
 //            collectors.add(new NnTimeComCollector(collectorParameters));
