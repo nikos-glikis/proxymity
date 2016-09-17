@@ -51,7 +51,7 @@ public class ProxyChecker implements Runnable
             if (ip.equals(myIp))
             {
                 markProxyNoGood(proxyInfo);
-                System.out.println("Proxy Not Anonymous.");
+                //System.out.println("Proxy Not Anonymous.");
                 //Never seen that
             }
             else

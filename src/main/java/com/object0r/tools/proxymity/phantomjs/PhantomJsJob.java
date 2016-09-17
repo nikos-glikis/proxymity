@@ -12,49 +12,15 @@ public class PhantomJsJob
     final static String REQUEST_ACTION_POST = "POST";
     final static String REQUEST_ACTION_GET = "GET";
 
-    final static String ELEMENT_TYPES_TAG_NAME = "tag_name";
-    final static String ELEMENT_TYPES_CLASS = "class";
-
-    static String elementType = ELEMENT_TYPES_TAG_NAME;
-    static String elementName = "body";
-
-    public static void setElementTypeTagName()
-    {
-        elementType = ELEMENT_TYPES_TAG_NAME;
-    }
-
-    public static void setElementTypeClass()
-    {
-        elementType = ELEMENT_TYPES_CLASS;
-    }
-
-    public boolean isElementTypeTagName()
-    {
-        return elementName.equals(ELEMENT_TYPES_TAG_NAME);
-    }
-
-    public boolean isElementTypeClass()
-    {
-        return elementName.equals(ELEMENT_TYPES_CLASS);
-    }
-
-
-    public static void setElementName(String name)
-    {
-        elementName = name;
-    }
-
-    public String getElementName()
-    {
-        return elementName;
-    }
-
+    static String elementType = null;
 
     String url;
     PhantomJsJobResult phantomJsJobResult;
     String request = REQUEST_ACTION_GET;
     String status = STATUS_PENDING;
     Exception exception;
+
+    public HashMap<String, String> cookies = new HashMap<String, String>();
 
     public HashMap<String, String> postParameters = new HashMap<String, String>();
 
@@ -63,9 +29,19 @@ public class PhantomJsJob
         postParameters.put(key, value);
     }
 
+    public void addCookie(String key, String value)
+    {
+        cookies.put(key, value);
+    }
+
     public HashMap<String, String> getPostParameters()
     {
         return postParameters;
+    }
+
+    public HashMap<String, String> getCookies()
+    {
+        return cookies;
     }
 
     public PhantomJsJob(String url)
@@ -172,5 +148,10 @@ public class PhantomJsJob
     public void setException(Exception exception)
     {
         this.exception = exception;
+    }
+
+    public void setCookies(HashMap<String, String> cookies)
+    {
+        this.cookies = cookies;
     }
 }

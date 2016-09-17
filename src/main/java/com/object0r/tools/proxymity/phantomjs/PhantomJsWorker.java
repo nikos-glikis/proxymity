@@ -6,6 +6,7 @@ import com.object0r.toortools.Utilities;
 import com.object0r.toortools.os.OsHelper;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Capabilities;
+import org.openqa.selenium.Cookie;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.phantomjs.PhantomJSDriver;
 import org.openqa.selenium.phantomjs.PhantomJSDriverService;
@@ -16,6 +17,7 @@ import java.io.FileOutputStream;
 import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
@@ -86,7 +88,7 @@ public class PhantomJsWorker extends Thread
         }
 
         driver = new PhantomJSDriver(caps);
-        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+        driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
         driver.manage().timeouts().pageLoadTimeout(Proxymity.PHANTOM_JS_TIMEOUT_SECONDS, TimeUnit.SECONDS);
         driver.manage().timeouts().setScriptTimeout(Proxymity.PHANTOM_JS_TIMEOUT_SECONDS, TimeUnit.SECONDS);
 
@@ -134,6 +136,17 @@ public class PhantomJsWorker extends Thread
                     if (phantomJsJob.isRequestGet())
                     {
                         driver.get(url);
+
+                        if (phantomJsJob.getCookies().size() > 0)
+                        {
+                            for (Map.Entry<String, String> entry : phantomJsJob.getCookies().entrySet())
+                            {
+                                Cookie ck = new Cookie(entry.getKey(), entry.getValue());
+                                driver.manage().addCookie(ck);
+
+                            }
+                            driver.get(url);
+                        }
                     }
                     else if (phantomJsJob.isRequestPost())
                     {
@@ -163,6 +176,8 @@ public class PhantomJsWorker extends Thread
                         driver.get("file:///" + (new File(tmpFilename).getAbsolutePath()));
 
 
+                        driver.get("file:///" + (new File(tmpFilename).getAbsolutePath()));
+
                         WebElement element = driver.findElement(By.id("form1"));
                         element.submit();
                     }
@@ -177,20 +192,8 @@ public class PhantomJsWorker extends Thread
                 }
 
                 //driver.findElement(By.tagName("body")).sendKeys("Keys.ESCAPE");
-                WebElement webElement;
 
-                if (phantomJsJob.isElementTypeTagName())
-                {
-                    webElement = driver.findElement(By.tagName(phantomJsJob.getElementName()));
-                }
-                else if (phantomJsJob.isElementTypeClass())
-                {
-                    webElement = driver.findElement(By.className(phantomJsJob.getElementName()));
-                }
-                else
-                {
-                    webElement = driver.findElement(By.tagName("body"));
-                }
+                WebElement webElement = driver.findElement(By.tagName("body"));
 
                 PhantomJsJobResult phantomJsJobResult = new PhantomJsJobResult();
                 phantomJsJobResult.setContent(webElement.getText());

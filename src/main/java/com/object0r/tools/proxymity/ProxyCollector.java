@@ -21,6 +21,7 @@ import java.net.Proxy;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.HashMap;
 import java.util.Random;
 import java.util.StringTokenizer;
 import java.util.Vector;
@@ -652,10 +653,23 @@ abstract public class ProxyCollector extends Thread
 
     protected String downloadPageWithPhantomJs(String url, String postParameters) throws Exception
     {
-        PhantomJsJobResult phantomJsJobResult = downloadWithPhantomJs(url, postParameters);
+        return downloadPageWithPhantomJs(url, postParameters, new HashMap<String, String>(), false);
+    }
+
+    protected String downloadPageWithPhantomJs(String url, String postParameters, HashMap<String, String> cookies, boolean sourceCode) throws Exception
+    {
+        PhantomJsJobResult phantomJsJobResult = downloadWithPhantomJs(url, postParameters, cookies);
         if (phantomJsJobResult != null)
         {
-            return phantomJsJobResult.getContent();
+            if (sourceCode)
+            {
+                return phantomJsJobResult.getSourceCode();
+            }
+            else
+            {
+                return phantomJsJobResult.getContent();
+            }
+
         }
         else
         {
@@ -665,7 +679,7 @@ abstract public class ProxyCollector extends Thread
 
     protected String downloadPageSourceWithPhantomJs(String url) throws Exception
     {
-        return downloadPageWithPhantomJs(url, null);
+        return downloadPageWithPhantomJs(url, null, new HashMap<String, String>(), true);
     }
 
     private PhantomJsJobResult downloadWithPhantomJs(String url) throws Exception
@@ -674,6 +688,11 @@ abstract public class ProxyCollector extends Thread
     }
 
     private PhantomJsJobResult downloadWithPhantomJs(String url, String postParameters) throws Exception
+    {
+        return downloadWithPhantomJs(url, postParameters, new HashMap<String, String>());
+    }
+
+    private PhantomJsJobResult downloadWithPhantomJs(String url, String postParameters, HashMap<String, String> cookies) throws Exception
     {
         try
         {
@@ -686,6 +705,7 @@ abstract public class ProxyCollector extends Thread
             {
                 phantomJsJob = phantomJsManager.addJob(url, postParameters);
             }
+            phantomJsJob.setCookies(cookies);
 
             while (!phantomJsJob.isFinished())
             {
