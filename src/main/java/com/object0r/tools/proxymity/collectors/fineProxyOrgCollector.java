@@ -17,10 +17,8 @@ public class fineProxyOrgCollector extends ProxyCollector
     {
         try
         {
-            genericParsingOfUrl("http://fineproxy.org/eng/", ProxyInfo.PROXY_TYPES_HTTP);
-            genericParsingOfUrl("http://fineproxy.org/eng/", ProxyInfo.PROXY_TYPES_SOCKS4);
-            genericParsingOfUrl("http://fineproxy.org/eng/", ProxyInfo.PROXY_TYPES_SOCKS5);
-            genericParsingOfUrl("http://fineproxy.org/eng/?p=6", ProxyInfo.PROXY_TYPES_HTTP);
+            genericParsingOfUrl("http://eng.fineproxy.org/freshproxy/", ProxyInfo.PROXY_TYPES_HTTP);
+            genericParsingOfUrl("http://eng.fineproxy.org/freshproxy/", ProxyInfo.PROXY_TYPES_SOCKS5);
         }
         catch (Exception e)
         {
