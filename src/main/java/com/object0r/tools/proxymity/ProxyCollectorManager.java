@@ -61,7 +61,6 @@ public class ProxyCollectorManager extends Thread
 //            //offline
 //            //collectors.add(new Proxies4googleCom(collectorParameters));
 //            collectors.add(new ProxyFireNet(collectorParameters));
-//            collectors.add(new CnproxyCom(collectorParameters));
 //            collectors.add(new ProxyroxComCollector(collectorParameters));
 //            collectors.add(new enProxyNetPlCollector(collectorParameters));
 //            collectors.add(new MaxiproxiesComCollector(collectorParameters));
