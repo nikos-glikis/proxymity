@@ -265,11 +265,21 @@ abstract public class ProxyCollector extends Thread
 
     protected Proxy getRandomProxy() throws Exception
     {
+        return getRandomProxy(false);
+    }
+
+    protected Proxy getRandomProxy(boolean ssl) throws Exception
+    {
         Proxy proxy = null;
         try
         {
+            String sslWhere = "";
+            if (ssl)
+            {
+                sslWhere = " AND https = 'yes' ";
+            }
             Statement st = dbConnection.createStatement();
-            ResultSet rs = st.executeQuery("SELECT host,port,type FROM " + Proxymity.TABLE_NAME + " WHERE status = 'active' ORDER BY RAND() LIMIT 1");
+            ResultSet rs = st.executeQuery("SELECT host,port,type FROM " + Proxymity.TABLE_NAME + " WHERE status = 'active' " + sslWhere + " ORDER BY RAND() LIMIT 1");
             if (rs.next())
             {
 
@@ -492,16 +502,33 @@ abstract public class ProxyCollector extends Thread
             else
             {
                 URL oracle = new URL(url);
-                Proxy p = getRandomProxy();
+                Proxy p;
+                if (url.contains("https"))
+                {
+                    Utilities.trustEverybody();
+                    p = getRandomProxy(true);
+                }
+                else
+                {
+                    p = getRandomProxy(false);
+                }
+
                 while (p == null)
                 {
                     Thread.sleep(5000);
-                    p = getRandomProxy();
+                    if (url.contains("https"))
+                    {
+                        p = getRandomProxy(true);
+                    }
+                    else
+                    {
+                        p = getRandomProxy(false);
+                    }
                 }
                 HttpURLConnection conn = (HttpURLConnection) oracle.openConnection(p);
                 conn.setReadTimeout(Proxymity.TIMEOUT_MS);
                 conn.setConnectTimeout(Proxymity.TIMEOUT_MS);
-                conn.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:37.0) Gecko/20100101 Firefox/37.0");
+                conn.setRequestProperty("User-Agent", Utilities.getBrowserUserAgent());
                 BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 
                 String inputLine;
@@ -530,7 +557,6 @@ abstract public class ProxyCollector extends Thread
             throw e;
             //System.out.println("_404 e");
         }
-
         catch (Exception e)
         {
             //e.printStackTrace();

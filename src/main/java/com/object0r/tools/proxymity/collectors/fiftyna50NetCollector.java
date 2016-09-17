@@ -27,7 +27,7 @@ public class fiftyna50NetCollector extends ProxyCollector
             {
                 String line = m.group();
                 //System.out.println(line);
-                if (line.contains("http://50na50.net/src/img/foxyproxy.png"))
+                if (line.contains("confirmation=http://hideip.me/ip"))
                 {
                     String ip = Utilities.cut("&host=","&", line);
                     String port = Utilities.cut("&port=","&", line);

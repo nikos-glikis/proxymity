@@ -23,25 +23,33 @@ public class ProxyroxComCollector extends ProxyCollector
     {
         try
         {
-            for (int i = 1; i<200; i++)
+            for (int i = 1; i < 200; i++)
             {
-                String page ="";
+                String page = "";
                 try
                 {
                     while (true)
                     {
+
                         try
                         {
-                            page = anonReadUrl("http://proxyrox.com/?p="+i);
+                            page = anonReadUrl("https://proxyrox.com/?p=" + i);
                         }
                         catch (IOException e)
                         {
                             //System.out.println("ProxyRox.com fail");
                             continue;
                         }
+                        if (!page.contains("<title>Proxy Rox |"))
+                        {
+                            System.out.println("Bad Proxy Rox stuff.");
+                            System.out.println(page);
+                            continue;
+                        }
+                        System.out.println("ProxyRox.com Success!");
                         break;
                     }
-                    //System.out.println("ProxyRox.com Success!");
+
                 }
 
                 catch (FileNotFoundException e)
