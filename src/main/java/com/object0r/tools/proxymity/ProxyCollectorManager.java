@@ -40,7 +40,7 @@ public class ProxyCollectorManager extends Thread
 
 //            collectors.add(new InCloakCollector(collectorParameters));
 //            collectors.add(new HmaCollector(collectorParameters));
-//            collectors.add(new ProxyListOrgCollector(collectorParameters));
+            collectors.add(new ProxyListOrgCollector(collectorParameters));
 //            collectors.add(new SSLProxiesOrgCollector(collectorParameters));
 //            collectors.add(new SamairRuCollector(collectorParameters));
 //            collectors.add(new SocksProxyNetCollector(collectorParameters));
@@ -83,7 +83,7 @@ public class ProxyCollectorManager extends Thread
 //            collectors.add(new Socks24OrgCollector(collectorParameters));
 //            collectors.add(new happyProxyComCollector(collectorParameters));
 //            collectors.add(new ProxyListMeCollector(collectorParameters));
-            collectors.add(new ProxyDbNetCollector(collectorParameters));
+//            collectors.add(new ProxyDbNetCollector(collectorParameters));
 //            collectors.add(new spysRuCollector(collectorParameters));
 //            collectors.add(new KingProxiesCollector(collectorParameters));
 //            collectors.add(new NnTimeComCollector(collectorParameters));

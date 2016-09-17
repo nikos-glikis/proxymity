@@ -24,11 +24,11 @@ public class ProxyListOrgCollector extends ProxyCollector
 
         try
         {
-            for (int i = 0; i<15; i++)
+            for (int i = 0; i < 15; i++)
             {
-                String page = Utilities.readUrl("https://proxy-list.org/english/index.php?p="+i);
+                String page = Utilities.readUrl("https://proxy-list.org/english/index.php?p=" + i);
 
-                Pattern p = Pattern.compile("<ul>(.|\\n)*?</ul>");
+                Pattern p = Pattern.compile("<ul>.*?</ul>", Pattern.DOTALL);
                 Matcher m = p.matcher(page);
                 while (m.find())
                 {
@@ -54,16 +54,27 @@ public class ProxyListOrgCollector extends ProxyCollector
                                 continue;
                             }
 
-                            String type = Utilities.cut("</script></li>","</li", line);
-                            type = type.substring(type.lastIndexOf(">")+1, type.length()).trim();
-                            ProxyInfo proxyInfo = new ProxyInfo();
-                            if (type.equals("HTTP"))
+                            String type = Utilities.cut("</script></li>", "</li", line);
+                            if (type.toLowerCase().contains(">https<"))
                             {
-                                    proxyInfo.setType(ProxyInfo.PROXY_TYPES_HTTP);
+                                type = "HTTPS";
                             }
-                            else if (type.equals("HTTPS"))
+                            else if (type.toLowerCase().contains(">http<"))
+                            {
+                                type = "HTTP";
+                            }
+                            else
+                            {
+                                type = "HTTP";
+                            }
+                            ProxyInfo proxyInfo = new ProxyInfo();
+                            if (type.equals("HTTPS"))
                             {
                                 proxyInfo.setType(ProxyInfo.PROXY_TYPES_HTTPS);
+                            }
+                            else if (type.equals("HTTP"))
+                            {
+                                proxyInfo.setType(ProxyInfo.PROXY_TYPES_HTTP);
                             }
                             else
                             {
