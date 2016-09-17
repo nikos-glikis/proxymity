@@ -529,6 +529,7 @@ abstract public class ProxyCollector extends Thread
                 conn.setReadTimeout(Proxymity.TIMEOUT_MS);
                 conn.setConnectTimeout(Proxymity.TIMEOUT_MS);
                 conn.setRequestProperty("User-Agent", Utilities.getBrowserUserAgent());
+                conn.setRequestProperty("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
                 BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 
                 String inputLine;

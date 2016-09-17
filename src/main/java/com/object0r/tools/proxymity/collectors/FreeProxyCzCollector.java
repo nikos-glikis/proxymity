@@ -28,7 +28,8 @@ public class FreeProxyCzCollector extends ProxyCollector
                 String page="";
                 try
                 {
-                    page= anonReadUrl(url);
+                    //page= anonReadUrl(url);
+                    page= readUrl(url,false);
                 }
                 catch (Exception e)
                 {

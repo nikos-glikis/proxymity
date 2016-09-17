@@ -62,12 +62,11 @@ public class ProxyCollectorManager extends Thread
 //            //collectors.add(new Proxies4googleCom(collectorParameters));
 //            collectors.add(new ProxyFireNet(collectorParameters));
 //            collectors.add(new CnproxyCom(collectorParameters));
-            collectors.add(new ProxyroxComCollector(collectorParameters));
+//            collectors.add(new ProxyroxComCollector(collectorParameters));
 //            collectors.add(new enProxyNetPlCollector(collectorParameters));
 //            collectors.add(new MaxiproxiesComCollector(collectorParameters));
 //            collectors.add(new UltraProxiesComCollector(collectorParameters));
 //            collectors.add(new fiftyna50NetCollector(collectorParameters));
-//            collectors.add(new socks24RuCollector(collectorParameters));
 //            collectors.add(new theProxyListComCollector(collectorParameters));
 //            collectors.add(new fineProxyOrgCollector(collectorParameters));
 //            collectors.add(new freeProxyListsDailyBlogspotInCollector(collectorParameters));
@@ -75,7 +74,7 @@ public class ProxyCollectorManager extends Thread
 //            collectors.add(new ProxyRssComCollector(collectorParameters));
 //            ;
 //            collectors.add(new proxzComCollector(collectorParameters));
-//            collectors.add(new FreeProxyCzCollector(collectorParameters));
+            collectors.add(new FreeProxyCzCollector(collectorParameters));
 //
 //            //TODO Many results, lower priority
 //            collectors.add(new FreePassRuCollector(collectorParameters));

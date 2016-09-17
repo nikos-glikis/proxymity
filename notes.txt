@@ -1,3 +1,6 @@
+//lists:
+http://www.blackhatworld.com/seo/url-list-for-proxy-leeching.773345/
+
 //google request
 intext:proxies intext:8080
 //http://androidproxy.in/

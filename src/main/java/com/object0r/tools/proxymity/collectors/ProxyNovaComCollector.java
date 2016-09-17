@@ -33,9 +33,10 @@ public class ProxyNovaComCollector extends ProxyCollector
                 while (m.find())
                 {
                     String line = m.group();
-                    if (line.contains("row_proxy_ip\""))
+                    if (line.contains("</span><span>"))
                     {
-                        String ip = Utilities.cut("\"row_proxy_ip\">","<",line);
+                        line=line.replace("</span><span>","");
+                        String ip = Utilities.cut("<span>","</span>",line);
 
                         Pattern pp = Pattern.compile("<td align=\"left\">.*?</td>",Pattern.DOTALL);
                         Matcher mm = pp.matcher(line);

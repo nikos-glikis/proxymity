@@ -41,7 +41,7 @@ public class ProxyCheckerManager extends Thread
                 markDead();
                 try
                 {
-                    fixedPool.awaitTermination(10, TimeUnit.MINUTES);
+                    fixedPool.awaitTermination(5, TimeUnit.MINUTES);
                 }
                 catch (InterruptedException e)
                 {
