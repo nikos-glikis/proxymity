@@ -46,7 +46,7 @@ public class ProxyroxComCollector extends ProxyCollector
                             System.out.println(page);
                             continue;
                         }
-                        System.out.println("ProxyRox.com Success!");
+                        //System.out.println("ProxyRox.com Success!");
                         break;
                     }
 

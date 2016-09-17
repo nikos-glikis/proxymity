@@ -35,3 +35,21 @@ This is called as:
     getRandomProxy('socks5'); - Get any type active proxy of type socks5
 
 
+Docker
+======
+The easiest way to run this is with Docker.
+
+Make sure you have Docker installed. Instructions for all major distributions here:
+
+    https://docs.docker.com/engine/installation/
+
+Then run these commands:
+
+    ./build_docker.sh
+    ./run_docker.sh
+    
+ You can see the proxies at http://localhost:81/activeproxies.php?start=0&limit=100
+ 
+ Adjust start and limit to your linking.
+ 
+ The output is json and self-explained.
