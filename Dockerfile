@@ -3,7 +3,9 @@
 FROM maven:3.3.9-jdk-8
 
 # Update packages
+RUN apt-get clean
 RUN apt-get update
+
 # Install required packages
 ENV DEBIAN_FRONTEND noninteractive
 
