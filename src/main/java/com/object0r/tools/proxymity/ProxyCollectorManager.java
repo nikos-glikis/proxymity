@@ -38,7 +38,7 @@ public class ProxyCollectorManager extends Thread
 
             List<ProxyCollector> collectors = new ArrayList<ProxyCollector>();
 
-            /*collectors.add(new InCloakCollector(collectorParameters));
+            collectors.add(new InCloakCollector(collectorParameters));
             collectors.add(new HmaCollector(collectorParameters));
             collectors.add(new ProxyListOrgCollector(collectorParameters));
             collectors.add(new SSLProxiesOrgCollector(collectorParameters));
@@ -50,10 +50,10 @@ public class ProxyCollectorManager extends Thread
             collectors.add(new XroxyComCollector(collectorParameters));
             collectors.add(new ProxyNovaComCollector(collectorParameters));
             collectors.add(new Socks24OrgCollector(collectorParameters));
-            collectors.add(new MrHinkyDinkCollector(collectorParameters));*/
-            //below has capta. Maybe try to overcome it.
+            collectors.add(new MrHinkyDinkCollector(collectorParameters));
+            //recheck capthca
             collectors.add(new ProxyMooJpCollector(collectorParameters));
-            /*collectors.add(new SocksListNetCollector(collectorParameters));
+            collectors.add(new SocksListNetCollector(collectorParameters));
             collectors.add(new TorVpnComCollector(collectorParameters));
             collectors.add(new GatherproxyCom(collectorParameters));
             collectors.add(new FastproxyserversOrg(collectorParameters));
@@ -90,7 +90,7 @@ public class ProxyCollectorManager extends Thread
             collectors.add(new NnTimeComCollector(collectorParameters));
             collectors.add(new NnTimeComCollector(collectorParameters));
             collectors.add(new SampleCollector(collectorParameters));
-            collectors.add(new ShodanCollector(collectorParameters));*/
+            collectors.add(new ShodanCollector(collectorParameters));
 
             // Problematic
             //collectors.add(new IdcloakComCollector(collectorParameters));

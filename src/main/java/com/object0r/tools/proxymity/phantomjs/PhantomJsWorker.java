@@ -175,8 +175,16 @@ public class PhantomJsWorker extends Thread
 
                         driver.get("file:///" + (new File(tmpFilename).getAbsolutePath()));
 
+                        if (phantomJsJob.getCookies().size() > 0)
+                        {
+                            for (Map.Entry<String, String> entry : phantomJsJob.getCookies().entrySet())
+                            {
+                                Cookie ck = new Cookie(entry.getKey(), entry.getValue());
+                                driver.manage().addCookie(ck);
 
-                        driver.get("file:///" + (new File(tmpFilename).getAbsolutePath()));
+                            }
+                            driver.get("file:///" + (new File(tmpFilename).getAbsolutePath()));
+                        }
 
                         WebElement element = driver.findElement(By.id("form1"));
                         element.submit();
