@@ -4,7 +4,7 @@ Proxymity is a tool that extracts anonymous proxies using various ways.
 
 Then it constantly verifies them and tests their capabilities.
 
-It scans lots of online websites and employees advanced techniques to bypass protections like Javascript Evalueation and captchas.
+It scans lots of online websites and employs advanced techniques to bypass protections like Javascript Evaluation and captchas.
 
 Installation
 ============
@@ -65,8 +65,13 @@ Then run these commands:
  
  The output is json and self-explained.
  
- Configuration
- ==============
- - config.properties.sample contains all values that can be set.
- - Copy config.properties.sample to config.properties and edit it.
- - The file for Docker is Docker/config.properties
+Configuration
+==============
+- config.properties.sample contains all values that can be set.
+- Copy config.properties.sample to config.properties and edit it.
+- The file for Docker is Docker/config.properties
+
+Windows
+========
+
+Binaries files are included for portability on windows. You are free to delete bin directory in if not needed.
