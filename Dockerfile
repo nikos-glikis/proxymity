@@ -26,7 +26,7 @@ RUN a2ensite proxymity.conf
 RUN a2ensite proxymity
 
 EXPOSE 3306 3309
-EXPOSE 81
+EXPOSE 81 81
 
 # Add maven to path
 ENV PATH /opt/apache-maven-3.3.9/bin:$PATH
