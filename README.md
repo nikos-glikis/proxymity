@@ -75,3 +75,12 @@ Windows
 ========
 
 Binaries files are included for portability on windows. You are free to delete bin directory in if not needed.
+
+Troubleshoot
+============
+
+- Phantomjjs download fails in ./build_docker.sh
+    - Open manually in browser https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-2.1.1-linux-x86_64.tar.bz2 and try again.
+    - Create the connection an then cancel, there is no need for actual download.
+    - Then run ./build_docker.sh again.
+    
