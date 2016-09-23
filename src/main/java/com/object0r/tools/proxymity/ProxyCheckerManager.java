@@ -15,14 +15,17 @@ public class ProxyCheckerManager extends Thread
 {
     Connection dbConnection;
     ExecutorService fixedPool;
+
     public ProxyCheckerManager(Connection dbConnection)
     {
         this.dbConnection = dbConnection;
     }
+
     public void shutDown()
     {
         fixedPool.shutdownNow();
     }
+
     public void run()
     {
         try
@@ -33,7 +36,7 @@ public class ProxyCheckerManager extends Thread
                 fixedPool = Executors.newFixedThreadPool(Proxymity.PROXY_CHECKERS_COUNT);
                 Vector<ProxyInfo> proxyInfos = getProxiesToTest();
 
-                for (ProxyInfo proxyInfo: proxyInfos)
+                for (ProxyInfo proxyInfo : proxyInfos)
                 {
                     fixedPool.submit(new ProxyChecker(proxyInfo, dbConnection));
                 }
@@ -50,8 +53,8 @@ public class ProxyCheckerManager extends Thread
 
                 fixedPool = Executors.newFixedThreadPool(Proxymity.PROXY_CHECKERS_COUNT);
 
-                proxyInfos  = getDeadProxiesForCheck(5000);
-                for (ProxyInfo proxyInfo: proxyInfos)
+                proxyInfos = getDeadProxiesForCheck(5000);
+                for (ProxyInfo proxyInfo : proxyInfos)
                 {
                     fixedPool.submit(new ProxyChecker(proxyInfo, dbConnection));
                 }
@@ -77,7 +80,7 @@ public class ProxyCheckerManager extends Thread
         try
         {
             Statement st = dbConnection.createStatement();
-            st.executeUpdate("UPDATE `"+Proxymity.TABLE_NAME+"` SET status = '"+ProxyChecker.PROXY_STATUS_DEAD+"' WHERE `status` != '"+ProxyChecker.PROXY_STATUS_PENDING+"' AND lastactive < DATE_SUB(NOW(), INTERVAL "+ Proxymity.MARK_DEAD_AFTER_MINUTES +" MINUTE)");
+            st.executeUpdate("UPDATE `" + Proxymity.TABLE_NAME + "` SET status = '" + ProxyChecker.PROXY_STATUS_DEAD + "' WHERE `status` != '" + ProxyChecker.PROXY_STATUS_PENDING + "' AND lastactive < DATE_SUB(NOW(), INTERVAL " + Proxymity.MARK_DEAD_AFTER_MINUTES + " MINUTE)");
             st.close();
         }
         catch (Exception e)
@@ -94,7 +97,7 @@ public class ProxyCheckerManager extends Thread
 
     void printMessage(String message)
     {
-        ConsoleColors.printGreen(getDateTimeAsString()+ ": "+message);
+        ConsoleColors.printGreen(getDateTimeAsString() + ": " + message);
     }
 
     Vector<ProxyInfo> getProxyInfosFromResultSet(ResultSet rs)
@@ -129,16 +132,16 @@ public class ProxyCheckerManager extends Thread
         return proxyInfos;
     }
 
-    Vector<ProxyInfo> getRandomDeadProxies( int count)
+    Vector<ProxyInfo> getRandomDeadProxies(int count)
     {
         Vector<ProxyInfo> proxyInfos = new Vector<ProxyInfo>();
         try
         {
             Statement st = dbConnection.createStatement();
-            ResultSet rs = st.executeQuery("SELECT id, host, port, type, checkOnlyOnce FROM "+Proxymity.TABLE_NAME+" WHERE status = 'dead' AND checkOnlyOnce = 'no' ORDER BY priority DESC, RAND() LIMIT "+count);
+            ResultSet rs = st.executeQuery("SELECT id, host, port, type, checkOnlyOnce FROM " + Proxymity.TABLE_NAME + " WHERE status = 'dead' AND checkOnlyOnce = 'no' ORDER BY priority DESC, RAND() LIMIT " + count);
             proxyInfos = getProxyInfosFromResultSet(rs);
             int i = proxyInfos.size();
-            printMessage("Fetched "+i+ " random dead proxies for check.  ");
+            printMessage("Fetched " + i + " random dead proxies for check.  ");
             if (i < 10)
             {
                 Thread.sleep(5000);
@@ -153,19 +156,20 @@ public class ProxyCheckerManager extends Thread
 
     /**
      * Returns the dead proxies to check. Those are the proxies that have not ben checked the longest.
+     *
      * @param count
      * @return
      */
-    Vector<ProxyInfo> getDeadProxiesForCheck( int count)
+    Vector<ProxyInfo> getDeadProxiesForCheck(int count)
     {
         Vector<ProxyInfo> proxyInfos = new Vector<ProxyInfo>();
         try
         {
             Statement st = dbConnection.createStatement();
-            ResultSet rs = st.executeQuery("SELECT id, host, port, type, checkOnlyOnce FROM "+Proxymity.TABLE_NAME+" WHERE status = 'dead' AND checkOnlyOnce = 'no' ORDER BY lastchecked LIMIT "+count);
+            ResultSet rs = st.executeQuery("SELECT id, host, port, type, checkOnlyOnce FROM " + Proxymity.TABLE_NAME + " WHERE status = 'dead' AND checkOnlyOnce = 'no' ORDER BY lastchecked LIMIT " + count);
             proxyInfos = getProxyInfosFromResultSet(rs);
             int i = proxyInfos.size();
-            printMessage("Fetched "+i+ " dead proxies for check.");
+            printMessage("Fetched " + i + " dead proxies for check.");
             if (i < 10)
             {
                 Thread.sleep(5000);
@@ -184,17 +188,18 @@ public class ProxyCheckerManager extends Thread
         try
         {
             Statement st = dbConnection.createStatement();
-            ResultSet rs = st.executeQuery(
+            String query = "(SELECT id, host, port, type, checkOnlyOnce, priority FROM " + Proxymity.TABLE_NAME + " WHERE status = 'pending' )  " +
+                    "UNION " +
+                    "( SELECT id, host, port, type, checkOnlyOnce, priority FROM " + Proxymity.TABLE_NAME + " WHERE lastchecked is NULL LIMIT 5000 )  " +
+                    "UNION " +
+                    "( SELECT id, host, port, type, checkOnlyOnce, priority FROM " + Proxymity.TABLE_NAME + " WHERE ( status != 'dead' ) AND (lastchecked not BETWEEN DATE_SUB(NOW(), INTERVAL " + Proxymity.RECHECK_INTERVAL_MINUTES + " MINUTE) AND NOW()) )  " +
 
-                    "SELECT id, host, port, type, checkOnlyOnce, priority FROM "+Proxymity.TABLE_NAME+" WHERE status = 'pending'   " +
-                    "UNION SELECT id, host, port, type, checkOnlyOnce, priority FROM "+Proxymity.TABLE_NAME+" WHERE lastchecked is NULL LIMIT 5000  " +
-                    "UNION SELECT id, host, port, type, checkOnlyOnce, priority FROM "+Proxymity.TABLE_NAME+" WHERE ( status != 'dead' ) AND (lastchecked not BETWEEN DATE_SUB(NOW(), INTERVAL "+ Proxymity.RECHECK_INTERVAL_MINUTES +" MINUTE) AND NOW())  " +
-
-                            "ORDER BY priority DESC, RAND()  LIMIT 5000");
+                    "ORDER BY priority DESC, RAND()  LIMIT 5000";
+            ResultSet rs = st.executeQuery(query);
 
             proxyInfos = getProxyInfosFromResultSet(rs);
             int i = proxyInfos.size();
-            printMessage("Fetched "+i+ " proxies for check. ");
+            printMessage("Fetched " + i + " proxies for check. ");
             if (i < 10)
             {
                 Thread.sleep(5000);
@@ -203,6 +208,7 @@ public class ProxyCheckerManager extends Thread
         catch (Exception e)
         {
             e.printStackTrace();
+            System.exit(-1);
         }
         return proxyInfos;
     }
