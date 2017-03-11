@@ -35,6 +35,7 @@ ENV PATH /opt/apache-maven-3.3.9/bin:$PATH
 ADD ./ /opt/proxymity
 ADD docker/config.properties /opt/proxymity/config.properties
 VOLUME /var/lib/mysql
+VOLUME /root/.m2
 
 RUN cd /opt/proxymity/ && mvn  -T 4  clean compile assembly:single
 
