@@ -4,7 +4,7 @@
 exitAfterMinutes=120
 
 #if we want to use tor. Valid values are true or True anything else is considered false
-useTor=true
+useTor=false
 
 #database stuff
 database=proxies
@@ -15,7 +15,7 @@ databaseHost=127.0.0.1
 
 #proxymity variables
 #how many checker threads to run
-checkerThreadsCount=60
+checkerThreadsCount=180
 #how often to recheck active proxies. In minutes
 checkerRecheckInterval=20
 #If a proxy is inactive for markDeadInterval it is marked as dead. Dead proxies are re-scanned less than active proxies.

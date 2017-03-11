@@ -6,6 +6,8 @@ import com.object0r.tools.proxymity.datatypes.ProxyInfo;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayDeque;
+import java.util.LinkedList;
 import java.util.Vector;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -13,60 +15,152 @@ import java.util.concurrent.TimeUnit;
 
 public class ProxyCheckerManager extends Thread
 {
-    Connection dbConnection;
-    ExecutorService fixedPool;
+    private Connection dbConnection;
+    //Pending proxies to be processed.
+    private ArrayDeque<ProxyInfo> proxies = new ArrayDeque<>();
+    private Vector<ProxyChecker> proxyCheckers;
+    private int globalProxyCount = 0;
+    //Total count of inactive ProxyChecker threads discovered in the total runtime.
+    private int totalInactive = 0;
 
     public ProxyCheckerManager(Connection dbConnection)
     {
         this.dbConnection = dbConnection;
     }
 
-    public void shutDown()
+    public void run()
     {
-        fixedPool.shutdownNow();
+        init();
+
+        try
+        {
+            while (true)
+            {
+                Vector<ProxyInfo> proxyInfos = getProxiesToTest();
+
+                synchronized (this)
+                {
+                    proxies.addAll(proxyInfos);
+                }
+
+                markDead();
+
+                sleepWhileHaveProxies();
+                synchronized (this)
+                {
+                    proxies.addAll(getDeadProxiesForCheck(5000));
+                }
+                sleepWhileHaveProxies();
+
+                sleepWhileHaveProxies();
+            }
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
     }
 
-    public void run()
+    private void init()
+    {
+        proxyCheckers = new Vector<>();
+        ProxyChecker pc;
+        for (; globalProxyCount < Proxymity.PROXY_CHECKERS_COUNT; globalProxyCount++)
+        {
+            pc = new ProxyChecker(this, dbConnection, globalProxyCount);
+            pc.start();
+            try
+            {
+                Thread.sleep(50);
+            }
+            catch (InterruptedException e)
+            {
+                e.printStackTrace();
+            }
+            proxyCheckers.add(pc);
+        }
+        new IdleChecker().start();
+
+    }
+
+
+    class IdleChecker extends Thread
+    {
+        public void run()
+        {
+            try
+            {
+                Thread.sleep(30000);
+            }
+            catch (InterruptedException e)
+            {
+                e.printStackTrace();
+            }
+
+            while (true)
+            {
+                for (ProxyChecker pc : proxyCheckers)
+                {
+                    pc.setActive(false);
+                }
+                int secondsToSleep = 180;
+                try
+                {
+                    Thread.sleep(secondsToSleep * 1000);
+                }
+                catch (InterruptedException e)
+                {
+                    e.printStackTrace();
+                }
+                int inactive = 0;
+                Vector<ProxyChecker> toRemove = new Vector<>();
+                for (ProxyChecker pc : proxyCheckers)
+                {
+                    if (!pc.isActive())
+                    {
+                        inactive++;
+                        totalInactive++;
+                        toRemove.add(pc);
+                    }
+                }
+
+                ConsoleColors.printRed("After a wait of " + secondsToSleep + " seconds " + inactive + "/" + proxyCheckers.size() + " proxycheckers are inactive. Total inactive count is: " + totalInactive);
+                //Below is not really necessary.
+                for (ProxyChecker proxyChecker : toRemove)
+                {
+                    proxyChecker.stop();
+                }
+                proxyCheckers.removeAll(toRemove);
+
+                for (int i = 0; i < inactive; i++)
+                {
+                    try
+                    {
+                        Thread.sleep(50);
+                    }
+                    catch (InterruptedException e)
+                    {
+                        e.printStackTrace();
+                    }
+
+                    proxyCheckers.add(new ProxyChecker(ProxyCheckerManager.this, dbConnection, ++globalProxyCount));
+                }
+            }
+        }
+    }
+
+    public synchronized ProxyInfo getNextProxy()
+    {
+        return proxies.pollFirst();
+    }
+
+    private void sleepWhileHaveProxies()
     {
         try
         {
-            new ProxyChecker(new ProxyInfo(), dbConnection).setMyIp();
-            while (true)
+            while (proxies.size() > 0)
             {
-                fixedPool = Executors.newFixedThreadPool(Proxymity.PROXY_CHECKERS_COUNT);
-                Vector<ProxyInfo> proxyInfos = getProxiesToTest();
-
-                for (ProxyInfo proxyInfo : proxyInfos)
-                {
-                    fixedPool.submit(new ProxyChecker(proxyInfo, dbConnection));
-                }
-                fixedPool.shutdown();
-                markDead();
-                try
-                {
-                    fixedPool.awaitTermination(5, TimeUnit.MINUTES);
-                }
-                catch (InterruptedException e)
-                {
-                    e.printStackTrace();
-                }
-
-                fixedPool = Executors.newFixedThreadPool(Proxymity.PROXY_CHECKERS_COUNT);
-
-                proxyInfos = getDeadProxiesForCheck(5000);
-                for (ProxyInfo proxyInfo : proxyInfos)
-                {
-                    fixedPool.submit(new ProxyChecker(proxyInfo, dbConnection));
-                }
-                fixedPool.shutdown();
-                try
-                {
-                    fixedPool.awaitTermination(3, TimeUnit.MINUTES);
-                }
-                catch (InterruptedException e)
-                {
-                    e.printStackTrace();
-                }
+                Thread.sleep(1000);
             }
         }
         catch (Exception e)

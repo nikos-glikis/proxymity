@@ -2,28 +2,40 @@ package com.object0r.tools.proxymity;
 
 import com.object0r.toortools.Utilities;
 import com.object0r.tools.proxymity.datatypes.ProxyInfo;
+import org.apache.commons.io.IOUtils;
 
 
+import java.io.StringWriter;
 import java.net.*;
 import java.sql.Connection;
 import java.sql.Statement;
 import java.util.Random;
 import java.util.Scanner;
 
-public class ProxyChecker implements Runnable
+public class ProxyChecker extends Thread
 {
     public final static String PROXY_STATUS_PENDING = "pending";
     public final static String PROXY_STATUS_INACTIVE = "inactive";
     public final static String PROXY_STATUS_ACTIVE = "active";
     public static final String PROXY_STATUS_DEAD = "dead";
     static String myIp;
-    ProxyInfo proxyInfo;
-    Connection dbConnection;
+    private ProxyInfo proxyInfo;
+    private boolean active;
+    private Connection dbConnection;
+    private ProxyCheckerManager proxyCheckerManager;
+    private Random random = new Random();
+    private long id;
 
-    ProxyChecker(ProxyInfo proxyInfo, Connection dbConnection)
+    ProxyChecker(ProxyCheckerManager proxyCheckerManager, Connection dbConnection, long id)
     {
-        this.proxyInfo = proxyInfo;
+        this.proxyCheckerManager = proxyCheckerManager;
         this.dbConnection = dbConnection;
+        this.id = id;
+    }
+
+    public long getId()
+    {
+        return id;
     }
 
     public void setMyIp()
@@ -39,88 +51,105 @@ public class ProxyChecker implements Runnable
         }
     }
 
+
     public void run()
     {
         try
         {
             Thread.sleep(new Random().nextInt(3000));
+        }
+        catch (InterruptedException e)
+        {
+            e.printStackTrace();
+        }
 
-            Proxy proxy = getProxyFromProxyInfo(proxyInfo);
-            String ip = Utilities.getIp(proxy, 3, Proxymity.TIMEOUT_MS/1000, Proxymity.TIMEOUT_MS/1000);
-
-            if (ip.equals(myIp))
+        while (true)
+        {
+            try
             {
-                markProxyNoGood(proxyInfo);
-                //System.out.println("Proxy Not Anonymous.");
-                //Never seen that
-            }
-            else
-            {
-                //System.out.println("My Ip/Remote "+myIp+"/"+ip);
-                markProxyAsGood(proxyInfo);
-                setProxyRemoteIp(proxyInfo, ip);
-                try
+                setActive(true);
+                proxyInfo = proxyCheckerManager.getNextProxy();
+                if (proxyInfo == null)
                 {
-                    //Try https.
+                    Thread.sleep(random.nextInt(100));
+                    continue;
+                }
+                Proxy proxy = getProxyFromProxyInfo(proxyInfo);
+                String ip = Utilities.getIp(proxy, 3, Proxymity.TIMEOUT_MS / 1000, Proxymity.TIMEOUT_MS / 1000);
+
+                if (ip.equals(myIp))
+                {
+                    markProxyNoGood(proxyInfo);
+                    //System.out.println("Proxy Not Anonymous.");
+                    //Never seen that
+                }
+                else
+                {
+                    //System.out.println("My Ip/Remote "+myIp+"/"+ip);
+                    markProxyAsGood(proxyInfo);
+                    setProxyRemoteIp(proxyInfo, ip);
                     try
                     {
-                        HttpURLConnection.setFollowRedirects(false);
-
-                        HttpURLConnection con =
-                                (HttpURLConnection) new URL("https://"+Proxymity.HTTPS_CHECK_URL.replace("https://","")).openConnection(proxy);
-
-                        con.setConnectTimeout(Proxymity.TIMEOUT_MS);
-                        con.setReadTimeout(Proxymity.TIMEOUT_MS);
-                        Scanner sc2 = new Scanner(con.getInputStream());
-                        StringBuffer sb2 = new StringBuffer();
-
-                        while (sc2.hasNext())
+                        //Try https.
+                        HttpURLConnection con = null;
+                        try
                         {
-                            sb2.append(sc2.nextLine()+"\n");
+                            HttpURLConnection.setFollowRedirects(false);
+
+                            con = (HttpURLConnection) new URL("https://" + Proxymity.HTTPS_CHECK_URL.replace("https://", "")).openConnection(proxy);
+
+                            con.setConnectTimeout(Proxymity.TIMEOUT_MS);
+                            con.setReadTimeout(Proxymity.TIMEOUT_MS);
+                            StringWriter writer = new StringWriter();
+                            IOUtils.copy(con.getInputStream(), writer, "UTF-8");
+
+                            if (writer.toString().contains(Proxymity.HTTPS_CHECK_STRING))
+                            {
+                                markProxyAsHttps(proxyInfo);
+                            }
+                            else
+                            {
+                                markProxyAsNotHttps(proxyInfo);
+                            }
                         }
-                        if (sb2.toString().contains(Proxymity.HTTPS_CHECK_STRING)) {
-                            markProxyAsHttps(proxyInfo);
-                        } else {
+                        catch (Exception e)
+                        {
+                            //System.out.println("Https error: "+e.toString());
+                            if (proxyInfo.getType().equals(ProxyInfo.PROXY_TYPES_SOCKS4) || proxyInfo.getType().equals(ProxyInfo.PROXY_TYPES_SOCKS4))
+                            {
+                                //WE ARE NEVER HERE, RESEARCH WHY/
+                                System.out.println("Socks Error HTTPS: " + e.toString());
+                            }
+
                             markProxyAsNotHttps(proxyInfo);
                         }
-                        /*if (con.getResponseCode() ==  HttpURLConnection.HTTP_OK)
+                        finally
                         {
-                            markProxyAsHttps(proxyInfo);
-                        }
-                        else
-                        {
-                            //System.out.println("Code is: "+con.getResponseCode());
-                            markProxyAsNotHttps(proxyInfo);
-                        }*/
+                            try
+                            {
+                                con.getInputStream().close();
+                            }
+                            catch (Exception e)
+                            {
 
-                        con.getInputStream().close();
+                            }
+                        }
                     }
                     catch (Exception e)
                     {
-                        //System.out.println("Https error: "+e.toString());
-                        if (proxyInfo.getType().equals(ProxyInfo.PROXY_TYPES_SOCKS4) || proxyInfo.getType().equals( ProxyInfo.PROXY_TYPES_SOCKS4))
-                        {
-                            //WE ARE NEVER HERE, RESEARCH WHY/
-                            System.out.println("Socks Error HTTPS: "+e.toString());
-                        }
-
-                        markProxyAsNotHttps(proxyInfo);
+                        System.out.println("Failed to verify Security");
+                        System.out.println(e);
                     }
-                }
-                catch (Exception e)
-                {
-                    System.out.println("Failed to verify Security");
-                    System.out.println(e);
-                }
 
-                //System.out.println("SuMy ip is: "+ip);
+                    //System.out.println("SuMy ip is: "+ip);
+                }
             }
-        }
-        catch (Exception e)
-        {
-            markProxyNoGood(proxyInfo);
-            //System.out.print("e");
-            //e.printStackTrace();
+            catch (Exception e)
+            {
+                markProxyNoGood(proxyInfo);
+                //System.out.print("e");
+                //e.printStackTrace();
+            }
         }
     }
 
@@ -131,7 +160,7 @@ public class ProxyChecker implements Runnable
             Statement st = dbConnection.createStatement();
             String id = sanitizeDatabaseInput(proxyInfo.getId());
 
-            st.executeUpdate("UPDATE "+Proxymity.TABLE_NAME+" SET fullanonymous = 'yes' WHERE id = '"+id+"'");
+            st.executeUpdate("UPDATE " + Proxymity.TABLE_NAME + " SET fullanonymous = 'yes' WHERE id = '" + id + "'");
 
             st.close();
         }
@@ -200,7 +229,7 @@ public class ProxyChecker implements Runnable
             String id = proxyInfo.getId();
             id = sanitizeDatabaseInput(id);
             Statement st = dbConnection.createStatement();
-            st.executeUpdate("UPDATE "+Proxymity.TABLE_NAME+" SET https = '"+httpsStatus+"'WHERE id = '"+id+"'");
+            st.executeUpdate("UPDATE " + Proxymity.TABLE_NAME + " SET https = '" + httpsStatus + "'WHERE id = '" + id + "'");
             st.close();
         }
         catch (Exception e)
@@ -217,10 +246,10 @@ public class ProxyChecker implements Runnable
             id = sanitizeDatabaseInput(id);
 
             Statement st = dbConnection.createStatement();
-            st.executeUpdate("UPDATE "+Proxymity.TABLE_NAME+" SET status = '"+proxyStatus+"', lastchecked = NOW() WHERE id = '"+id+"'");
+            st.executeUpdate("UPDATE " + Proxymity.TABLE_NAME + " SET status = '" + proxyStatus + "', lastchecked = NOW() WHERE id = '" + id + "'");
             if (proxyStatus.equals(ProxyChecker.PROXY_STATUS_ACTIVE))
             {
-                st.executeUpdate("UPDATE "+Proxymity.TABLE_NAME+" SET lastactive  = NOW() WHERE id = '"+id+"'");
+                st.executeUpdate("UPDATE " + Proxymity.TABLE_NAME + " SET lastactive  = NOW() WHERE id = '" + id + "'");
             }
             st.close();
         }
@@ -232,33 +261,34 @@ public class ProxyChecker implements Runnable
 
     public static String sanitizeDatabaseInput(String value)
     {
-        while (value.contains("''")) {
-            value = value.replace("''","'");
+        while (value.contains("''"))
+        {
+            value = value.replace("''", "'");
         }
-        return value.replace("'","''");
+        return value.replace("'", "''");
     }
 
     private static Proxy getProxyFromProxyInfo(ProxyInfo proxyInfo)
     {
         Proxy.Type type = null;
 
-        if (proxyInfo.getType().equals( ProxyInfo.PROXY_TYPES_SOCKS4 ) )
+        if (proxyInfo.getType().equals(ProxyInfo.PROXY_TYPES_SOCKS4))
         {
             type = Proxy.Type.SOCKS;
         }
-        else if (proxyInfo.getType().equals( ProxyInfo.PROXY_TYPES_SOCKS5 ) )
+        else if (proxyInfo.getType().equals(ProxyInfo.PROXY_TYPES_SOCKS5))
         {
             type = Proxy.Type.SOCKS;
         }
-        else if (proxyInfo.getType().equals( ProxyInfo.PROXY_TYPES_HTTP ) )
+        else if (proxyInfo.getType().equals(ProxyInfo.PROXY_TYPES_HTTP))
         {
             type = Proxy.Type.HTTP;
         }
-        else if (proxyInfo.getType().equals( ProxyInfo.PROXY_TYPES_HTTPS ) )
+        else if (proxyInfo.getType().equals(ProxyInfo.PROXY_TYPES_HTTPS))
         {
             type = Proxy.Type.HTTP;
         }
-        return new Proxy(type,  new InetSocketAddress(proxyInfo.getHost(), Integer.parseInt(proxyInfo.getPort()))) ;
+        return new Proxy(type, new InetSocketAddress(proxyInfo.getHost(), Integer.parseInt(proxyInfo.getPort())));
     }
 
     public void setProxyRemoteIp(ProxyInfo proxyInfo, String proxyRemoteIp)
@@ -268,12 +298,22 @@ public class ProxyChecker implements Runnable
             Statement st = dbConnection.createStatement();
             String id = sanitizeDatabaseInput(proxyInfo.getId());
 
-            st.executeUpdate("UPDATE "+Proxymity.TABLE_NAME+" SET remoteIp = '"+proxyRemoteIp+"' WHERE id = '"+id+"'");
+            st.executeUpdate("UPDATE " + Proxymity.TABLE_NAME + " SET remoteIp = '" + proxyRemoteIp + "' WHERE id = '" + id + "'");
             st.close();
         }
         catch (Exception e)
         {
             e.printStackTrace();
         }
+    }
+
+    public boolean isActive()
+    {
+        return active;
+    }
+
+    public void setActive(boolean active)
+    {
+        this.active = active;
     }
 }

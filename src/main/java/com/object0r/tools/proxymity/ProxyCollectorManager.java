@@ -88,7 +88,7 @@ public class ProxyCollectorManager extends Thread
             collectors.add(new NnTimeComCollector(collectorParameters));
             collectors.add(new NnTimeComCollector(collectorParameters));
             collectors.add(new SampleCollector(collectorParameters));
-            collectors.add(new ShodanCollector(collectorParameters));
+            //ollectors.add(new ShodanCollector(collectorParameters));
 
             // Problematic
             //collectors.add(new IdcloakComCollector(collectorParameters));
