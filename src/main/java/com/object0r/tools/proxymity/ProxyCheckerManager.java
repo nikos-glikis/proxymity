@@ -154,6 +154,15 @@ public class ProxyCheckerManager extends Thread
         return proxies.pollFirst();
     }
 
+    public void shutDown()
+    {
+        for (ProxyChecker proxyChecker : proxyCheckers)
+        {
+            proxyChecker.stop();
+        }
+        this.stop();
+    }
+
     private void sleepWhileHaveProxies()
     {
         try
