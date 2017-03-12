@@ -182,7 +182,7 @@ public class ProxyCheckerManager extends Thread
         try
         {
             Statement st = dbConnection.createStatement();
-            st.executeUpdate("UPDATE `" + Proxymity.TABLE_NAME + "` SET status = '" + ProxyChecker.PROXY_STATUS_DEAD + "' WHERE `status` != '" + ProxyChecker.PROXY_STATUS_PENDING + "' AND lastactive < DATE_SUB(NOW(), INTERVAL " + Proxymity.MARK_DEAD_AFTER_MINUTES + " MINUTE)");
+            st.executeUpdate("UPDATE `" + Proxymity.TABLE_NAME + "` SET status = '" + ProxyChecker.PROXY_STATUS_DEAD + "' WHERE `status` != '" + ProxyChecker.PROXY_STATUS_ACTIVE + "' AND `status` != '" + ProxyChecker.PROXY_STATUS_PENDING + "' AND lastactive < DATE_SUB(NOW(), INTERVAL " + Proxymity.MARK_DEAD_AFTER_MINUTES + " MINUTE)");
             st.close();
         }
         catch (Exception e)
