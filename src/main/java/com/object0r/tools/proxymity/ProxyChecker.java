@@ -65,15 +65,23 @@ public class ProxyChecker extends Thread
 
         while (true)
         {
+            proxyInfo = proxyCheckerManager.getNextProxy();
+            if (proxyInfo == null)
+            {
+                try
+                {
+                    Thread.sleep(random.nextInt(100));
+                }
+                catch (InterruptedException e)
+                {
+                    e.printStackTrace();
+                }
+                continue;
+            }
             try
             {
                 setActive(true);
-                proxyInfo = proxyCheckerManager.getNextProxy();
-                if (proxyInfo == null)
-                {
-                    Thread.sleep(random.nextInt(100));
-                    continue;
-                }
+
                 Proxy proxy = getProxyFromProxyInfo(proxyInfo);
                 String ip = Utilities.getIp(proxy, 3, Proxymity.TIMEOUT_MS / 1000, Proxymity.TIMEOUT_MS / 1000);
 
@@ -147,8 +155,6 @@ public class ProxyChecker extends Thread
             catch (Exception e)
             {
                 markProxyNoGood(proxyInfo);
-                //System.out.print("e");
-                //e.printStackTrace();
             }
         }
     }

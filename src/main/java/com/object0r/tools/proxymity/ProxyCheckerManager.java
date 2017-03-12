@@ -51,8 +51,6 @@ public class ProxyCheckerManager extends Thread
                     proxies.addAll(getDeadProxiesForCheck(5000));
                 }
                 sleepWhileHaveProxies();
-
-                sleepWhileHaveProxies();
             }
         }
         catch (Exception e)
