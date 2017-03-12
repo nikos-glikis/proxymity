@@ -93,6 +93,7 @@ public class ProxyChecker extends Thread
                 if (!portIsOpen(proxyInfo.getHost(), Integer.parseInt(proxyInfo.getPort()), Proxymity.TIMEOUT_MS))
                 {
                     markProxyNoGood(proxyInfo);
+                    continue;
                 }
 
                 String ip = Utilities.getIp(proxy, 3, Proxymity.TIMEOUT_MS / 1000, Proxymity.TIMEOUT_MS / 1000);
