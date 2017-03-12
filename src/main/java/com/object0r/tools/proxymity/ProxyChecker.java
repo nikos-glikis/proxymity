@@ -255,7 +255,7 @@ public class ProxyChecker extends Thread
             st.executeUpdate("UPDATE " + Proxymity.TABLE_NAME + " SET status = '" + proxyStatus + "', lastchecked = NOW() WHERE id = '" + id + "'");
             if (proxyStatus.equals(ProxyChecker.PROXY_STATUS_ACTIVE))
             {
-                st.executeUpdate("UPDATE " + Proxymity.TABLE_NAME + " SET lastactive  = NOW() WHERE id = '" + id + "'");
+                st.executeUpdate("UPDATE " + Proxymity.TABLE_NAME + " SET lastactive  = NOW(), checkOnlyOnce = 'no' WHERE id = '" + id + "'");
             }
             st.close();
         }
