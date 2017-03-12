@@ -140,8 +140,9 @@ public class ProxyCheckerManager extends Thread
                     {
                         e.printStackTrace();
                     }
-
-                    proxyCheckers.add(new ProxyChecker(ProxyCheckerManager.this, dbConnection, ++globalProxyCount));
+                    ProxyChecker pc = new ProxyChecker(ProxyCheckerManager.this, dbConnection, ++globalProxyCount);
+                    pc.start();
+                    proxyCheckers.add(pc);
                 }
             }
         }
