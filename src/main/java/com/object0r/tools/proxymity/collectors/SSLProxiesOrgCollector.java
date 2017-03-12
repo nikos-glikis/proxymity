@@ -15,6 +15,7 @@ public class SSLProxiesOrgCollector extends ProxyCollector
     {
         super(collectorParameters);
     }
+
     public Vector<ProxyInfo> collectProxies()
     {
 
@@ -30,7 +31,8 @@ public class SSLProxiesOrgCollector extends ProxyCollector
                     String line = m.group();
                     Pattern pp = Pattern.compile("<tr><td>.*</td><td>\\d*</td>");
                     Matcher mm = pp.matcher(line);
-                    if (mm.find()) {
+                    if (mm.find())
+                    {
                         line = mm.group().trim();
                         String ip = Utilities.cut("<tr><td>", "<", line);
                         String port = Utilities.cut("</td><td>", "<", line);

@@ -12,11 +12,13 @@ public class CollectorParameters
     int sleepBetweenScansSeconds;
     PhantomJsManager phantomJsManager;
 
-    public int getSleepBetweenScansSeconds() {
+    public int getSleepBetweenScansSeconds()
+    {
         return sleepBetweenScansSeconds;
     }
 
-    public void setSleepBetweenScansSeconds(int sleepBetweenScansSeconds) {
+    public void setSleepBetweenScansSeconds(int sleepBetweenScansSeconds)
+    {
         this.sleepBetweenScansSeconds = sleepBetweenScansSeconds;
     }
 

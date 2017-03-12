@@ -29,7 +29,7 @@ public class FreeProxyCzCollector extends ProxyCollector
                 try
                 {
                     //page = anonReadUrl(url);
-                    page= readUrl(url,false);
+                    page = readUrl(url, false);
                 }
                 catch (Exception e)
                 {

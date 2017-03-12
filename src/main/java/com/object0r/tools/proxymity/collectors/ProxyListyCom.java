@@ -22,12 +22,15 @@ public class ProxyListyCom extends ProxyCollector
         {
 
 
-            for (int i = 1; i<150; i++)
+            for (int i = 1; i < 150; i++)
             {
                 //TODO disabled. Last time I checked last checked was 5 months ago. Inactive Website
-                if (true) { return getProxies(); }
-                String page = Utilities.readUrl("http://www.proxylisty.com/ip-proxylist-"+i);
-                Pattern p = Pattern.compile("<tr>.*?</tr>",Pattern.DOTALL);
+                if (true)
+                {
+                    return getProxies();
+                }
+                String page = Utilities.readUrl("http://www.proxylisty.com/ip-proxylist-" + i);
+                Pattern p = Pattern.compile("<tr>.*?</tr>", Pattern.DOTALL);
                 Matcher m = p.matcher(page);
                 boolean foundAtLeastOne = false;
                 while (m.find())

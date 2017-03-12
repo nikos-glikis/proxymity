@@ -22,25 +22,25 @@ public class PremSocksCom extends ProxyCollector
         try
         {
             String page = Utilities.readUrl("http://premsocks.com/socks-proxy");
-            String json = Utilities.cut("data = [","];",page);
+            String json = Utilities.cut("data = [", "];", page);
             //System.out.println(json);
-            Pattern p = Pattern.compile("\\[.*?\\]",Pattern.DOTALL);
+            Pattern p = Pattern.compile("\\[.*?\\]", Pattern.DOTALL);
             Matcher m = p.matcher(json);
 
             while (m.find())
             {
                 String line = m.group();
-                if (line.contains(",")  )
+                if (line.contains(","))
                 {
-                   // System.out.println(line);
-                    StringTokenizer st = new StringTokenizer(line,",");
+                    // System.out.println(line);
+                    StringTokenizer st = new StringTokenizer(line, ",");
                     st.nextToken();
 
-                    String ip = (st.nextToken()).replace("\"","");
-                    String host =(st.nextToken()).replace("[","").replace("\"","");
+                    String ip = (st.nextToken()).replace("\"", "");
+                    String host = (st.nextToken()).replace("[", "").replace("\"", "");
                     Pattern pp = Pattern.compile("\\*+.\\d+$");
                     Matcher mm = pp.matcher(host);
-                    if(mm.find())
+                    if (mm.find())
                     {
                         /*System.out.println(ip);
                         System.out.println(host);*/
@@ -54,12 +54,14 @@ public class PremSocksCom extends ProxyCollector
                             mergedIp = mergedIp.replace("*.**", matched);
                             mergedIp = mergedIp.replace("*.*", matched);
                         }
-                        else if (starCount == 2) {
+                        else if (starCount == 2)
+                        {
                             mergedIp = ip.replace("**.***", matched);
                             mergedIp = mergedIp.replace("**.**", matched);
                             mergedIp = mergedIp.replace("**.*", matched);
                         }
-                        else if (starCount == 3) {
+                        else if (starCount == 3)
+                        {
                             mergedIp = ip.replace("***.***", matched);
                             mergedIp = mergedIp.replace("***.**", matched);
                             mergedIp = mergedIp.replace("***.*", matched);
@@ -91,20 +93,24 @@ public class PremSocksCom extends ProxyCollector
             int starCount = countCharsInString(mergedIp);
 
 
-
-            int start = 0 , limit = 0;
-            if (starCount == 3) {
+            int start = 0, limit = 0;
+            if (starCount == 3)
+            {
                 start = 100;
                 limit = 255;
-            } else if (starCount == 2) {
+            }
+            else if (starCount == 2)
+            {
                 start = 10;
                 limit = 99;
-            } else if (starCount == 1) {
+            }
+            else if (starCount == 1)
+            {
                 start = 1;
                 limit = 9;
             }
 
-            for (int i = start ; i<= limit; i++)
+            for (int i = start; i <= limit; i++)
             {
                 String ip = mergedIp.replace("***", new Integer(i).toString());
                 ip = ip.replace("**", new Integer(i).toString());
@@ -137,11 +143,11 @@ public class PremSocksCom extends ProxyCollector
     {
         //count starts
         int counter = 0;
-        for (int i = 0; i<mergedIp.length(); i++)
+        for (int i = 0; i < mergedIp.length(); i++)
         {
             if (mergedIp.charAt(i) == '*')
             {
-                counter ++;
+                counter++;
             }
         }
         return counter;

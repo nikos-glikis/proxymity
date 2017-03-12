@@ -19,13 +19,13 @@ public class proxzComCollector extends ProxyCollector
         try
         {
 
-            for (int i = 0; i<150; i++)
+            for (int i = 0; i < 150; i++)
             {
                 try
                 {
                     //TODO seems that it does not work.
-                    String page = downloadPageWithPhantomJs("http://www.proxz.com/proxy_list_high_anonymous_"+i+".html"); //Utilities.readUrl("http://www.proxz.com/proxy_list_high_anonymous_"+i+".html");
-                    boolean foundAtLeastOne =genericParsingOfUrlSpace(page, ProxyInfo.PROXY_TYPES_HTTP);
+                    String page = downloadPageWithPhantomJs("http://www.proxz.com/proxy_list_high_anonymous_" + i + ".html"); //Utilities.readUrl("http://www.proxz.com/proxy_list_high_anonymous_"+i+".html");
+                    boolean foundAtLeastOne = genericParsingOfUrlSpace(page, ProxyInfo.PROXY_TYPES_HTTP);
                     if (!foundAtLeastOne)
                     {
                         return getProxies();
@@ -33,12 +33,13 @@ public class proxzComCollector extends ProxyCollector
                 }
                 catch (Exception e)
                 {
-                    e.printStackTrace();;
+                    e.printStackTrace();
+                    ;
                 }
 
             }
 
-            for (int i = 0; i<150; i++)
+            for (int i = 0; i < 150; i++)
             {
                 try
                 {
@@ -46,7 +47,8 @@ public class proxzComCollector extends ProxyCollector
                     String page = downloadPageWithPhantomJs("http://www.proxz.com/proxy_list_port_std_" + i + ".html"); //Utilities.readUrl("http://www.proxz.com/proxy_list_high_anonymous_"+i+".html");
                     //System.out.println(page);
                     boolean foundAtLeastOne = genericParsingOfUrlSpace(page, ProxyInfo.PROXY_TYPES_HTTP);
-                    if (!foundAtLeastOne) {
+                    if (!foundAtLeastOne)
+                    {
                         return getProxies();
                     }
                 }
@@ -56,14 +58,15 @@ public class proxzComCollector extends ProxyCollector
                 }
             }
 
-            for (int i = 0; i<150; i++)
+            for (int i = 0; i < 150; i++)
             {
                 try
                 {
                     String page = downloadPageWithPhantomJs("http://www.proxz.com/proxy_list_port_nonstd_" + i + ".html"); //Utilities.readUrl("http://www.proxz.com/proxy_list_high_anonymous_"+i+".html");
                     //System.out.println(page);
                     boolean foundAtLeastOne = genericParsingOfUrlSpace(page, ProxyInfo.PROXY_TYPES_HTTP);
-                    if (!foundAtLeastOne) {
+                    if (!foundAtLeastOne)
+                    {
                         return getProxies();
                     }
                 }

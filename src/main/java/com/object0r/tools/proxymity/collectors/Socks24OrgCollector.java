@@ -39,7 +39,8 @@ public class Socks24OrgCollector extends ProxyCollector
         return "socks24.org";
     }
 
-    private void doUrl(String initialUrl) {
+    private void doUrl(String initialUrl)
+    {
         try
         {
             String page = Utilities.readUrl(initialUrl);
@@ -55,7 +56,8 @@ public class Socks24OrgCollector extends ProxyCollector
                     page = Utilities.readUrl(url);
                     Pattern pp = Pattern.compile("\\d+\\.\\d+\\.\\d+\\.\\d+:\\d+");
                     Matcher mm = pp.matcher(page);
-                    while (mm.find()) {
+                    while (mm.find())
+                    {
                         String proxy = mm.group();
                         StringTokenizer st = new StringTokenizer(proxy, ":");
                         ProxyInfo proxyInfo = new ProxyInfo();
@@ -67,7 +69,9 @@ public class Socks24OrgCollector extends ProxyCollector
                         addProxy(proxyInfo);
                         //System.out.println(proxyInfo);
                     }
-                } catch (Exception e) {
+                }
+                catch (Exception e)
+                {
                     e.printStackTrace();
                 }
             }

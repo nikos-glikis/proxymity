@@ -15,7 +15,7 @@ public class ConsoleColors
 
     public static void printColor(String text, String color)
     {
-        System.out.println(color+text+ConsoleColors.RESET);
+        System.out.println(color + text + ConsoleColors.RESET);
     }
 
     public static void printRed(String text)
@@ -32,6 +32,7 @@ public class ConsoleColors
     {
         printColor(text, ConsoleColors.CYAN);
     }
+
     public static void printGreen(String text)
     {
         printColor(text, ConsoleColors.GREEN);

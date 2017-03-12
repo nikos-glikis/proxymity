@@ -39,8 +39,8 @@ public class MyproxylistsCom extends ProxyCollector
             }
 
             page = Utilities.readUrl("http://myproxylists.com/socks-proxy-lists");
-             p = Pattern.compile("\\d+\\.\\d+\\.\\d+\\.\\d+:\\d+");
-             m = p.matcher(page);
+            p = Pattern.compile("\\d+\\.\\d+\\.\\d+\\.\\d+:\\d+");
+            m = p.matcher(page);
             while (m.find())
             {
                 String line = m.group();

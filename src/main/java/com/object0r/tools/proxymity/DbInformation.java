@@ -2,7 +2,7 @@ package com.object0r.tools.proxymity;
 
 public class DbInformation
 {
-    DbInformation(String url, String username, String password,  int port, String database)
+    DbInformation(String url, String username, String password, int port, String database)
     {
         this.username = username;
         this.password = password;
@@ -57,11 +57,13 @@ public class DbInformation
         this.port = port;
     }
 
-    public String getDatabase() {
+    public String getDatabase()
+    {
         return database;
     }
 
-    public void setDatabase(String database) {
+    public void setDatabase(String database)
+    {
         this.database = database;
     }
 }

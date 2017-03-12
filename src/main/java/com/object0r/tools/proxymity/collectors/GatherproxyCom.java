@@ -21,7 +21,7 @@ public class GatherproxyCom extends ProxyCollector
         try
         {
             //processUrl("http://www.gatherproxy.com/", ProxyInfo.PROXY_TYPES_HTTP);
-            processUrlSocks("http://www.gatherproxy.com/sockslist" );
+            processUrlSocks("http://www.gatherproxy.com/sockslist");
         }
         catch (Exception e)
         {
@@ -36,12 +36,12 @@ public class GatherproxyCom extends ProxyCollector
         return "gatherproxy.com";
     }
 
-    private void processUrlSocks(String url )
+    private void processUrlSocks(String url)
     {
         try
         {
             String page = Utilities.readUrl(url);
-            Pattern p = Pattern.compile("<tr>.*?</tr>",Pattern.DOTALL);
+            Pattern p = Pattern.compile("<tr>.*?</tr>", Pattern.DOTALL);
             Matcher m = p.matcher(page);
 
             while (m.find())
@@ -55,12 +55,11 @@ public class GatherproxyCom extends ProxyCollector
                     Pattern pp = Pattern.compile("document.write\\('.*?'", Pattern.DOTALL);
                     Matcher mm = pp.matcher(line);
                     mm.find();
-                    String ip = mm.group().replace("document.write('","").replace("'","");
-
+                    String ip = mm.group().replace("document.write('", "").replace("'", "");
 
 
                     mm.find();
-                    String port = mm.group().replace("document.write('","").replace("'","");
+                    String port = mm.group().replace("document.write('", "").replace("'", "");
                     Integer.parseInt(port);
 
                     ProxyInfo proxyInfo = new ProxyInfo();
@@ -83,7 +82,7 @@ public class GatherproxyCom extends ProxyCollector
         try
         {
             String page = Utilities.readUrl(url);
-            Pattern p = Pattern.compile("<script type=\"text/javascript\">.*?</script>",Pattern.DOTALL);
+            Pattern p = Pattern.compile("<script type=\"text/javascript\">.*?</script>", Pattern.DOTALL);
             Matcher m = p.matcher(page);
 
             while (m.find())
@@ -91,9 +90,9 @@ public class GatherproxyCom extends ProxyCollector
                 String line = m.group();
                 if (line.contains("gp.insertPrx("))
                 {
-                    String ip = Utilities.cut("\"PROXY_IP\":\"","\"",line);
-                    String portHex = Utilities.cut("\"PROXY_PORT\":\"","\"",line);
-                    String port = new Integer(Integer.parseInt(portHex,16)).toString();
+                    String ip = Utilities.cut("\"PROXY_IP\":\"", "\"", line);
+                    String portHex = Utilities.cut("\"PROXY_PORT\":\"", "\"", line);
+                    String port = new Integer(Integer.parseInt(portHex, 16)).toString();
                     Integer.parseInt(port);
                     //System.out.println(port);
                     ProxyInfo proxyInfo = new ProxyInfo();

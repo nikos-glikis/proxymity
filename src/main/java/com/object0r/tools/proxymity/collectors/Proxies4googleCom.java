@@ -30,7 +30,7 @@ public class Proxies4googleCom extends ProxyCollector
                 String line = m.group();
                 if (line.contains(" width=\"100\""))
                 {
-                    String ip = Utilities.cut("width=\"100\">","<",line);
+                    String ip = Utilities.cut("width=\"100\">", "<", line);
                     StringTokenizer st = new StringTokenizer(ip, ":");
                     ip = st.nextToken();
                     String port = st.nextToken();

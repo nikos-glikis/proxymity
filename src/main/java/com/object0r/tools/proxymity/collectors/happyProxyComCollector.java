@@ -33,19 +33,22 @@ public class happyProxyComCollector extends ProxyCollector
 
             genericParsingOfUrl("http://www.proxylists.net", ProxyInfo.PROXY_TYPES_HTTP);
             //TODO we have only one driver.
-            Thread t = new Thread(){
-                public void run() {
+            Thread t = new Thread()
+            {
+                public void run()
+                {
 
-                    for (int i=0; i<50; i++)
+                    for (int i = 0; i < 50; i++)
                     {
                         try
                         {
-                            genericParsingOfUrlSpace(downloadPageWithPhantomJs("http://www.proxylists.net/us_"+i+".html"), ProxyInfo.PROXY_TYPES_HTTP);
+                            genericParsingOfUrlSpace(downloadPageWithPhantomJs("http://www.proxylists.net/us_" + i + ".html"), ProxyInfo.PROXY_TYPES_HTTP);
                             Thread.sleep(new Random().nextInt(5000));
                         }
                         catch (Exception e)
                         {
-                            e.printStackTrace();;
+                            e.printStackTrace();
+                            ;
                         }
 
                     }
@@ -58,20 +61,22 @@ public class happyProxyComCollector extends ProxyCollector
             Thread.sleep(3000);
 
 
-
-            t = new Thread(){
-                public void run() {
+            t = new Thread()
+            {
+                public void run()
+                {
 
                     for (int i = 0; i < 10; i++)
                     {
                         try
                         {
-                             genericParsingOfUrlSpace(downloadPageWithPhantomJs("http://www.proxylists.net/gb_" + i + ".html"), ProxyInfo.PROXY_TYPES_HTTP);
-                             Thread.sleep(new Random().nextInt(5000));
+                            genericParsingOfUrlSpace(downloadPageWithPhantomJs("http://www.proxylists.net/gb_" + i + ".html"), ProxyInfo.PROXY_TYPES_HTTP);
+                            Thread.sleep(new Random().nextInt(5000));
                         }
                         catch (Exception e)
                         {
-                            e.printStackTrace();;
+                            e.printStackTrace();
+                            ;
                         }
                     }
                 }
@@ -80,8 +85,10 @@ public class happyProxyComCollector extends ProxyCollector
             fixedPool.submit(t);
             Thread.sleep(3000);
 
-            t = new Thread() {
-                public void run() {
+            t = new Thread()
+            {
+                public void run()
+                {
 
                     for (int i = 0; i < 6; i++)
                     {
@@ -92,7 +99,8 @@ public class happyProxyComCollector extends ProxyCollector
                         }
                         catch (Exception e)
                         {
-                            e.printStackTrace();;
+                            e.printStackTrace();
+                            ;
                         }
                     }
                 }
@@ -101,8 +109,10 @@ public class happyProxyComCollector extends ProxyCollector
             fixedPool.submit(t);
             Thread.sleep(3000);
 
-            t = new Thread() {
-                public void run() {
+            t = new Thread()
+            {
+                public void run()
+                {
 
                     for (int i = 0; i < 50; i++)
                     {
@@ -113,7 +123,8 @@ public class happyProxyComCollector extends ProxyCollector
                         }
                         catch (Exception e)
                         {
-                            e.printStackTrace();;
+                            e.printStackTrace();
+                            ;
                         }
                     }
                 }
@@ -122,8 +133,10 @@ public class happyProxyComCollector extends ProxyCollector
             Thread.sleep(3000);
 
 
-            t = new Thread() {
-                public void run() {
+            t = new Thread()
+            {
+                public void run()
+                {
 
 
                     for (int i = 0; i < 50; i++)
@@ -135,7 +148,8 @@ public class happyProxyComCollector extends ProxyCollector
                         }
                         catch (Exception e)
                         {
-                            e.printStackTrace();;
+                            e.printStackTrace();
+                            ;
                         }
                     }
                 }
@@ -144,8 +158,10 @@ public class happyProxyComCollector extends ProxyCollector
             fixedPool.submit(t);
             Thread.sleep(3000);
 
-            t = new Thread() {
-                public void run() {
+            t = new Thread()
+            {
+                public void run()
+                {
 
                     for (int i = 0; i < 80; i++)
                     {
@@ -156,7 +172,8 @@ public class happyProxyComCollector extends ProxyCollector
                         }
                         catch (Exception e)
                         {
-                            e.printStackTrace();;
+                            e.printStackTrace();
+                            ;
                         }
                     }
                 }
@@ -164,8 +181,10 @@ public class happyProxyComCollector extends ProxyCollector
             fixedPool.submit(t);
             Thread.sleep(3000);
 
-            t = new Thread() {
-                public void run() {
+            t = new Thread()
+            {
+                public void run()
+                {
 
                     for (int i = 0; i < 50; i++)
                     {
@@ -176,7 +195,8 @@ public class happyProxyComCollector extends ProxyCollector
                         }
                         catch (Exception e)
                         {
-                            e.printStackTrace();;
+                            e.printStackTrace();
+                            ;
                         }
                     }
                 }
@@ -184,8 +204,10 @@ public class happyProxyComCollector extends ProxyCollector
             fixedPool.submit(t);
             Thread.sleep(3000);
 
-            t = new Thread() {
-                public void run() {
+            t = new Thread()
+            {
+                public void run()
+                {
 
                     for (int i = 50; i < 100; i++)
                     {
@@ -196,7 +218,8 @@ public class happyProxyComCollector extends ProxyCollector
                         }
                         catch (Exception e)
                         {
-                            e.printStackTrace();;
+                            e.printStackTrace();
+                            ;
                         }
                     }
                 }
@@ -204,8 +227,10 @@ public class happyProxyComCollector extends ProxyCollector
             fixedPool.submit(t);
             Thread.sleep(3000);
 
-            t = new Thread() {
-                public void run() {
+            t = new Thread()
+            {
+                public void run()
+                {
 
                     for (int i = 101; i < 150; i++)
                     {
@@ -216,7 +241,8 @@ public class happyProxyComCollector extends ProxyCollector
                         }
                         catch (Exception e)
                         {
-                            e.printStackTrace();;
+                            e.printStackTrace();
+                            ;
                         }
                     }
                 }
@@ -224,8 +250,10 @@ public class happyProxyComCollector extends ProxyCollector
             fixedPool.submit(t);
             Thread.sleep(3000);
 
-            t = new Thread() {
-                public void run() {
+            t = new Thread()
+            {
+                public void run()
+                {
 
                     for (int i = 151; i < 200; i++)
                     {
@@ -236,7 +264,8 @@ public class happyProxyComCollector extends ProxyCollector
                         }
                         catch (Exception e)
                         {
-                            e.printStackTrace();;
+                            e.printStackTrace();
+                            ;
                         }
                     }
                 }
@@ -244,8 +273,10 @@ public class happyProxyComCollector extends ProxyCollector
             fixedPool.submit(t);
             Thread.sleep(3000);
 
-            t = new Thread() {
-                public void run() {
+            t = new Thread()
+            {
+                public void run()
+                {
 
                     for (int i = 201; i < 250; i++)
                     {
@@ -256,7 +287,8 @@ public class happyProxyComCollector extends ProxyCollector
                         }
                         catch (Exception e)
                         {
-                            e.printStackTrace();;
+                            e.printStackTrace();
+                            ;
                         }
                     }
                 }
@@ -264,8 +296,10 @@ public class happyProxyComCollector extends ProxyCollector
             fixedPool.submit(t);
             Thread.sleep(3000);
 
-            t = new Thread() {
-                public void run() {
+            t = new Thread()
+            {
+                public void run()
+                {
 
                     for (int i = 251; i < 300; i++)
                     {
@@ -276,7 +310,8 @@ public class happyProxyComCollector extends ProxyCollector
                         }
                         catch (Exception e)
                         {
-                            e.printStackTrace();;
+                            e.printStackTrace();
+                            ;
                         }
                     }
                 }
@@ -284,8 +319,10 @@ public class happyProxyComCollector extends ProxyCollector
             fixedPool.submit(t);
             Thread.sleep(3000);
 
-            t = new Thread() {
-                public void run() {
+            t = new Thread()
+            {
+                public void run()
+                {
 
                     for (int i = 301; i < 350; i++)
                     {
@@ -296,7 +333,8 @@ public class happyProxyComCollector extends ProxyCollector
                         }
                         catch (Exception e)
                         {
-                            e.printStackTrace();;
+                            e.printStackTrace();
+                            ;
                         }
                     }
                 }
@@ -304,8 +342,10 @@ public class happyProxyComCollector extends ProxyCollector
             fixedPool.submit(t);
             Thread.sleep(3000);
 
-            t = new Thread() {
-                public void run() {
+            t = new Thread()
+            {
+                public void run()
+                {
 
                     for (int i = 351; i < 400; i++)
                     {
@@ -316,7 +356,8 @@ public class happyProxyComCollector extends ProxyCollector
                         }
                         catch (Exception e)
                         {
-                            e.printStackTrace();;
+                            e.printStackTrace();
+                            ;
                         }
                     }
                 }

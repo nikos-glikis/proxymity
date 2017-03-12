@@ -183,7 +183,6 @@ public class ProxyChecker extends Thread
             if (proxyInfo.isCheckOnlyOnce())
             {
                 setProxyStatus(proxyInfo, ProxyChecker.PROXY_STATUS_DEAD);
-                setProxyStatus(proxyInfo, ProxyChecker.PROXY_STATUS_INACTIVE);
             }
             else
             {

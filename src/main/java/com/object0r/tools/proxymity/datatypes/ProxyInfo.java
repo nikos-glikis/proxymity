@@ -12,7 +12,7 @@ public class ProxyInfo
     private String port;
     private String type;
     private boolean checkOnlyOnce = false;
-    private int priority=0;
+    private int priority = 0;
 
     public int getPriority()
     {
@@ -78,9 +78,9 @@ public class ProxyInfo
     {
         if (
                 !type.equals(ProxyInfo.PROXY_TYPES_HTTP) &&
-                !type.equals(ProxyInfo.PROXY_TYPES_HTTPS) &&
-                !type.equals(ProxyInfo.PROXY_TYPES_SOCKS4) &&
-                !type.equals(ProxyInfo.PROXY_TYPES_SOCKS5)
+                        !type.equals(ProxyInfo.PROXY_TYPES_HTTPS) &&
+                        !type.equals(ProxyInfo.PROXY_TYPES_SOCKS4) &&
+                        !type.equals(ProxyInfo.PROXY_TYPES_SOCKS5)
                 )
         {
             throw new Exception("Unknown Proxy Type");
@@ -90,6 +90,6 @@ public class ProxyInfo
 
     public String toString()
     {
-        return host + ":"+port+"/"+type;
+        return host + ":" + port + "/" + type;
     }
 }

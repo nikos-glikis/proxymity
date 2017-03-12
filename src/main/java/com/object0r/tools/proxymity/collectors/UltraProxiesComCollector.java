@@ -35,7 +35,7 @@ public class UltraProxiesComCollector extends ProxyCollector
 
             while (m.find())
             {
-                String line = m.group().replace(" ","");
+                String line = m.group().replace(" ", "");
                 StringTokenizer st = new StringTokenizer(line, ":");
                 String ip = st.nextToken();
                 String port = st.nextToken();

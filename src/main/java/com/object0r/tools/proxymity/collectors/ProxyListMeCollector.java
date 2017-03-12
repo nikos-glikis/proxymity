@@ -21,10 +21,10 @@ public class ProxyListMeCollector extends ProxyCollector
         try
         {
 
-            for (int i = 0; i<150; i++)
+            for (int i = 0; i < 150; i++)
             {
 
-                Vector<String> rows = extractTableRows("http://proxylist.me/proxys/index/"+(i*20));
+                Vector<String> rows = extractTableRows("http://proxylist.me/proxys/index/" + (i * 20));
                 boolean foundAtLeastOne = false;
                 for (String line : rows)
                 {
@@ -36,7 +36,7 @@ public class ProxyListMeCollector extends ProxyCollector
                         Pattern pp = Pattern.compile("<td>\\d+</td>");
                         Matcher mm = pp.matcher(line);
                         mm.find();
-                        String port = mm.group().replace("<td>","").replace("</td>","");
+                        String port = mm.group().replace("<td>", "").replace("</td>", "");
                         Integer.parseInt(port);
                         ProxyInfo proxyInfo = new ProxyInfo();
                         proxyInfo.setHost(ip);

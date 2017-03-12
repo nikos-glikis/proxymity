@@ -19,9 +19,9 @@ public class ProxylistRo extends ProxyCollector
         try
         {
 
-            for (int i = 0; i<100; i++)
+            for (int i = 0; i < 100; i++)
             {
-                String page = this.downloadPageWithPhantomJs("http://www.proxylist.ro/search-free-proxy.php?country=&port=&anon=&ssl=&start="+i);
+                String page = this.downloadPageWithPhantomJs("http://www.proxylist.ro/search-free-proxy.php?country=&port=&anon=&ssl=&start=" + i);
                 this.genericParsingOfUrlSpace(page, ProxyInfo.PROXY_TYPES_HTTP);
 
             }

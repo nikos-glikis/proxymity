@@ -25,7 +25,7 @@ public class IdcloakComCollector extends ProxyCollector
         try
         {
 
-            for (int i = 1; i<400; i++)
+            for (int i = 1; i < 400; i++)
             {
                 /*String page = postRequest("http://www.idcloak.com/proxylist/proxy-list.html#sort","port%5B%5D=all&protocol-http=true&protocol-https=true&protocol-socks4=true&protocol-socks5=true&anonymity-low=true&anonymity-medium=true&anonymity-high=true&connection-low=true&connection-medium=true&connection-high=true&speed-low=true&speed-medium=true&speed-high=true&order=desc&by=updated&page="+i,"Cookie: _ga=GA1.2.1580931146.1452867786; _dc_gtm_UA-36933135-1=1; __zlcmid=YhfFr1U2CRoBCl");
                 ;*/
@@ -74,26 +74,27 @@ public class IdcloakComCollector extends ProxyCollector
 
     public static String postRequest(String targetURL, String postParams, String givenCookies)
     {
-        boolean returnCookies= false;
+        boolean returnCookies = false;
 
         URL url;
         HttpURLConnection connection = null;
-        try {
+        try
+        {
 
             // Create connection
             url = new URL(targetURL);
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("POST");
-            connection.setRequestProperty("Content-Type",  "application/x-www-form-urlencoded");
+            connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
             connection.setRequestProperty("Accept-Encoding", "gzip, deflate");
             connection.setRequestProperty("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
             connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:43.0) Gecko/20100101 Firefox/43.0");
             connection.setRequestProperty("Referer", "http://www.idcloak.com/proxylist/proxy-list.html");
             connection.setRequestProperty("Cache-Control", "max-age=0\n");
-            if ( givenCookies != null && !givenCookies.equals(""))
+            if (givenCookies != null && !givenCookies.equals(""))
             {
-                givenCookies = givenCookies.replace("Cookie: ","");
-                connection.setRequestProperty("Cookie",givenCookies);
+                givenCookies = givenCookies.replace("Cookie: ", "");
+                connection.setRequestProperty("Cookie", givenCookies);
             }
             connection.setRequestProperty("Content-Length", ""
                     + Integer.toString(postParams.getBytes().length));
@@ -119,7 +120,7 @@ public class IdcloakComCollector extends ProxyCollector
             StringBuffer response = new StringBuffer();
             while (sc.hasNext())
             {
-                response.append(sc.nextLine()+"\n");
+                response.append(sc.nextLine() + "\n");
             }
 
             if (!returnCookies)
@@ -129,7 +130,7 @@ public class IdcloakComCollector extends ProxyCollector
             else
             {
                 String cookies = "";
-                Map<String,List<String>> map = connection.getHeaderFields();
+                Map<String, List<String>> map = connection.getHeaderFields();
                 for (Map.Entry<String, List<String>> entry : map.entrySet())
                 {
                     //System.out.println(entry.getKey() + "/" + entry.getValue());
@@ -139,7 +140,7 @@ public class IdcloakComCollector extends ProxyCollector
                         Iterator<String> iter = l.iterator();
                         for (String c : l)
                         {
-                            cookies += c +"; ";
+                            cookies += c + "; ";
                         }
                     }
                 }
@@ -161,9 +162,12 @@ public class IdcloakComCollector extends ProxyCollector
             System.out.println("e");
             return null;
 
-        } finally {
+        }
+        finally
+        {
 
-            if (connection != null) {
+            if (connection != null)
+            {
                 connection.disconnect();
             }
         }

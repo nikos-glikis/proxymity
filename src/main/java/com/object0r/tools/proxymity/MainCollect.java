@@ -19,9 +19,9 @@ public class MainCollect
 
         try
         {
-            if (properties.getProperty("exitAfterMinutes")!=null)
+            if (properties.getProperty("exitAfterMinutes") != null)
             {
-                RecurringProcessHelper.exitAfterSeconds(Integer.parseInt(properties.getProperty("exitAfterMinutes"))*60);
+                RecurringProcessHelper.exitAfterSeconds(Integer.parseInt(properties.getProperty("exitAfterMinutes")) * 60);
             }
         }
         catch (Exception e)

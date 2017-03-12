@@ -15,15 +15,15 @@ public class CoolProxyNetCollector extends ProxyCollector
     {
         super(collectorParameters);
     }
-    
+
     public Vector<ProxyInfo> collectProxies()
     {
         try
         {
 
-            for (int i = 1; i<50; i++)
+            for (int i = 1; i < 50; i++)
             {
-                String url = "http://www.cool-proxy.net/proxies/http_proxy_list/sort:score/direction:desc/page:"+i;
+                String url = "http://www.cool-proxy.net/proxies/http_proxy_list/sort:score/direction:desc/page:" + i;
                 String page = downloadPageWithPhantomJs(url);
                /* driver.get(url);
                 WebElement body = driver.findElement(By.tagName("Body"));
@@ -75,24 +75,24 @@ public class CoolProxyNetCollector extends ProxyCollector
         try
         {
             StringBuffer sb = new StringBuffer();
-            for (int i = 0 ; i<string.length(); i++)
+            for (int i = 0; i < string.length(); i++)
             {
                 char c = string.charAt(i);
                 if (
-                        (c>='a' && c <='z')
-                        || (c>='A' && c <='Z')
+                        (c >= 'a' && c <= 'z')
+                                || (c >= 'A' && c <= 'Z')
                         )
                 {
                     //System.out.print(c);
-                    if ((c > 'a' && c<'n') || (c > 'z' && c<'N'))
+                    if ((c > 'a' && c < 'n') || (c > 'z' && c < 'N'))
                     {
-                        int charInt = (int)c;
-                        c = Character.toChars(charInt+13)[0];
+                        int charInt = (int) c;
+                        c = Character.toChars(charInt + 13)[0];
                     }
                     else
                     {
-                        int charInt = (int)c;
-                        c = Character.toChars(charInt-13)[0];
+                        int charInt = (int) c;
+                        c = Character.toChars(charInt - 13)[0];
                     }
                     sb.append(c);
                 }

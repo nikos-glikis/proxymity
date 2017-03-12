@@ -23,10 +23,10 @@ public class ProxyNovaComCollector extends ProxyCollector
         {
             String codes[] = getCountryCodes();
 
-            for (String code: codes)
+            for (String code : codes)
             {
-                String page = Utilities.readUrl("http://www.proxynova.com/proxy-server-list/country-"+code+"/");
-                Pattern p = Pattern.compile("<tr>.*?</tr>",Pattern.DOTALL);
+                String page = Utilities.readUrl("http://www.proxynova.com/proxy-server-list/country-" + code + "/");
+                Pattern p = Pattern.compile("<tr>.*?</tr>", Pattern.DOTALL);
 
                 Matcher m = p.matcher(page);
 
@@ -35,10 +35,10 @@ public class ProxyNovaComCollector extends ProxyCollector
                     String line = m.group();
                     if (line.contains("</span><span>"))
                     {
-                        line=line.replace("</span><span>","");
-                        String ip = Utilities.cut("<span>","</span>",line);
+                        line = line.replace("</span><span>", "");
+                        String ip = Utilities.cut("<span>", "</span>", line);
 
-                        Pattern pp = Pattern.compile("<td align=\"left\">.*?</td>",Pattern.DOTALL);
+                        Pattern pp = Pattern.compile("<td align=\"left\">.*?</td>", Pattern.DOTALL);
                         Matcher mm = pp.matcher(line);
                         mm.find();
                         mm.find();
@@ -74,7 +74,7 @@ public class ProxyNovaComCollector extends ProxyCollector
     {
         String[] countries = new String[103];
 
-        String codes =  "ae\n" +
+        String codes = "ae\n" +
                 "al\n" +
                 "am\n" +
                 "ar\n" +
@@ -180,7 +180,7 @@ public class ProxyNovaComCollector extends ProxyCollector
 
         Scanner sc = new Scanner(codes);
 
-        int i =0;
+        int i = 0;
 
         while (sc.hasNext())
         {

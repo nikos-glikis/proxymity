@@ -30,10 +30,10 @@ public class spysRuCollector extends ProxyCollector
                 Matcher m = p.matcher(page);
                 while (m.find())
                 {
-                    String line = m.group().replace("href='","").replace("'","");
+                    String line = m.group().replace("href='", "").replace("'", "");
                     if (!line.contains("http://"))
                     {
-                        line = "http://spys.ru"+line;
+                        line = "http://spys.ru" + line;
                         processPage(line);
                     }
                     //System.out.println(line);
@@ -51,7 +51,8 @@ public class spysRuCollector extends ProxyCollector
             }
             catch (Exception e)
             {
-                e.printStackTrace();;
+                e.printStackTrace();
+                ;
             }
         }
         catch (Exception e)
@@ -69,18 +70,19 @@ public class spysRuCollector extends ProxyCollector
 
     private void processPage(String url)
     {
-        for (int i = 1; i<10; i++)
+        for (int i = 1; i < 10; i++)
         {
             try
             {
                 url = url.replace("__page__", new Integer(i).toString());
                 //TODO anonread with post, and read it with phantom.
-                String page = downloadPageWithPhantomJs(url,"xpp=3&xf1=0&xf2=0&xf4=0");
-                Pattern p = Pattern.compile("\\d++\\.\\d++\\.\\d++\\.\\d++:\\d+ .*? ",Pattern.DOTALL);
+                String page = downloadPageWithPhantomJs(url, "xpp=3&xf1=0&xf2=0&xf4=0");
+                Pattern p = Pattern.compile("\\d++\\.\\d++\\.\\d++\\.\\d++:\\d+ .*? ", Pattern.DOTALL);
 
                 Matcher m = p.matcher(page);
 
-                while (m.find()) {
+                while (m.find())
+                {
                     String line = m.group().replace(":", " ");
                     StringTokenizer st = new StringTokenizer(line, " ");
                     String ip = st.nextToken();

@@ -22,7 +22,7 @@ public class ProxyRssComCollector extends ProxyCollector
         try
         {
             String gzFile = "tmp/proxyrss.com.gz";
-            String outFile ="tmp/proxyrss.com.txt";
+            String outFile = "tmp/proxyrss.com.txt";
             Utilities.downloadFile("http://www.proxyrss.com/proxylists/all.gz", gzFile);
 
             FileInputStream fis = new FileInputStream(gzFile);
@@ -31,7 +31,8 @@ public class ProxyRssComCollector extends ProxyCollector
             byte[] buffer = new byte[1024];
             int len;
             StringBuffer sb = new StringBuffer();
-            while((len = gis.read(buffer)) != -1){
+            while ((len = gis.read(buffer)) != -1)
+            {
                 //sb.append(buffer);
                 fos.write(buffer, 0, len);
             }

@@ -22,13 +22,13 @@ public class SocksListNetCollector extends ProxyCollector
     {
         try
         {
-            for (int i = 1; i<50; i++)
+            for (int i = 1; i < 50; i++)
             {
                 /*driver.get("http://sockslist.net/list/proxy-socks-5-list/"+i+"#proxylist");
                 WebElement element = driver.findElement(By.tagName("body"));
                 String page = element.getText();*/
 
-                String page = downloadPageWithPhantomJs("http://sockslist.net/list/proxy-socks-5-list/"+i+"#proxylist");
+                String page = downloadPageWithPhantomJs("http://sockslist.net/list/proxy-socks-5-list/" + i + "#proxylist");
                 Pattern p = Pattern.compile("\\d+\\.\\d+\\.\\d+\\.\\d+ \\d+", Pattern.DOTALL);
                 Matcher m = p.matcher(page);
                 boolean foundAtLeastOne = false;
@@ -42,7 +42,8 @@ public class SocksListNetCollector extends ProxyCollector
                         StringTokenizer st = new StringTokenizer(line, " ");
                         proxyInfo.setHost(st.nextToken());
                         String port = st.nextToken();
-                        if (port.contains(">")) {
+                        if (port.contains(">"))
+                        {
                             continue;
                         }
                         Integer.parseInt(port);
@@ -70,16 +71,14 @@ public class SocksListNetCollector extends ProxyCollector
         }
 
 
-
-
         try
         {
-            for (int i = 1; i<150; i++)
+            for (int i = 1; i < 150; i++)
             {
                 /*driver.get("http://proxyhttp.net/free-list/anonymous-server-hide-ip-address/"+i+"#proxylist");
                 WebElement element = driver.findElement(By.tagName("body"));
                 String page = element.getText();*/
-                String page = "http://proxyhttp.net/free-list/anonymous-server-hide-ip-address/"+i+"#proxylist";
+                String page = "http://proxyhttp.net/free-list/anonymous-server-hide-ip-address/" + i + "#proxylist";
 
                 Pattern p = Pattern.compile("\\d+\\.\\d+\\.\\d+\\.\\d+ \\d+", Pattern.DOTALL);
                 Matcher m = p.matcher(page);

@@ -17,16 +17,16 @@ public class NnTimeComCollector extends ProxyCollector
     {
         try
         {
-            for (int i = 1; i< 31; i++)
+            for (int i = 1; i < 31; i++)
             {
                 String url = "";
-                if (i<10)
+                if (i < 10)
                 {
-                    url = "http://nntime.com/proxy-list-0"+i+".htm";
+                    url = "http://nntime.com/proxy-list-0" + i + ".htm";
                 }
                 else
                 {
-                    url = "http://nntime.com/proxy-list-"+i+".htm";
+                    url = "http://nntime.com/proxy-list-" + i + ".htm";
                 }
 
                 String page = this.downloadPageWithPhantomJs(url);

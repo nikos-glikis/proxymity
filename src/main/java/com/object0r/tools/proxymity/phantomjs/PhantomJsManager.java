@@ -12,8 +12,10 @@ public class PhantomJsManager extends Thread
     {
         this.useTor = useTor;
     }
+
     HashMap<String, PhantomJsJob> jobs = new HashMap<String, PhantomJsJob>();
     boolean useTor = false;
+
     synchronized public PhantomJsJob addJob(String url)
     {
         if (jobs.containsKey(url))
@@ -23,7 +25,7 @@ public class PhantomJsManager extends Thread
         else
         {
             PhantomJsJob phantomJsJob = new PhantomJsJob(url);
-            jobs.put(url,  phantomJsJob);
+            jobs.put(url, phantomJsJob);
             return phantomJsJob;
         }
     }
@@ -37,17 +39,23 @@ public class PhantomJsManager extends Thread
         else
         {
             PhantomJsJob phantomJsJob = new PhantomJsJob(url, body);
-            jobs.put(url,  phantomJsJob);
+            jobs.put(url, phantomJsJob);
             return phantomJsJob;
         }
     }
 
     public void run()
     {
-        for (int i = 0; i< Proxymity.PHANTOM_JS_WORKERS_COUNT; i++)
+        for (int i = 0; i < Proxymity.PHANTOM_JS_WORKERS_COUNT; i++)
         {
             new PhantomJsWorker(this, useTor).start();
-            try { Thread.sleep(1000); } catch (Exception e) { }
+            try
+            {
+                Thread.sleep(1000);
+            }
+            catch (Exception e)
+            {
+            }
         }
 
         while (true)
@@ -65,6 +73,7 @@ public class PhantomJsManager extends Thread
 
     /**
      * Similar to pop.
+     *
      * @return
      */
     synchronized PhantomJsJob getNextJob()

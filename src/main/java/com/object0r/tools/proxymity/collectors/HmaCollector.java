@@ -28,9 +28,9 @@ public class HmaCollector extends ProxyCollector
         try
         {
 
-            for (int i = 1; i<50; i++)
+            for (int i = 1; i < 50; i++)
             {
-                String page = downloadPageWithPhantomJs("http://proxylist.hidemyass.com/"+i);
+                String page = downloadPageWithPhantomJs("http://proxylist.hidemyass.com/" + i);
 
                 Scanner sc = new Scanner(page);
                 boolean found = false;
@@ -71,12 +71,16 @@ public class HmaCollector extends ProxyCollector
                             else if (type.equals("HTTPS"))
                             {
                                 proxyInfo.setType(ProxyInfo.PROXY_TYPES_HTTPS);
-                            } else {
+                            }
+                            else
+                            {
                                 continue;
                             }
                             addProxy(proxyInfo);
 
-                        } else {
+                        }
+                        else
+                        {
                             //System.out.println("Not");
                         }
                     }

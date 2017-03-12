@@ -21,7 +21,7 @@ public class fiftyna50NetCollector extends ProxyCollector
         try
         {
             String page = Utilities.readUrl("http://proxy50-50.blogspot.in/");
-            Pattern p = Pattern.compile("<tr >.*?</tr>",Pattern.DOTALL);
+            Pattern p = Pattern.compile("<tr >.*?</tr>", Pattern.DOTALL);
             Matcher m = p.matcher(page);
             while (m.find())
             {
@@ -29,8 +29,8 @@ public class fiftyna50NetCollector extends ProxyCollector
                 //System.out.println(line);
                 if (line.contains("confirmation=http://hideip.me/ip"))
                 {
-                    String ip = Utilities.cut("&host=","&", line);
-                    String port = Utilities.cut("&port=","&", line);
+                    String ip = Utilities.cut("&host=", "&", line);
+                    String port = Utilities.cut("&port=", "&", line);
                     Integer.parseInt(port);
                     ProxyInfo proxyInfo = new ProxyInfo();
 

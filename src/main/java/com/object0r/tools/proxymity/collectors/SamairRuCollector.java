@@ -26,46 +26,46 @@ public class SamairRuCollector extends ProxyCollector
 
         try
         {
-            for (int i = 1 ; i < 100; i++)
+            for (int i = 1; i < 100; i++)
             {
                 String pageNumber = "";
                 pageNumber = Integer.toString(i);
 
                 if (pageNumber.length() == 1)
                 {
-                    pageNumber= "0"+pageNumber;
+                    pageNumber = "0" + pageNumber;
                 }
-                String page="";
+                String page = "";
                 try
                 {
-                    page  = Utilities.readUrl("http://www.samair.ru/proxy/proxy-"+pageNumber+".htm");
+                    page = Utilities.readUrl("http://www.samair.ru/proxy/proxy-" + pageNumber + ".htm");
                 }
                 catch (FileNotFoundException e)
                 {
                     return getProxies();
                 }
                 String css = readCss(page, "http://www.samair.ru");
-                Vector<ProxyInfo> tempProxies  = extractProxies(page, css);
-                for (ProxyInfo proxyInfo: tempProxies)
+                Vector<ProxyInfo> tempProxies = extractProxies(page, css);
+                for (ProxyInfo proxyInfo : tempProxies)
                 {
                     proxyInfo.setType(ProxyInfo.PROXY_TYPES_HTTP);
                     addProxy(proxyInfo);
                 }
             }
 
-            for (int i = 1 ; i < 100; i++)
+            for (int i = 1; i < 100; i++)
             {
                 String pageNumber = "";
                 pageNumber = Integer.toString(i);
 
                 if (pageNumber.length() == 1)
                 {
-                    pageNumber= "0"+pageNumber;
+                    pageNumber = "0" + pageNumber;
                 }
-                String page="";
+                String page = "";
                 try
                 {
-                    page  = Utilities.readUrl("http://www.samair.ru/proxy/socks"+pageNumber+".htm");
+                    page = Utilities.readUrl("http://www.samair.ru/proxy/socks" + pageNumber + ".htm");
                 }
                 catch (FileNotFoundException e)
                 {
@@ -73,9 +73,9 @@ public class SamairRuCollector extends ProxyCollector
                 }
                 String css = readCss(page, "http://www.samair.ru");
 
-                Vector<ProxyInfo> tempProxies  = extractProxies(page, css);
+                Vector<ProxyInfo> tempProxies = extractProxies(page, css);
 
-                for (ProxyInfo proxyInfo: tempProxies)
+                for (ProxyInfo proxyInfo : tempProxies)
                 {
                     proxyInfo.setType(ProxyInfo.PROXY_TYPES_SOCKS5);
                     //System.out.println(proxyInfo);
@@ -111,13 +111,13 @@ public class SamairRuCollector extends ProxyCollector
                     String line = m.group();
                     /*System.out.println(line);
                     System.exit(0);*/
-                    String ip=null;
-                    int portInt=0;
+                    String ip = null;
+                    int portInt = 0;
                     if (line.contains("<span class="))
                     {
-                        line = Utilities.cut("<span class=","</span",line);
-                        ip = Utilities.cut("\">",":",line);
-                        String portClass = Utilities.cut("\"","\"",line);
+                        line = Utilities.cut("<span class=", "</span", line);
+                        ip = Utilities.cut("\">", ":", line);
+                        String portClass = Utilities.cut("\"", "\"", line);
                         portInt = getPortFromClass(css, portClass);
                     }
                     else
@@ -129,7 +129,7 @@ public class SamairRuCollector extends ProxyCollector
                             portInt = Integer.parseInt(portString);
                         }
                     }
-                    if (ip!= null)
+                    if (ip != null)
                     {
                         ProxyInfo proxyInfo = new ProxyInfo();
                         proxyInfo.setHost(ip);
@@ -158,10 +158,12 @@ public class SamairRuCollector extends ProxyCollector
         try
         {
             Scanner sc = new Scanner(css);
-            while (sc.hasNext()) {
+            while (sc.hasNext())
+            {
                 String line = sc.nextLine();
-                if (line.contains(portClass)) {
-                    String port = Utilities.cut("content:\"","\"",line);
+                if (line.contains(portClass))
+                {
+                    String port = Utilities.cut("content:\"", "\"", line);
                     return Integer.parseInt(port);
                 }
             }
@@ -184,7 +186,7 @@ public class SamairRuCollector extends ProxyCollector
             Matcher m = p.matcher(page);
             while (m.find())
             {
-                String url = m.group().replace("<link rel=\"stylesheet\" href=\"","").replace("\"","");
+                String url = m.group().replace("<link rel=\"stylesheet\" href=\"", "").replace("\"", "");
                 if (!url.contains("http://"))
                 {
                     url = append + url;

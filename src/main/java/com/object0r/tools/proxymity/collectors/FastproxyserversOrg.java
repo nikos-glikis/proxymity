@@ -30,13 +30,13 @@ public class FastproxyserversOrg extends ProxyCollector
                 if (line.contains("<img src=\"/socks5-servers.htm?hidden="))
                 {
                     //System.out.println(line);
-                    String imageUrl = "http://fastproxyservers.org"+Utilities.cut("<img src=\"","\"", line);
+                    String imageUrl = "http://fastproxyservers.org" + Utilities.cut("<img src=\"", "\"", line);
                     Utilities.downloadFile(imageUrl, "tmp/dontremeber.png");
                     convertImageToPnm("tmp/dontremeber.png", "tmp/dontremeber.pnm");
-                    String ip = ocrImage("tmp/dontremeber.pnm").replace("_",".");
+                    String ip = ocrImage("tmp/dontremeber.pnm").replace("_", ".");
 
                     //System.out.println(ip);
-                    String port = Utilities.cut("<div class=\"port cell bb\">","<", line);
+                    String port = Utilities.cut("<div class=\"port cell bb\">", "<", line);
                     Integer.parseInt(port);
                     ProxyInfo proxyInfo = new ProxyInfo();
                     proxyInfo.setHost(ip);
