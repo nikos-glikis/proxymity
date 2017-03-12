@@ -89,6 +89,12 @@ public class ProxyChecker extends Thread
                 setActive(true);
 
                 Proxy proxy = getProxyFromProxyInfo(proxyInfo);
+
+                if (!portIsOpen(proxyInfo.getHost(), Integer.parseInt(proxyInfo.getPort()), Proxymity.TIMEOUT_MS))
+                {
+                    markProxyNoGood(proxyInfo);
+                }
+
                 String ip = Utilities.getIp(proxy, 3, Proxymity.TIMEOUT_MS / 1000, Proxymity.TIMEOUT_MS / 1000);
 
                 if (ip.equals(myIp))
@@ -268,6 +274,21 @@ public class ProxyChecker extends Thread
         catch (Exception e)
         {
             e.printStackTrace();
+        }
+    }
+
+    private static boolean portIsOpen(String ip, int port, int timeout)
+    {
+        try
+        {
+            Socket socket = new Socket();
+            socket.connect(new InetSocketAddress(ip, port), timeout);
+            socket.close();
+            return true;
+        }
+        catch (Exception ex)
+        {
+            return false;
         }
     }
 
