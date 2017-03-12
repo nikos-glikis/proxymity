@@ -221,7 +221,7 @@ public class ProxyCheckerManager extends Thread
                 }
                 else
                 {
-                    proxyInfo.setCheckOnlyOnce();
+                    proxyInfo.unsetCheckOnlyOnce();
                 }
                 proxyInfos.add(proxyInfo);
             }

@@ -61,7 +61,7 @@ public class ProxyInfo
 
     public void unsetCheckOnlyOnce()
     {
-        this.checkOnlyOnce = true;
+        this.checkOnlyOnce = false;
     }
 
     public void setCheckOnlyOnce()
