@@ -62,22 +62,28 @@ public class ProxyChecker extends Thread
         {
             e.printStackTrace();
         }
-
+        int nulls = 1;
         while (true)
         {
+
             proxyInfo = proxyCheckerManager.getNextProxy();
             if (proxyInfo == null)
             {
                 try
                 {
-                    Thread.sleep(random.nextInt(100));
+                    Thread.sleep(random.nextInt(nulls * 100));
                 }
                 catch (InterruptedException e)
                 {
                     e.printStackTrace();
                 }
+                if (nulls < 10)
+                {
+                    nulls++;
+                }
                 continue;
             }
+            nulls = 1;
             try
             {
                 setActive(true);
