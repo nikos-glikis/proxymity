@@ -284,6 +284,12 @@ public class ProxyCheckerManager extends Thread
         return proxyInfos;
     }
 
+    /**
+     * Returns proxies to test. Proxies that were not checked for RECHECK_INTERVAL_MINUTES have higher priority.
+     *
+     *
+     * @return
+     */
     Vector<ProxyInfo> getProxiesToTest()
     {
         Vector<ProxyInfo> proxyInfos = new Vector<ProxyInfo>();
@@ -294,7 +300,8 @@ public class ProxyCheckerManager extends Thread
                     "UNION " +
                     "( SELECT id, host, port, type, checkOnlyOnce, priority FROM " + Proxymity.TABLE_NAME + " WHERE lastchecked is NULL LIMIT 5000 )  " +
                     "UNION " +
-                    "( SELECT id, host, port, type, checkOnlyOnce, priority FROM " + Proxymity.TABLE_NAME + " WHERE ( status != 'dead' ) AND (lastchecked not BETWEEN DATE_SUB(NOW(), INTERVAL " + Proxymity.RECHECK_INTERVAL_MINUTES + " MINUTE) AND NOW()) )  " +
+                    //"( SELECT id, host, port, type, checkOnlyOnce, priority FROM " + Proxymity.TABLE_NAME + " WHERE ( status != 'dead' ) AND (lastchecked not BETWEEN DATE_SUB(NOW(), INTERVAL " + Proxymity.RECHECK_INTERVAL_MINUTES + " MINUTE) AND NOW()) )  " +
+                    "( SELECT id, host, port, type, checkOnlyOnce, 10 FROM " + Proxymity.TABLE_NAME + " WHERE ( status != 'dead' ) AND (lastchecked not BETWEEN DATE_SUB(NOW(), INTERVAL " + Proxymity.RECHECK_INTERVAL_MINUTES + " MINUTE) AND NOW()) )  " +
 
                     "ORDER BY priority DESC, RAND()  LIMIT 5000";
             ResultSet rs = st.executeQuery(query);
