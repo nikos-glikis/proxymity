@@ -48,7 +48,7 @@ public class ProxyCheckerManager extends Thread
                 sleepWhileHaveProxies();
                 synchronized (this)
                 {
-                    proxies.addAll(getDeadProxiesForCheck(5000));
+                    proxies.addAll(getDeadProxiesForCheck(1000));
                 }
                 sleepWhileHaveProxies();
             }
@@ -123,7 +123,7 @@ public class ProxyCheckerManager extends Thread
                 }
 
                 ConsoleColors.printRed("After a wait of " + secondsToSleep + " seconds " + inactive + "/" + proxyCheckers.size() + " proxycheckers are inactive. Total inactive count is: " + totalInactive);
-                //Below is not really necessary.
+
                 for (ProxyChecker proxyChecker : toRemove)
                 {
                     proxyChecker.stop();
@@ -286,7 +286,6 @@ public class ProxyCheckerManager extends Thread
 
     /**
      * Returns proxies to test. Proxies that were not checked for RECHECK_INTERVAL_MINUTES have higher priority.
-     *
      *
      * @return
      */
