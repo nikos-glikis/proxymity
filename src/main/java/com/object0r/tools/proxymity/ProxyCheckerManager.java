@@ -97,52 +97,74 @@ public class ProxyCheckerManager extends Thread
 
             while (true)
             {
-                for (ProxyChecker pc : proxyCheckers)
-                {
-                    pc.setActive(false);
-                }
-                int secondsToSleep = 180;
                 try
                 {
-                    Thread.sleep(secondsToSleep * 1000);
-                }
-                catch (InterruptedException e)
-                {
-                    e.printStackTrace();
-                }
-                int inactive = 0;
-                Vector<ProxyChecker> toRemove = new Vector<>();
-                for (ProxyChecker pc : proxyCheckers)
-                {
-                    if (!pc.isActive())
+                    for (ProxyChecker pc : proxyCheckers)
                     {
-                        inactive++;
-                        totalInactive++;
-                        toRemove.add(pc);
+                        pc.setActive(false);
                     }
-                }
-
-                ConsoleColors.printRed("After a wait of " + secondsToSleep + " seconds " + inactive + "/" + proxyCheckers.size() + " proxycheckers are inactive. Total inactive count is: " + totalInactive);
-
-                for (ProxyChecker proxyChecker : toRemove)
-                {
-                    proxyChecker.stop();
-                }
-                proxyCheckers.removeAll(toRemove);
-
-                for (int i = 0; i < inactive; i++)
-                {
+                    int secondsToSleep = 180;
                     try
                     {
-                        Thread.sleep(50);
+                        Thread.sleep(secondsToSleep * 1000);
                     }
                     catch (InterruptedException e)
                     {
                         e.printStackTrace();
                     }
-                    ProxyChecker pc = new ProxyChecker(ProxyCheckerManager.this, dbConnection, ++globalProxyCount);
-                    pc.start();
-                    proxyCheckers.add(pc);
+                    int inactive = 0;
+                    Vector<ProxyChecker> toRemove = new Vector<>();
+                    for (ProxyChecker pc : proxyCheckers)
+                    {
+                        try
+                        {
+                            if (!pc.isActive())
+                            {
+                                inactive++;
+                                totalInactive++;
+                                toRemove.add(pc);
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    ConsoleColors.printRed("After a wait of " + secondsToSleep + " seconds " + inactive + "/" + proxyCheckers.size() + " proxycheckers are inactive. Total inactive count is: " + totalInactive);
+
+                    for (ProxyChecker proxyChecker : toRemove)
+                    {
+                        try
+                        {
+                            proxyChecker.stop();
+                        }
+                        catch (Exception e)
+                        {
+                            e.printStackTrace();
+                        }
+
+                    }
+                    proxyCheckers.removeAll(toRemove);
+
+                    for (int i = proxyCheckers.size(); i <= Proxymity.PROXY_CHECKERS_COUNT; i++)
+                    {
+                        try
+                        {
+                            Thread.sleep(50);
+                            ProxyChecker pc = new ProxyChecker(ProxyCheckerManager.this, dbConnection, ++globalProxyCount);
+                            pc.start();
+                            proxyCheckers.add(pc);
+                        }
+                        catch (InterruptedException e)
+                        {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
                 }
             }
         }
