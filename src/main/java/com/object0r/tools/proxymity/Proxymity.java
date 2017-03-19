@@ -287,8 +287,8 @@ public class Proxymity
             int httpsActive = getHttps();
             int httpHttpsActive = getHttpHttpsActive();
 
-            ConsoleColors.printBlue("Proxies: Total/Checked/Active(Anonymous)/(Elite-NotCurrentlyChecked): " + totalCount + "/" + checkedCount + "/" + activeCount + "/" + anonCount + " Dead: " + deadCount);
-            ConsoleColors.printBlue("SocksAll/Socks+Https/HTTPS/HTTP+S " + socksAllCount + "/" + socksHttpsActive + "/" + httpsActive + "/" + httpHttpsActive);
+            ConsoleColors.printCyan("Proxies: Total/Checked/Active(Anonymous)/(Elite-NotCurrentlyChecked): " + totalCount + "/" + checkedCount + "/" + activeCount + "/" + anonCount + " Dead: " + deadCount);
+            ConsoleColors.printCyan("SocksAll/Socks+Https/HTTPS/HTTP+S " + socksAllCount + "/" + socksHttpsActive + "/" + httpsActive + "/" + httpHttpsActive);
         }
         catch (Exception e)
         {
