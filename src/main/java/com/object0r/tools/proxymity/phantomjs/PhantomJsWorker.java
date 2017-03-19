@@ -92,6 +92,17 @@ public class PhantomJsWorker extends Thread
         driver.manage().timeouts().pageLoadTimeout(Proxymity.PHANTOM_JS_TIMEOUT_SECONDS, TimeUnit.SECONDS);
         driver.manage().timeouts().setScriptTimeout(Proxymity.PHANTOM_JS_TIMEOUT_SECONDS, TimeUnit.SECONDS);
 
+        Runtime.getRuntime().addShutdownHook
+                (
+                        new Thread()
+                        {
+                            public void run()
+                            {
+                                driver.quit();
+                            }
+                        }
+                );
+
     }
 
     public void run()
