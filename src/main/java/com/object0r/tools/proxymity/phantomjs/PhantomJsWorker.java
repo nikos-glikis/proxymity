@@ -98,33 +98,48 @@ public class PhantomJsWorker extends Thread
                         {
                             public void run()
                             {
-                                driver.quit();
+                                closeDriver();
                             }
                         }
                 );
+    }
 
+    public void closeDriver()
+    {
+        driver.close();
+        driver.quit();
     }
 
     public void run()
     {
-        while (true)
+        try
         {
-
-            PhantomJsJob phantomJsJob = phantomJsManager.getNextJob();
-            while (phantomJsJob == null)
+            while (true)
             {
-                try
+                PhantomJsJob phantomJsJob = phantomJsManager.getNextJob();
+                while (phantomJsJob == null)
                 {
-                    Thread.sleep(2000);
+                    try
+                    {
+                        Thread.sleep(2000);
+                    }
+                    catch (InterruptedException e)
+                    {
+                        e.printStackTrace();
+                    }
+                    phantomJsJob = phantomJsManager.getNextJob();
+                    //System.out.println("Job is null");
                 }
-                catch (InterruptedException e)
-                {
-                    e.printStackTrace();
-                }
-                phantomJsJob = phantomJsManager.getNextJob();
-                //System.out.println("Job is null");
+                processJob(phantomJsJob);
             }
-            processJob(phantomJsJob);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        finally
+        {
+            closeDriver();
         }
     }
 
@@ -225,18 +240,6 @@ public class PhantomJsWorker extends Thread
             }
             catch (Exception e)
             {
-                //if (e.toString().contains("The driver server has unexpectedly died"))
-                // {
-                try
-                {
-                    driver.quit();
-                }
-                catch (Exception ee)
-                {
-                    System.out.println(ee);
-                }
-                initializePhantom();
-                //}
                 if (count < 2)
                 {
                     processJob(phantomJsJob, count + 1);
@@ -245,11 +248,22 @@ public class PhantomJsWorker extends Thread
                 phantomJsJob.setStatusFailed();
                 phantomJsJob.setException(e);
                 e.printStackTrace();
+                try
+                {
+                    closeDriver();
+                }
+                catch (Exception ee)
+                {
+                    System.out.println(ee);
+                }
+                initializePhantom();
             }
         }
         catch (Exception e)
         {
             e.printStackTrace();
+            closeDriver();
+            initializePhantom();
         }
     }
 }
