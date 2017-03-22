@@ -80,7 +80,7 @@ public class ProxyCollectorManager extends Thread
 //
 //            //TODO To many results only a few good. (8000 and only 60 are good)
             collectors.add(new Socks24OrgCollector(collectorParameters));
-            collectors.add(new happyProxyComCollector(collectorParameters));
+            collectors.add(new HappyProxyComCollector(collectorParameters));
             collectors.add(new ProxyListMeCollector(collectorParameters));
             collectors.add(new ProxyDbNetCollector(collectorParameters));
             collectors.add(new spysRuCollector(collectorParameters));

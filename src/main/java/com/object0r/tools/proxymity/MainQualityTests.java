@@ -9,36 +9,24 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-public class Main
+public class MainQualityTests
 {
 
     public static void main(String[] args)
     {
-        String log4jConfPath = "log4j.properties";
-        PropertyConfigurator.configure(log4jConfPath);
-        RecurringProcessHelper.checkAndRun("proxymity");
-
-        Properties properties = readProperties();
-
-
         try
         {
-            if (properties.getProperty("exitAfterMinutes") != null)
-            {
-                RecurringProcessHelper.exitAfterSeconds(Integer.parseInt(properties.getProperty("exitAfterMinutes")) * 60);
-            }
+            Properties properties = readProperties();
+            Proxymity proxymity = new Proxymity(properties, true);
+            Thread.sleep(2000);
+
+            proxymity.startQualityChecks();
         }
-        catch (Exception e)
+        catch (InterruptedException e)
         {
             e.printStackTrace();
         }
 
-        Proxymity proxymity = new Proxymity(properties, false);
-
-        //proxymity.useTor();
-
-        proxymity.startCheckers();
-        proxymity.startCollectors();
     }
 
     static Properties readProperties()
@@ -77,4 +65,5 @@ public class Main
         }
         return prop;
     }
+
 }

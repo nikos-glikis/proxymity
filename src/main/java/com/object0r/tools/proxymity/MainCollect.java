@@ -29,7 +29,7 @@ public class MainCollect
             e.printStackTrace();
         }
 
-        Proxymity proxymity = new Proxymity(properties);
+        Proxymity proxymity = new Proxymity(properties, true);
 
         //proxymity.useTor();
 

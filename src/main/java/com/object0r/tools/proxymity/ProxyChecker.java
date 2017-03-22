@@ -30,6 +30,7 @@ public class ProxyChecker extends Thread
     {
         this.proxyCheckerManager = proxyCheckerManager;
         this.dbConnection = dbConnection;
+        setMyIp();
         this.id = id;
     }
 
@@ -38,11 +39,14 @@ public class ProxyChecker extends Thread
         return id;
     }
 
-    public void setMyIp()
+    public synchronized void setMyIp()
     {
         try
         {
-            myIp = Utilities.getIp();
+            if (myIp == null)
+            {
+                myIp = Utilities.getIp();
+            }
         }
         catch (Exception e)
         {
@@ -106,6 +110,7 @@ public class ProxyChecker extends Thread
                 }
                 else
                 {
+                    //System.out.println("IP: " + ip + " id " + proxyInfo.getId() + " my ip " + myIp);
                     //System.out.println("My Ip/Remote "+myIp+"/"+ip);
                     markProxyAsGood(proxyInfo);
                     setProxyRemoteIp(proxyInfo, ip);

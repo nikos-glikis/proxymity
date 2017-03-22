@@ -1,14 +1,18 @@
 package com.object0r.tools.proxymity;
 
 
+import com.object0r.tools.proxymity.collectors.DummyCollector;
 import com.object0r.tools.proxymity.datatypes.CollectorParameters;
 import com.object0r.tools.proxymity.helpers.ConsoleColors;
 import com.object0r.toortools.Utilities;
+import com.object0r.toortools.http.HttpHelper;
+import com.object0r.toortools.http.HttpRequestInformation;
+import com.object0r.toortools.http.HttpResult;
 import com.object0r.toortools.os.OsHelper;
 import com.object0r.toortools.tor.TorHelper;
-import org.apache.log4j.Logger;
 
 import java.io.File;
+import java.net.Proxy;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -42,7 +46,7 @@ public class Proxymity
     public boolean useTor = false;
     ProxyCheckerManager proxyCheckerManager;
 
-    public Proxymity(Properties properties)
+    public Proxymity(Properties properties, boolean startStatusThread)
     {
         try
         {
@@ -97,29 +101,31 @@ public class Proxymity
             System.exit(0);
         }
 
-        //resetProxiesAttributes();
-        new Thread()
+        if (startStatusThread)
         {
-            public void run()
-            {
 
-                while (true)
+            new Thread()
+            {
+                public void run()
                 {
-                    try
+
+                    while (true)
                     {
-                        printStatusReport();
-                        checkIfIdle();
-                        Thread.sleep(SLEEP_BETWEEN_REPORTS_SECONDS * 1000);
-                    }
-                    catch (Exception e)
-                    {
-                        e.printStackTrace();
-                        ;
+                        try
+                        {
+                            printStatusReport();
+                            Thread.sleep(SLEEP_BETWEEN_REPORTS_SECONDS * 1000);
+                        }
+                        catch (Exception e)
+                        {
+                            e.printStackTrace();
+                            ;
+                        }
                     }
                 }
-            }
 
-        }.start();
+            }.start();
+        }
     }
 
     private void readParams(Properties properties)
@@ -210,45 +216,6 @@ public class Proxymity
             }
 
         }
-    }
-
-    int oldPendingCount, oldCheckedCount, oldActiveCount;
-
-    private void checkIfIdle()
-    {
-        //Bad idea
-        /*boolean idle = false;
-
-        int pendingCount = getPendingProxiesCount();
-        int checkedCount = getCheckedProxiesCount();
-        int activeCount = getActiveProxiesCount();
-        int totalCount = getTotalProxiesCount();
-
-        if (pendingCount == oldPendingCount &&
-                checkedCount == oldCheckedCount &&
-                activeCount == oldActiveCount
-                )
-        {
-            if (totalCount != checkedCount)
-            {
-                //idle for some time.
-                System.out.println("Idle for some time, restartin proxy checkers");
-                restartProxyCheckerManager();
-            }
-        }
-        else
-        {
-            oldActiveCount = activeCount;
-            oldCheckedCount = checkedCount;
-            oldPendingCount = pendingCount;
-        }*/
-    }
-
-    private void restartProxyCheckerManager()
-    {
-        proxyCheckerManager.shutDown();
-        proxyCheckerManager = new ProxyCheckerManager(dbConnection);
-        proxyCheckerManager.start();
     }
 
     public void useTor()
@@ -448,15 +415,20 @@ public class Proxymity
     DbInformation dbInformation;
     Connection dbConnection;
 
+    public CollectorParameters getCollectorParameters()
+    {
+        CollectorParameters collectorParameters = new CollectorParameters();
+        collectorParameters.setUseTor(useTor);
+        collectorParameters.setDbConnection(dbConnection);
+        collectorParameters.setSleepBetweenScansSeconds(Proxymity.SLEEP_SECONDS_BETWEEN_SCANS);
+        return collectorParameters;
+    }
+
     public void startCollectors()
     {
         try
         {
-            CollectorParameters collectorParameters = new CollectorParameters();
-            collectorParameters.setUseTor(useTor);
-            collectorParameters.setDbConnection(dbConnection);
-            collectorParameters.setSleepBetweenScansSeconds(Proxymity.SLEEP_SECONDS_BETWEEN_SCANS);
-
+            CollectorParameters collectorParameters = getCollectorParameters();
             new ProxyCollectorManager(collectorParameters, useTor).start();
         }
         catch (Exception e)
@@ -497,5 +469,46 @@ public class Proxymity
             System.exit(0);
         }
         return false;
+    }
+
+    public void startQualityChecks()
+    {
+        try
+        {
+            new DummyCollector(getCollectorParameters()).start();
+            for (int i = 0; i < 100; i++)
+            {
+                try
+                {
+                    Proxy proxy = ProxyCollector.getRandomProxy();
+                    HttpRequestInformation httpRequestInformation = new HttpRequestInformation();
+                    httpRequestInformation
+                            .setMethodGet()
+                            .setUrl("http://www.in.gr/")
+                            .setProxy(proxy)
+                            .setTimeoutSeconds(Proxymity.TIMEOUT_MS)
+                            .setThrowExceptions(true);
+
+                    HttpResult httpResult = HttpHelper.request(httpRequestInformation);
+                    if (httpResult.getContentAsString().contains("/Media/Layout/ingrlogo.png"))
+                    {
+                        ConsoleColors.printBlue("Success.");
+                    }
+                    else
+                    {
+                        ConsoleColors.printRed("No exception but failed to verify content.");
+                    }
+                }
+                catch (Exception e)
+                {
+                    ConsoleColors.printRed("Request failed: " + e.getMessage());
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+
+        }
     }
 }

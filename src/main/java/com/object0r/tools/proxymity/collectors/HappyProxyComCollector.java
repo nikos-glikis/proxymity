@@ -10,9 +10,9 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
-public class happyProxyComCollector extends ProxyCollector
+public class HappyProxyComCollector extends ProxyCollector
 {
-    public happyProxyComCollector(CollectorParameters collectorParameters)
+    public HappyProxyComCollector(CollectorParameters collectorParameters)
     {
         super(collectorParameters);
 

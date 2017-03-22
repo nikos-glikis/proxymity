@@ -35,7 +35,7 @@ abstract public class ProxyCollector extends Thread
     String imageMagickPath = "bin\\imageMagick\\convert.exe";
     private Vector<ProxyInfo> proxies = new Vector<ProxyInfo>();
 
-    protected Connection dbConnection;
+    static protected Connection dbConnection;
     protected PhantomJSDriver driver;
     protected boolean useTor = false;
     //This exists as global
@@ -263,12 +263,12 @@ abstract public class ProxyCollector extends Thread
                 .implicitlyWait(3, TimeUnit.SECONDS);
     }
 
-    protected Proxy getRandomProxy() throws Exception
+    protected static Proxy getRandomProxy() throws Exception
     {
         return getRandomProxy(false);
     }
 
-    protected Proxy getRandomProxy(boolean ssl) throws Exception
+    protected static Proxy  getRandomProxy(boolean ssl) throws Exception
     {
         Proxy proxy = null;
         try
