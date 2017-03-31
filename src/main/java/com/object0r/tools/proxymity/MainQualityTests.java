@@ -14,19 +14,9 @@ public class MainQualityTests
 
     public static void main(String[] args)
     {
-        try
-        {
-            Properties properties = readProperties();
-            Proxymity proxymity = new Proxymity(properties, true);
-            Thread.sleep(2000);
-
-            proxymity.startQualityChecks();
-        }
-        catch (InterruptedException e)
-        {
-            e.printStackTrace();
-        }
-
+        Properties properties = readProperties();
+        Proxymity proxymity = new Proxymity(properties, false);
+        proxymity.startQualityChecks();
     }
 
     static Properties readProperties()

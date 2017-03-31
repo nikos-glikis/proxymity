@@ -3,7 +3,6 @@ package com.object0r.tools.proxymity.collectors;
 import com.object0r.tools.proxymity.ProxyCollector;
 import com.object0r.tools.proxymity.datatypes.CollectorParameters;
 import com.object0r.tools.proxymity.datatypes.ProxyInfo;
-import com.object0r.toortools.Utilities;
 
 import java.util.Vector;
 
@@ -25,7 +24,7 @@ public class proxzComCollector extends ProxyCollector
                 {
                     //TODO seems that it does not work.
                     String page = downloadPageWithPhantomJs("http://www.proxz.com/proxy_list_high_anonymous_" + i + ".html"); //Utilities.readUrl("http://www.proxz.com/proxy_list_high_anonymous_"+i+".html");
-                    boolean foundAtLeastOne = genericParsingOfUrlSpace(page, ProxyInfo.PROXY_TYPES_HTTP);
+                    boolean foundAtLeastOne = genericParsingOfPageSpace(page, ProxyInfo.PROXY_TYPES_HTTP);
                     if (!foundAtLeastOne)
                     {
                         return getProxies();
@@ -46,7 +45,7 @@ public class proxzComCollector extends ProxyCollector
 
                     String page = downloadPageWithPhantomJs("http://www.proxz.com/proxy_list_port_std_" + i + ".html"); //Utilities.readUrl("http://www.proxz.com/proxy_list_high_anonymous_"+i+".html");
                     //System.out.println(page);
-                    boolean foundAtLeastOne = genericParsingOfUrlSpace(page, ProxyInfo.PROXY_TYPES_HTTP);
+                    boolean foundAtLeastOne = genericParsingOfPageSpace(page, ProxyInfo.PROXY_TYPES_HTTP);
                     if (!foundAtLeastOne)
                     {
                         return getProxies();
@@ -64,7 +63,7 @@ public class proxzComCollector extends ProxyCollector
                 {
                     String page = downloadPageWithPhantomJs("http://www.proxz.com/proxy_list_port_nonstd_" + i + ".html"); //Utilities.readUrl("http://www.proxz.com/proxy_list_high_anonymous_"+i+".html");
                     //System.out.println(page);
-                    boolean foundAtLeastOne = genericParsingOfUrlSpace(page, ProxyInfo.PROXY_TYPES_HTTP);
+                    boolean foundAtLeastOne = genericParsingOfPageSpace(page, ProxyInfo.PROXY_TYPES_HTTP);
                     if (!foundAtLeastOne)
                     {
                         return getProxies();

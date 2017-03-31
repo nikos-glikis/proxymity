@@ -589,7 +589,7 @@ abstract public class ProxyCollector extends Thread
         }
     }
 
-    protected boolean genericParsingOfUrlSpace(String page, String type)
+    protected boolean genericParsingOfPageSpace(String page, String type)
     {
         boolean foundAtLeastOne = false;
         try

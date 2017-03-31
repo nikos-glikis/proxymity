@@ -33,7 +33,7 @@ public class Main
             e.printStackTrace();
         }
 
-        Proxymity proxymity = new Proxymity(properties, false);
+        Proxymity proxymity = new Proxymity(properties, true);
 
         //proxymity.useTor();
 
