@@ -1,5 +1,5 @@
 <?php
-$db    = mysqli_connect("localhost", "root", "", "proxies");
+$db    = mysqli_connect("localhost", "root2", "", "proxies");
 $start = 0;
 $limit = 100;
 if (isset($_GET['start'])) {
