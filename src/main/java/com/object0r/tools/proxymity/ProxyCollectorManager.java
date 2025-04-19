@@ -38,60 +38,63 @@ public class ProxyCollectorManager extends Thread
 
             List<ProxyCollector> collectors = new ArrayList<ProxyCollector>();
 
-            collectors.add(new InCloakCollector(collectorParameters));
-            collectors.add(new HmaCollector(collectorParameters));
-            collectors.add(new ProxyListOrgCollector(collectorParameters));
-            collectors.add(new SSLProxiesOrgCollector(collectorParameters));
-            collectors.add(new SamairRuCollector(collectorParameters));
-            collectors.add(new SocksProxyNetCollector(collectorParameters));
-            collectors.add(new SocksProxyNetCollector(collectorParameters));
-            collectors.add(new FreeProxyListNetCollector(collectorParameters));
-            collectors.add(new CoolProxyNetCollector(collectorParameters));
-            collectors.add(new XroxyComCollector(collectorParameters));
-            collectors.add(new ProxyNovaComCollector(collectorParameters));
-            collectors.add(new Socks24OrgCollector(collectorParameters));
-            collectors.add(new MrHinkyDinkCollector(collectorParameters));
-            //recheck capthca
-            collectors.add(new ProxyMooJpCollector(collectorParameters));
-            collectors.add(new SocksListNetCollector(collectorParameters));
-            collectors.add(new TorVpnComCollector(collectorParameters));
-            collectors.add(new GatherproxyCom(collectorParameters));
-            collectors.add(new FastproxyserversOrg(collectorParameters));
-            collectors.add(new MyproxylistsCom(collectorParameters));
-            collectors.add(new ProxyFireNet(collectorParameters));
-            collectors.add(new ProxyroxComCollector(collectorParameters));
-            collectors.add(new enProxyNetPlCollector(collectorParameters));
-            collectors.add(new MaxiproxiesComCollector(collectorParameters));
-            collectors.add(new UltraProxiesComCollector(collectorParameters));
-            collectors.add(new fiftyna50NetCollector(collectorParameters));
-            collectors.add(new theProxyListComCollector(collectorParameters));
-            collectors.add(new fineProxyOrgCollector(collectorParameters));
-            collectors.add(new freeProxyListsDailyBlogspotInCollector(collectorParameters));
-            collectors.add(new UsProxyOrgCollector(collectorParameters));
-            collectors.add(new ProxyRssComCollector(collectorParameters));
-            ;
-            collectors.add(new proxzComCollector(collectorParameters));
-            collectors.add(new FreeProxyCzCollector(collectorParameters));
+            collectors.add(new GithubCollector(collectorParameters));
+            if (false)
+            {
+                collectors.add(new InCloakCollector(collectorParameters));
+                collectors.add(new HmaCollector(collectorParameters));
+                collectors.add(new ProxyListOrgCollector(collectorParameters));
+                collectors.add(new SSLProxiesOrgCollector(collectorParameters));
+                collectors.add(new SamairRuCollector(collectorParameters));
+                collectors.add(new SocksProxyNetCollector(collectorParameters));
+                collectors.add(new SocksProxyNetCollector(collectorParameters));
+                collectors.add(new FreeProxyListNetCollector(collectorParameters));
+                collectors.add(new CoolProxyNetCollector(collectorParameters));
+                collectors.add(new XroxyComCollector(collectorParameters));
+                collectors.add(new ProxyNovaComCollector(collectorParameters));
+                collectors.add(new Socks24OrgCollector(collectorParameters));
+                collectors.add(new MrHinkyDinkCollector(collectorParameters));
+                //recheck capthca
+                collectors.add(new ProxyMooJpCollector(collectorParameters));
+                collectors.add(new SocksListNetCollector(collectorParameters));
+                collectors.add(new TorVpnComCollector(collectorParameters));
+                collectors.add(new GatherproxyCom(collectorParameters));
+                collectors.add(new FastproxyserversOrg(collectorParameters));
+                collectors.add(new MyproxylistsCom(collectorParameters));
+                collectors.add(new ProxyFireNet(collectorParameters));
+                collectors.add(new ProxyroxComCollector(collectorParameters));
+                collectors.add(new enProxyNetPlCollector(collectorParameters));
+                collectors.add(new MaxiproxiesComCollector(collectorParameters));
+                collectors.add(new UltraProxiesComCollector(collectorParameters));
+                collectors.add(new fiftyna50NetCollector(collectorParameters));
+                collectors.add(new theProxyListComCollector(collectorParameters));
+                collectors.add(new fineProxyOrgCollector(collectorParameters));
+                collectors.add(new freeProxyListsDailyBlogspotInCollector(collectorParameters));
+                collectors.add(new UsProxyOrgCollector(collectorParameters));
+                collectors.add(new ProxyRssComCollector(collectorParameters));
+                ;
+                collectors.add(new proxzComCollector(collectorParameters));
+                collectors.add(new FreeProxyCzCollector(collectorParameters));
 
 //            //TODO Many results, lower priority
-            collectors.add(new FreePassRuCollector(collectorParameters));
+                collectors.add(new FreePassRuCollector(collectorParameters));
 //
 //            //TODO To many results only a few good. (8000 and only 60 are good)
-            collectors.add(new Socks24OrgCollector(collectorParameters));
-            collectors.add(new HappyProxyComCollector(collectorParameters));
-            collectors.add(new ProxyListMeCollector(collectorParameters));
-            collectors.add(new ProxyDbNetCollector(collectorParameters));
-            collectors.add(new spysRuCollector(collectorParameters));
-            collectors.add(new KingProxiesCollector(collectorParameters));
-            collectors.add(new NnTimeComCollector(collectorParameters));
-            collectors.add(new NnTimeComCollector(collectorParameters));
-            collectors.add(new SampleCollector(collectorParameters));
+                collectors.add(new Socks24OrgCollector(collectorParameters));
+                collectors.add(new HappyProxyComCollector(collectorParameters));
+                collectors.add(new ProxyListMeCollector(collectorParameters));
+                collectors.add(new ProxyDbNetCollector(collectorParameters));
+                collectors.add(new spysRuCollector(collectorParameters));
+                collectors.add(new KingProxiesCollector(collectorParameters));
+                collectors.add(new NnTimeComCollector(collectorParameters));
+                collectors.add(new NnTimeComCollector(collectorParameters));
+                collectors.add(new SampleCollector(collectorParameters));
 
 
+                collectors.add(new IpAdressCom(collectorParameters));
 
-            collectors.add(new IpAdressCom(collectorParameters));
-
-            collectors.add(new FreeSocksIn(collectorParameters));
+                collectors.add(new FreeSocksIn(collectorParameters));
+            }
             //collectors.add(new ShodanCollector(collectorParameters));
             // Problematic
             //collectors.add(new IdcloakComCollector(collectorParameters));
