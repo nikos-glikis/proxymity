@@ -25,4 +25,4 @@ phantomJsInstances=10
 #To verify https connect to this URL. Do not include https://
 httpsCheckUrl=httpbin.org/ip
 #to verify https works ok, the below text must be included in the response of GET httpsCheckUrl
-httpsVerificationString="origin": "
+httpsVerificationString="origin\": \""
