@@ -12,12 +12,26 @@ $type = false;
 if (isset($_GET['type'])) {
     $type = mysqli_real_escape_string($db, $_GET['type']);
 }
+$https = false;
+if (isset($_GET['https'])) {
+    $https = mysqli_real_escape_string($db, $_GET['https']);
+}
 if (!$type) {
     $res = mysqli_query($db, "SELECT * FROM proxymity_proxies WHERE status='active' LIMIT $start, $limit");
 } else {
-//'socks4','socks5','http','https'
-    $res = mysqli_query($db, "SELECT * FROM proxymity_proxies WHERE status='active' AND `type`='$type' LIMIT $start, $limit");
+//'socks4','socks5','http'
+    if ($type = 'http') {
+        if ($https) {
+            $res = mysqli_query($db, "SELECT * FROM proxymity_proxies WHERE status='active' AND `type`='$type' AND `https` = 'yes' AND `fullanonymous`= 'yes' LIMIT $start, $limit");
+        } else {
+            $res = mysqli_query($db, "SELECT * FROM proxymity_proxies WHERE status='active' AND `type`='$type'  AND `fullanonymous`= 'yes' LIMIT $start, $limit");
+        }
+    } else {
+        $res = mysqli_query($db, "SELECT * FROM proxymity_proxies WHERE status='active' AND `type`='$type'  AND `fullanonymous`= 'yes' LIMIT $start, $limit");
+    }
 }
+
+
 echo mysqli_error($db);
 $results = array();
 while ($row = mysqli_fetch_array($res)) {
