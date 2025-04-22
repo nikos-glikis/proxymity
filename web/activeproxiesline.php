@@ -22,12 +22,12 @@ if (!$type) {
 //'socks4','socks5','http'
     if ($type = 'http') {
         if ($https) {
-            $res = mysqli_query($db, "SELECT * FROM proxymity_proxies WHERE status='active' AND `type`='$type' AND `https` = 'yes' AND `fullanonymous`= 'yes' LIMIT $start, $limit");
+            $res = mysqli_query($db, "SELECT * FROM proxymity_proxies WHERE status='active' AND `type`='$type' AND `https` = 'yes'  LIMIT $start, $limit");
         } else {
-            $res = mysqli_query($db, "SELECT * FROM proxymity_proxies WHERE status='active' AND `type`='$type'  AND `fullanonymous`= 'yes' LIMIT $start, $limit");
+            $res = mysqli_query($db, "SELECT * FROM proxymity_proxies WHERE status='active' AND `type`='$type'  LIMIT $start, $limit");
         }
     } else {
-        $res = mysqli_query($db, "SELECT * FROM proxymity_proxies WHERE status='active' AND `type`='$type'  AND `fullanonymous`= 'yes' LIMIT $start, $limit");
+        $res = mysqli_query($db, "SELECT * FROM proxymity_proxies WHERE status='active' AND `type`='$type'    LIMIT $start, $limit");
     }
 }
 
