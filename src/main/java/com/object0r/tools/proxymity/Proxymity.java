@@ -39,7 +39,7 @@ public class Proxymity
     public static final long PHANTOM_JS_TIMEOUT_SECONDS = 15;
     public static final int SLEEP_SECONDS_BETWEEN_SCANS = 120;
     public static int PHANTOM_JS_WORKERS_COUNT = 10;
-    public static String HTTPS_CHECK_URL = "example.com";
+    public static String HTTPS_CHECK_URL = "httpbin.org/ip";
     public static String HTTPS_CHECK_STRING = "\"origin\": \"";
     public static final int TIMEOUT_MS = 10000;
     ;
