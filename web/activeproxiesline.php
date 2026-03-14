@@ -20,7 +20,7 @@ if (!$type) {
     $res = mysqli_query($db, "SELECT * FROM proxymity_proxies WHERE status='active' LIMIT $start, $limit");
 } else {
 //'socks4','socks5','http'
-    if ($type = 'http') {
+    if ($type == 'http') {
         if ($https) {
             $res = mysqli_query($db, "SELECT * FROM proxymity_proxies WHERE status='active' AND `type`='$type' AND `https` = 'yes'  LIMIT $start, $limit");
         } else {
